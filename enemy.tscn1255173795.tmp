@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://83y4asyg0dj0"]
+
+[ext_resource type="Script" uid="uid://buyuudj6h5sj2" path="res://enemy.gd" id="1_4gyqm"]
+[ext_resource type="Texture2D" uid="uid://dc40ljq083l4n" path="res://enemyBlack1.png" id="1_7k104"]
+[ext_resource type="PackedScene" uid="uid://d14mdkmh1fig5" path="res://EnemyBullet.tscn" id="2_qi2p4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7k104"]
+radius = 28.284271
+
+[node name="ENEMY" type="Area2D" groups=["enemies"]]
+script = ExtResource("1_4gyqm")
+bullet_scene = ExtResource("2_qi2p4")
+fire_interval = 4.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(4.360338, 17.36083)
+rotation = -4.6373396
+scale = Vector2(0.62816775, 0.5995319)
+texture = ExtResource("1_7k104")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(6, 14)
+shape = SubResource("CircleShape2D_7k104")
+
+[node name="ShootTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="Muzzle" type="Marker2D" parent="."]
+position = Vector2(-25, 16)
+rotation = 1.5550884

@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=3 uid="uid://cuwhsh21cekkm"]
+
+[ext_resource type="Script" uid="uid://dbjhip5owylti" path="res://player.gd" id="1_4flbx"]
+[ext_resource type="Texture2D" uid="uid://dvh6hcwpgjq7m" path="res://ChatGPT Image Dec 18, 2025, 05_05_51 AM.png" id="2_i3pqv"]
+[ext_resource type="Texture2D" uid="uid://bltdqtr3py80n" path="res://Bullet (5).png" id="3_i3pqv"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4flbx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_i3pqv")
+}],
+"loop": true,
+"name": &"FLY",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_i3pqv"]
+radius = 7.3635726
+
+[node name="Player" type="Area2D"]
+position = Vector2(77.00001, 283)
+scale = Vector2(3, 3)
+script = ExtResource("1_4flbx")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-8.333334, -6.999999)
+scale = Vector2(0.05346678, 0.052164678)
+sprite_frames = SubResource("SpriteFrames_4flbx")
+animation = &"FLY"
+flip_h = true
+
+[node name="BombDropPoint" type="Marker2D" parent="AnimatedSprite2D"]
+position = Vector2(81.64014, -31.916504)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-9.000002, -7.666667)
+shape = SubResource("CircleShape2D_i3pqv")
+
+[node name="ThrustFlame" type="Sprite2D" parent="."]
+show_behind_parent = true
+position = Vector2(-9.425229, -6.8741612)
+rotation = -1.6737708
+scale = Vector2(0.13528737, 0.36360613)
+texture = ExtResource("3_i3pqv")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

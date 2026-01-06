@@ -1,0 +1,84 @@
+[gd_scene load_steps=7 format=3 uid="uid://dr8ge6b2ksbkh"]
+
+[ext_resource type="Script" uid="uid://c107se8p00vs1" path="res://ground_enemy.gd" id="1_f8j0i"]
+[ext_resource type="PackedScene" uid="uid://d14mdkmh1fig5" path="res://EnemyBullet.tscn" id="2_2873i"]
+[ext_resource type="SpriteFrames" uid="uid://bgduhdajbwkba" path="res://turret_frames.tres" id="3_2873i"]
+[ext_resource type="Texture2D" uid="uid://btblh6yswfhls" path="res://0.png" id="4_r5d1n"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tia5a"]
+size = Vector2(63.00799, 84.98962)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0iuym"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_r5d1n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_r5d1n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_r5d1n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_r5d1n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_r5d1n")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="GroundEnemy" type="Area2D"]
+script = ExtResource("1_f8j0i")
+bullet_scene = ExtResource("2_2873i")
+clip_size = 8
+bullet_speed = 100.0
+fire_interval = 0.8
+
+[node name="Turret" type="AnimatedSprite2D" parent="."]
+position = Vector2(-7, -12)
+scale = Vector2(0.15228967, 0.16471592)
+sprite_frames = ExtResource("3_2873i")
+frame = 4
+
+[node name="Muzzle0" type="Marker2D" parent="Turret"]
+position = Vector2(-210.12589, 12.142113)
+rotation = 3.3510323
+scale = Vector2(4.7619047, 4.7619047)
+
+[node name="Muzzle1" type="Marker2D" parent="Turret"]
+position = Vector2(-177.53426, -80.952385)
+rotation = -2.5935593
+
+[node name="Muzzle2" type="Marker2D" parent="Turret"]
+position = Vector2(-6.5664344, -139.63437)
+rotation = -1.4957472
+
+[node name="Muzzle3" type="Marker2D" parent="Turret"]
+position = Vector2(170.72728, -84.99483)
+rotation = -0.59864795
+
+[node name="Muzzle4" type="Marker2D" parent="Turret"]
+position = Vector2(210.12589, 12.142132)
+rotation = -0.20071286
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-6.530549, 3.9445455)
+rotation = -1.5550884
+scale = Vector2(0.99999887, 0.9999987)
+shape = SubResource("RectangleShape2D_tia5a")
+
+[node name="ShootTimer" type="Timer" parent="."]
+wait_time = 0.147
+autostart = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-10, 20.000002)
+scale = Vector2(0.17220545, 0.33288044)
+sprite_frames = SubResource("SpriteFrames_0iuym")
+frame = 3
+
+[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]

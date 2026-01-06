@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://bv44h4mkysya8"]
+
+[ext_resource type="Script" uid="uid://5uyo2xh01vwa" path="res://new_enemy.gd" id="1_t2ljd"]
+[ext_resource type="PackedScene" uid="uid://divx4kwhp57o2" path="res://new_enemy_bullet.tscn" id="2_l80u0"]
+[ext_resource type="Texture2D" uid="uid://dbovcqx86pdym" path="res://New folder/A_pixel_art_illustration_in_retro_arcade_game_styl_transparent33.png" id="3_l80u0"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_l80u0"]
+radius = 7.04163
+height = 20.176758
+
+[node name="NEW_ENEMY" type="Area2D"]
+script = ExtResource("1_t2ljd")
+max_speed = 150.0
+base_speed = 120.0
+turn_rate = 2.6
+bullet_scene = ExtResource("2_l80u0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(8, 7)
+scale = Vector2(0.014973959, 0.013671873)
+texture = ExtResource("3_l80u0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(8.999999, 8.999996)
+rotation = -1.6214108
+shape = SubResource("CapsuleShape2D_l80u0")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(3, 8)

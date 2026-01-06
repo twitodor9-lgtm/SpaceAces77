@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://bke1d6s2epq5a"]
+
+[ext_resource type="Script" uid="uid://cci1lo5ywkjbl" path="res://enemy_plane_bullet.gd" id="1_mvuvl"]
+[ext_resource type="Texture2D" uid="uid://dyl3qipdeg84" path="res://laserRed01.png" id="2_lobnu"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_f44tm"]
+radius = 1.9968815
+height = 11.999838
+
+[node name="ENEMY_PLANE_BULLET" type="Area2D"]
+script = ExtResource("1_mvuvl")
+speed = 100.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -2.9802322e-08)
+rotation = -4.7507863
+scale = Vector2(0.71496415, 0.255228)
+texture = ExtResource("2_lobnu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1.4901161e-08)
+rotation = -1.6144296
+scale = Vector2(0.5, 0.5)
+shape = SubResource("CapsuleShape2D_f44tm")

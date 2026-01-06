@@ -1,0 +1,58 @@
+[gd_scene load_steps=7 format=3 uid="uid://dgxbuurbohuk6"]
+
+[ext_resource type="Script" uid="uid://b6rn10gsr4cpm" path="res://main.gd" id="1_lquwl"]
+[ext_resource type="PackedScene" uid="uid://83y4asyg0dj0" path="res://enemy.tscn" id="2_1bvp3"]
+[ext_resource type="Script" uid="uid://bvwmu1wkhsm1i" path="res://parallax_background.gd" id="3_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://cuwhsh21cekkm" path="res://player.tscn" id="3_7mycd"]
+[ext_resource type="PackedScene" uid="uid://dr8ge6b2ksbkh" path="res://Ground_enemy.tscn" id="4_lquwl"]
+[ext_resource type="Texture2D" uid="uid://dxds1l5ok5rbm" path="res://backgrounds/רקעים/רקע מדבר1.png" id="5_7mycd"]
+
+[node name="Main" type="Node2D" groups=["ground"]]
+script = ExtResource("1_lquwl")
+air_enemy_scene = ExtResource("2_1bvp3")
+ground_enemy_scene = ExtResource("4_lquwl")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+script = ExtResource("3_1bvp3")
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+position = Vector2(497, 328)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2(-33, -12.75)
+scale = Vector2(1.8578126, 1.1653771)
+texture = ExtResource("5_7mycd")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="ParallaxBackground"]
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxBackground"]
+
+[node name="Player" parent="." groups=["Player"] instance=ExtResource("3_7mycd")]
+
+[node name="EnemySpawnTimer" type="Timer" parent="."]
+wait_time = 2.0109999999999997
+autostart = true
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="ScoreLabel" type="Label" parent="UI"]
+custom_minimum_size = Vector2(20, 20)
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 141.0
+offset_bottom = 65.0
+theme_override_font_sizes/font_size = 32
+text = "Score: 0"
+
+[node name="UI2" type="CanvasLayer" parent="."]
+
+[node name="LivesLabel" type="Label" parent="UI2"]
+offset_left = 20.0
+offset_top = 60.0
+offset_right = 77.0
+offset_bottom = 83.0
+text = "Lives: 3"
+
+[node name="GroundEnemyTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="EnemySpawnTimer" to="." method="_on_ground_spawn_timer_timeout"]

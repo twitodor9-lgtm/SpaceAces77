@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://ct7j7nt4wb63x"]
+
+[ext_resource type="Script" uid="uid://bvwmu1wkhsm1i" path="res://parallax_background.gd" id="1_si5dj"]
+[ext_resource type="Texture2D" uid="uid://bbhwhsnjjg7in" path="res://purple.png" id="2_si5dj"]
+[ext_resource type="PackedScene" uid="uid://cuwhsh21cekkm" path="res://player.tscn" id="3_2pwms"]
+
+[node name="MAIN" type="ParallaxBackground"]
+
+[node name="Player" parent="." instance=ExtResource("3_2pwms")]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+script = ExtResource("1_si5dj")
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.5, 0.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2(20973, 8677)
+scale = Vector2(2145.924, 868.5)
+texture = ExtResource("2_si5dj")
