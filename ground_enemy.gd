@@ -38,10 +38,18 @@ func _process(_delta: float) -> void:
 func _on_shoot_timer_timeout() -> void:
 	if _is_reloading:
 		return
-
-	# ⭐ פשטתי - אם התותח עוקב אחרי השחקן, הוא תמיד מכוון אליו
+	
+	# ⭐ בדיקה אם השחקן מוסתר
 	var player := get_tree().get_first_node_in_group("player") as Node2D
 	if player == null:
+		return
+	
+	if player.has_method("is_hidden") and player.is_hidden():
+		print("🤔 Player is hidden - not shooting!")
+		return
+	
+	# בדיקה אם מכוון על השחקן
+	if not _is_aiming_at_player():
 		return
 
 	if _current_ammo <= 0:
@@ -51,7 +59,35 @@ func _on_shoot_timer_timeout() -> void:
 	_shoot_bullet()
 	_current_ammo -= 1
 
+func _is_aiming_at_player() -> bool:
+	var player := get_tree().get_first_node_in_group("player") as Node2D
+	if player == null:
+		return false
 
+	var to_player: Vector2 = (player.global_position - global_position).normalized()
+	var angle_to_player: float = rad_to_deg(to_player.angle())
+
+	var frame_angle := _frame_angle()
+	
+	# סובלנות של 20 מעלות
+	const AIM_TOLERANCE: float = 20.0
+	
+	var angle_diff = abs(angle_to_player - frame_angle)
+	# התחשבות במעבר בין 180 ל-180-
+	if angle_diff > 180:
+		angle_diff = 360 - angle_diff
+	
+	return angle_diff <= AIM_TOLERANCE
+
+
+func _frame_angle() -> float:
+	match turret.frame:
+		0: return 180.0      # שמאל
+		1: return -135.0     # שמאל למעלה
+		2: return -90.0      # למעלה
+		3: return -45.0      # ימין למעלה
+		4: return 0.0        # ימין
+	return 0.0
 # ------------------------------------------------
 #     ירי מדויק מהקנה (מוזל)
 # ------------------------------------------------

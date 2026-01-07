@@ -16,7 +16,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_i3pqv"]
-radius = 7.3635726
+radius = 8.339996
 
 [node name="Player" type="Area2D"]
 position = Vector2(77.00001, 283)
@@ -25,7 +25,7 @@ script = ExtResource("1_4flbx")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-8.333334, -6.999999)
-scale = Vector2(0.05346678, 0.052164678)
+scale = Vector2(0.066, 0.065)
 sprite_frames = SubResource("SpriteFrames_4flbx")
 animation = &"FLY"
 flip_h = true
@@ -39,9 +39,9 @@ shape = SubResource("CircleShape2D_i3pqv")
 
 [node name="ThrustFlame" type="Sprite2D" parent="."]
 show_behind_parent = true
-position = Vector2(-9.425229, -6.8741612)
+position = Vector2(-6.5046587, -7.175973)
 rotation = -1.6737708
-scale = Vector2(0.13528737, 0.36360613)
+scale = Vector2(0.13528737, 0.41466916)
 texture = ExtResource("3_i3pqv")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

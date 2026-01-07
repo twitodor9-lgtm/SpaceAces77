@@ -204,15 +204,47 @@ func _try_shoot(delta: float) -> void:
 		return
 	if _fire_cd > 0.0:
 		return
+	
+	# ⭐ בדיקה אם השחקן מוסתר
+	var player := get_tree().get_first_node_in_group("player") as Node2D
+	if player == null:
+		return
+	
+	if player.has_method("is_hidden") and player.is_hidden():
+		print("🤔 Player is hidden - not shooting!")
+		return
+	
+	# בדיקה אם מכוון על השחקן
+	if not _is_aiming_at_player():
+		return
 
 	_fire_cd = fire_interval
 	_shoot()
 	_ammo -= 1
-
+func _is_aiming_at_player() -> bool:
+	var player := get_tree().get_first_node_in_group("player") as Node2D
+	if player == null:
+		return false
+	
+	# ⭐ אם השחקן בענן - לא לכוון עליו
+	if player.has_method("is_hidden") and player.is_hidden():
+		return false
+	
+	# שאר הקוד הקיים...
+	
+	var to_player: Vector2 = (player.global_position - global_position).normalized()
+	var angle_to_player: float = to_player.angle()
+	
+	# ההפרש בין כיוון המטוס לכיוון השחקן
+	var angle_diff = abs(wrapf(angle_to_player - rotation, -PI, PI))
+	
+	# המטוס יורה רק אם הוא פונה לכיוון השחקן (בסובלנות של 30 מעלות)
+	const AIM_TOLERANCE_RAD: float = 0.52  # בערך 30 מעלות
+	
+	return angle_diff <= AIM_TOLERANCE_RAD
 
 func _shoot() -> void:
 	if bullet_scene == null:
-		print("No bullet scene!")
 		return
 	
 	# הנתיב הנכון למוזל
@@ -232,19 +264,8 @@ func _shoot() -> void:
 	# הכדור יוצא מהמיקום המדויק של המוזל
 	bullet.global_position = muzzle.global_position
 	
-	# ⭐ חישוב הכיוון - לוקח בחשבון flip
-	var sprite: Sprite2D = $Sprite2D
-	var dir: Vector2 = Vector2.RIGHT.rotated(global_rotation)
-	
-	# אם הספרייט הפוך אופקית - הפוך את כיוון X
-	if sprite.flip_h:
-		dir.x = -dir.x
-	
-	# אם הספרייט הפוך אנכית - הפוך את כיוון Y
-	if sprite.flip_v:
-		dir.y = -dir.y
-	
-	dir = dir.normalized()
+	# ⭐ הכיוון הפשוט - לאן המטוס פונה
+	var dir: Vector2 = Vector2.RIGHT.rotated(rotation)
 	
 	# פיזור אופציונלי
 	if aim_spread_deg > 0.0:
@@ -253,8 +274,6 @@ func _shoot() -> void:
 	
 	if bullet.has_method("setup"):
 		bullet.setup(dir, bullet_speed)
-
-
 func _start_reload() -> void:
 	_reloading = true
 	get_tree().create_timer(reload_time).timeout.connect(func():

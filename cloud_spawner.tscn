@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b003dqdvwkwen"]
+
+[ext_resource type="Script" uid="uid://dowpp5jo8qy7f" path="res://cloud_spawner.gd" id="1_ayggi"]
+
+[node name="CloudSpawner" type="Node2D"]
+script = ExtResource("1_ayggi")

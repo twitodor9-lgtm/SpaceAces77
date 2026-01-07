@@ -7,6 +7,7 @@ extends Area2D
 @export var rotation_speed: float = 2.5      # radians/sec
 
 var screen_size: Vector2
+@onready var hidden_label: Label = null
 
 # =========================
 # Shooting
@@ -29,7 +30,20 @@ var can_drop_bomb := true
 
 
 func _ready() -> void:
+	var canvas_layer = CanvasLayer.new()
+	add_child(canvas_layer)
+	
+	hidden_label = Label.new()
+	hidden_label.text = "🌥️ HIDDEN 🌥️"
+	hidden_label.add_theme_font_size_override("font_size", 32)
+	hidden_label.add_theme_color_override("font_color", Color.YELLOW)
+	hidden_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hidden_label.visible = false
+	canvas_layer.add_child(hidden_label)
 	screen_size = get_viewport_rect().size
+# מיקום במסך (לא יחסי לשחקן!)
+	hidden_label.position = Vector2(get_viewport_rect().size.x / 2 - 100, 50)
+
 
 	# ensure positive base scale (we do NOT flip it in gameplay)
 	base_scale = Vector2(abs(base_scale.x), abs(base_scale.y))
@@ -45,6 +59,10 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	if hidden_label and _in_cloud:
+		var screen_pos = get_viewport_rect().size.x / 2 - 100
+		hidden_label.position = Vector2(screen_pos, 50)
+
 	# -------- Rotation (Dogfight style) --------
 	if Input.is_action_pressed("ui_left"):
 		rotation -= rotation_speed * delta
@@ -132,8 +150,28 @@ func drop_bomb() -> void:
 
 	await get_tree().create_timer(bomb_cooldown).timeout
 	can_drop_bomb = true
+# בתוך Player script
+var _in_cloud: bool = false
 
 
+func enter_cloud() -> void:
+	_in_cloud = true
+	modulate.a = 0.5
+	if hidden_label:
+		hidden_label.visible = true
+	print("🌥️ Hiding in cloud!")
+
+
+func exit_cloud() -> void:
+	_in_cloud = false
+	modulate.a = 1.0
+	if hidden_label:
+		hidden_label.visible = false
+	print("☀️ Out of cloud")
+
+
+func is_hidden() -> bool:
+	return _in_cloud
 #func _on_area_entered(area: Area2D) -> void:
 	#if area.is_in_group("enemies") or area.is_in_group("ground_enemies") or area.is_in_group("enemy_bullets"):
 		#var main = get_tree().root.get_node_or_null("Main")

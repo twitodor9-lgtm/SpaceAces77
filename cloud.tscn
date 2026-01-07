@@ -1,0 +1,76 @@
+[gd_scene load_steps=12 format=3 uid="uid://m7y6uehi3bkq"]
+
+[ext_resource type="Script" uid="uid://em83rgestoi6" path="res://cloud.gd" id="1_b3oxr"]
+[ext_resource type="Texture2D" uid="uid://danv618ej1fkw" path="res://4646.png" id="2_qaedo"]
+[ext_resource type="Texture2D" uid="uid://yvk4k8etaqud" path="res://56.png" id="3_qy4vw"]
+[ext_resource type="Texture2D" uid="uid://c1nm6erqyk2ai" path="res://66664.png" id="4_wxnvt"]
+[ext_resource type="Texture2D" uid="uid://61hr86kmmtgf" path="res://44.png" id="5_2c7u8"]
+[ext_resource type="Texture2D" uid="uid://f4a2q1lqi61x" path="res://33.png" id="6_npi7w"]
+[ext_resource type="Texture2D" uid="uid://y6c0kx3acstp" path="res://22.png" id="7_nlmp1"]
+[ext_resource type="Texture2D" uid="uid://coqodokwmwldt" path="res://11.png" id="8_jw7rv"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hd7va"]
+radius = 99.04375
+height = 386.1291
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rignd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_qy4vw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_qaedo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_wxnvt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_2c7u8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_npi7w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_nlmp1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_jw7rv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wxnvt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_jw7rv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Cloud" type="Area2D"]
+gravity_space_override = 1
+script = ExtResource("1_b3oxr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.72160244, 0.6923077)
+texture = ExtResource("2_qaedo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = -4.6879544
+shape = SubResource("CapsuleShape2D_hd7va")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(168.99998, 82)
+scale = Vector2(0.45057034, 0.5)
+sprite_frames = SubResource("SpriteFrames_rignd")
+
+[node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="."]
+position = Vector2(364, 77.000015)
+scale = Vector2(0.20722434, 0.21850394)
+sprite_frames = SubResource("SpriteFrames_wxnvt")
