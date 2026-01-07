@@ -7,3 +7,20 @@ df-2-(copy.zip
 *.zip
 df-2-(copy.zip
 DORRR.zip
+# Godot 4 cache (DO NOT COMMIT)
+.godot/
+
+# Export/build outputs
+export/
+build/
+dist/
+*.pck
+*.exe
+*.apk
+*.aab
+
+# IDE / OS junk
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
