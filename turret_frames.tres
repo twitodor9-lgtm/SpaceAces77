@@ -1,27 +1,27 @@
 [gd_resource type="SpriteFrames" load_steps=6 format=3 uid="uid://bgduhdajbwkba"]
 
-[ext_resource type="Texture2D" uid="uid://bwx81w7bgnl0" path="res://שמאל2.png" id="1_3janv"]
-[ext_resource type="Texture2D" uid="uid://dfnv0vpo5ueno" path="res://אלכסון שמאל.png" id="2_6gwkk"]
-[ext_resource type="Texture2D" uid="uid://cffkc04vmrvfy" path="res://למעלה2.png" id="3_5gsr6"]
-[ext_resource type="Texture2D" uid="uid://dvy7d21hsj1ue" path="res://אלכסון ימין2.png" id="4_gp2vd"]
-[ext_resource type="Texture2D" uid="uid://pe6hwlffet1e" path="res://ימין2.png" id="5_n4kxn"]
+[ext_resource type="Texture2D" uid="uid://4qotyacmjes5" path="res://L1.png" id="1_3janv"]
+[ext_resource type="Texture2D" uid="uid://b424vythxft02" path="res://LEFT.png" id="2_6gwkk"]
+[ext_resource type="Texture2D" uid="uid://bwfgr1x845ux" path="res://ChatGPT Image Jan 9, 2026, 03_18_31 AM.png" id="3_5gsr6"]
+[ext_resource type="Texture2D" uid="uid://cjnvsgfwwqlg4" path="res://ChatGPT Image Jan 8, 2026, 05_12_34 AM.png" id="4_gp2vd"]
+[ext_resource type="Texture2D" uid="uid://cbwlelykxsc8d" path="res://ChatGPT Image Jan 8, 2026, 05_13_19 AM.png" id="5_n4kxn"]
 
 [resource]
 animations = [{
 "frames": [{
-"duration": 0.71,
+"duration": 0.41,
 "texture": ExtResource("1_3janv")
 }, {
-"duration": 0.71,
+"duration": 0.41,
 "texture": ExtResource("2_6gwkk")
 }, {
 "duration": 0.71,
 "texture": ExtResource("3_5gsr6")
 }, {
-"duration": 0.71,
+"duration": 0.41,
 "texture": ExtResource("4_gp2vd")
 }, {
-"duration": 0.71,
+"duration": 0.41,
 "texture": ExtResource("5_n4kxn")
 }],
 "loop": true,

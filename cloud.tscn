@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://m7y6uehi3bkq"]
+[gd_scene load_steps=17 format=3 uid="uid://m7y6uehi3bkq"]
 
 [ext_resource type="Script" uid="uid://em83rgestoi6" path="res://cloud.gd" id="1_b3oxr"]
 [ext_resource type="Texture2D" uid="uid://danv618ej1fkw" path="res://4646.png" id="2_qaedo"]
@@ -8,10 +8,11 @@
 [ext_resource type="Texture2D" uid="uid://f4a2q1lqi61x" path="res://33.png" id="6_npi7w"]
 [ext_resource type="Texture2D" uid="uid://y6c0kx3acstp" path="res://22.png" id="7_nlmp1"]
 [ext_resource type="Texture2D" uid="uid://coqodokwmwldt" path="res://11.png" id="8_jw7rv"]
+[ext_resource type="Texture2D" uid="uid://dyfjoxjrvm0is" path="res://66.png" id="9_wxnvt"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hd7va"]
-radius = 99.04375
-height = 386.1291
+radius = 11.947554
+height = 145.76097
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_rignd"]
 animations = [{
@@ -46,31 +47,79 @@ animations = [{
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("8_jw7rv")
+"texture": ExtResource("2_qaedo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_wxnvt")
 }],
 "loop": true,
 "name": &"default",
 "speed": 5.0
 }]
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_2c7u8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_wxnvt")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_npi7w"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_qy4vw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wxnvt"]
+height = 101.412964
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2c7u8"]
+height = 72.24724
+
 [node name="Cloud" type="Area2D"]
 gravity_space_override = 1
 script = ExtResource("1_b3oxr")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.72160244, 0.6923077)
-texture = ExtResource("2_qaedo")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(6, -30)
 rotation = -4.6879544
 shape = SubResource("CapsuleShape2D_hd7va")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(168.99998, 82)
-scale = Vector2(0.45057034, 0.5)
+position = Vector2(132, 2)
+scale = Vector2(0.2, 0.221)
 sprite_frames = SubResource("SpriteFrames_rignd")
 
 [node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="."]
-position = Vector2(364, 77.000015)
-scale = Vector2(0.20722434, 0.21850394)
+position = Vector2(23.000002, -31)
+scale = Vector2(0.39553753, 0.20787129)
 sprite_frames = SubResource("SpriteFrames_wxnvt")
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
+position = Vector2(-39.999992, 16)
+scale = Vector2(0.1, 0.1)
+sprite_frames = SubResource("SpriteFrames_2c7u8")
+
+[node name="AnimatedSprite2D4" type="AnimatedSprite2D" parent="."]
+position = Vector2(-142, -21)
+scale = Vector2(0.33333334, 0.17099567)
+sprite_frames = SubResource("SpriteFrames_npi7w")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(-141.00002, -21.999998)
+rotation = -1.4957472
+shape = SubResource("CapsuleShape2D_wxnvt")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
+position = Vector2(131, -4.0000014)
+rotation = -1.4957472
+shape = SubResource("CapsuleShape2D_2c7u8")

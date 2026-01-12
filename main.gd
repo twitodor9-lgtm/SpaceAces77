@@ -114,7 +114,7 @@ func _spawn_cloud() -> void:
 	
 	var screen_size = get_viewport_rect().size
 	# ⭐ רק בשליש העליון!
-	var y_pos = randf_range(50, screen_size.y * 0.20)
+	var y_pos = randf_range(30, screen_size.y * 0.20)
 	
 	cloud.global_position = Vector2(screen_size.x + 100, y_pos)
 	cloud.speed = randf_range(cloud_speed_min, cloud_speed_max)
