@@ -69,3 +69,31 @@ func _shoot_bullet() -> void:
 
 	if bullet.has_method("setup"):
 		bullet.setup(dir, bullet_speed)
+func _update_turret_frame() -> void:
+	var player := get_tree().get_first_node_in_group("player") as Node2D
+	if player == null:
+		return
+
+	var dir := (player.global_position - global_position).normalized()
+	var angle := rad_to_deg(dir.angle())  # -180 .. 180
+
+	# מסובבים כדי שימין = 0°, שמאל = 180
+	angle = fmod(angle + 360.0, 360.0)
+
+	# טווחים:
+	# 0   - 36   → פריים 4 (ימין)
+	# 36  - 108 → פריים 3 (ימין למעלה)
+	# 108 - 252 → פריים 2 (למעלה)
+	# 252 - 324 → פריים 1 (שמאל למעלה)
+	# 324 - 360 → פריים 0 (שמאל)
+
+	if angle < 36 or angle >= 324:
+		turret.frame = 4
+	elif angle < 108:
+		turret.frame = 3
+	elif angle < 252:
+		turret.frame = 2
+	elif angle < 324:
+		turret.frame = 1
+	else:
+		turret.frame = 0

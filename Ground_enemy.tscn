@@ -12,28 +12,27 @@ size = Vector2(49.512352, 68.00741)
 script = ExtResource("1_f8j0i")
 bullet_scene = ExtResource("2_2873i")
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-5.9604645e-08, 28)
+rotation = -1.5550884
+scale = Vector2(0.9999986, 0.99999845)
+shape = SubResource("RectangleShape2D_tia5a")
+
+[node name="BASE" type="Sprite2D" parent="."]
+position = Vector2(3.8146973e-06, 29)
+scale = Vector2(0.049459048, 0.13759157)
+texture = ExtResource("3_r5d1n")
+
 [node name="Turret" type="Sprite2D" parent="."]
 position = Vector2(4.7683716e-07, -7)
 scale = Vector2(0.046158854, 0.03799695)
 texture = ExtResource("3_0iuym")
 
-[node name="Muzzle1" type="Marker2D" parent="Turret"]
-position = Vector2(1.5258789e-05, -306.93124)
-rotation = -1.4957472
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-2, 8.000002)
-rotation = -1.5550884
-scale = Vector2(0.9999987, 0.9999985)
-shape = SubResource("RectangleShape2D_tia5a")
+[node name="Muzzle" type="Marker2D" parent="Turret"]
+position = Vector2(-43.328613, -236.86108)
 
 [node name="ShootTimer" type="Timer" parent="."]
 wait_time = 0.147
 autostart = true
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(3.8146973e-06, 29)
-scale = Vector2(0.049459048, 0.13759157)
-texture = ExtResource("3_r5d1n")
 
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
