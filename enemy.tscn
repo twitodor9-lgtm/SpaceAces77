@@ -9,9 +9,30 @@ radius = 15.033297
 
 [node name="ENEMY" type="Area2D" groups=["enemies"]]
 script = ExtResource("1_4gyqm")
+min_speed = null
+max_speed = null
+accel = null
+base_speed = null
+turn_rate = null
+engage_turn_rate = null
+engage_distance = null
+y_offset_range = null
+aim_lead = null
+enter_margin = null
+loop_chance = null
+loop_min_time = null
+loop_max_time = null
+loop_cooldown_min = null
+loop_cooldown_max = null
+loop_turn_rate = null
+loop_speed_boost = null
 bullet_scene = ExtResource("2_qi2p4")
 bullet_speed = 400.0
 fire_interval = 0.8
+clip_size = null
+reload_time = null
+aim_spread_deg = null
+life_time = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(1.9073486e-06, 3.8146973e-06)
