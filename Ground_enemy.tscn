@@ -2,38 +2,37 @@
 
 [ext_resource type="Script" uid="uid://c107se8p00vs1" path="res://ground_enemy.gd" id="1_f8j0i"]
 [ext_resource type="PackedScene" uid="uid://d14mdkmh1fig5" path="res://EnemyBullet.tscn" id="2_2873i"]
-[ext_resource type="Texture2D" uid="uid://wokagesjwcuo" path="res://חדש טורט360.png" id="3_0iuym"]
-[ext_resource type="Texture2D" uid="uid://chkutcygpfrei" path="res://חדש בסיס 360.png" id="3_r5d1n"]
+[ext_resource type="Texture2D" uid="uid://hy4ynldx7i5l" path="res://111.png" id="3_r5d1n"]
+[ext_resource type="Texture2D" uid="uid://bs7mj6ff302o4" path="res://תותתחחחח1.png" id="4_r5d1n"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_tia5a"]
-size = Vector2(49.512352, 68.00741)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0iuym"]
+size = Vector2(91, 71.25)
 
-[node name="GroundEnemy" type="Area2D"]
+[node name="ground_enemy" type="Area2D"]
+visibility_layer = 9
 script = ExtResource("1_f8j0i")
 bullet_scene = ExtResource("2_2873i")
 
-[node name="Turret" type="Sprite2D" parent="."]
-position = Vector2(4.7683716e-07, -7)
-scale = Vector2(0.046158854, 0.03799695)
-texture = ExtResource("3_0iuym")
-
-[node name="Muzzle1" type="Marker2D" parent="Turret"]
-position = Vector2(1.5258789e-05, -306.93124)
-rotation = -1.4957472
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-2, 8.000002)
-rotation = -1.5550884
-scale = Vector2(0.9999987, 0.9999985)
-shape = SubResource("RectangleShape2D_tia5a")
+position = Vector2(11, 3)
+shape = SubResource("RectangleShape2D_0iuym")
 
-[node name="ShootTimer" type="Timer" parent="."]
-wait_time = 0.147
-autostart = true
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(3.8146973e-06, 29)
-scale = Vector2(0.049459048, 0.13759157)
+[node name="Base" type="Sprite2D" parent="."]
+scale = Vector2(0.122, 0.12)
 texture = ExtResource("3_r5d1n")
 
-[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
+[node name="TurretRoot" type="Node2D" parent="."]
+position = Vector2(1.4305115e-06, 1.9073486e-06)
+scale = Vector2(0.9999998, 0.9999998)
+
+[node name="TurretSprite" type="Sprite2D" parent="TurretRoot"]
+show_behind_parent = true
+position = Vector2(70.00001, -8.000005)
+rotation = 1.5952309
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_r5d1n")
+
+[node name="Muzzle" type="Marker2D" parent="TurretRoot/TurretSprite"]
+position = Vector2(-10.121956, -414.16205)
+
+[node name="ShootTimer" type="Timer" parent="."]
