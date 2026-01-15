@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://coqodokwmwldt"
-path="res://.godot/imported/11.png-996808646e13b7bfabf66f1b22a950cc.ctex"
+uid="uid://cfm5fjsp8260e"
+path="res://.godot/imported/image.jpg (7).png-a6d52ecc617b5ce6f5867e21ff60ded1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://11.png"
-dest_files=["res://.godot/imported/11.png-996808646e13b7bfabf66f1b22a950cc.ctex"]
+source_file="res://StarJets/אלמנטים עננים/image.jpg (7).png"
+dest_files=["res://.godot/imported/image.jpg (7).png-a6d52ecc617b5ce6f5867e21ff60ded1.ctex"]
 
 [params]
 

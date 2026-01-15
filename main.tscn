@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dr8ge6b2ksbkh" path="res://Ground_enemy.tscn" id="4_lquwl"]
 [ext_resource type="Script" uid="uid://dowpp5jo8qy7f" path="res://cloud_spawner.gd" id="6_272bh"]
 [ext_resource type="PackedScene" uid="uid://m7y6uehi3bkq" path="res://cloud.tscn" id="7_5vw27"]
-[ext_resource type="Texture2D" uid="uid://cwbktxit8l4db" path="res://backgrounds/רקעים/2.jpg" id="7_kek77"]
+[ext_resource type="Texture2D" uid="uid://ccftnrhgbt3jj" path="res://StarJets/רקעים/רקע2.jpg" id="7_kek77"]
 
 [node name="Main" type="Node2D" groups=["ground"]]
 script = ExtResource("1_lquwl")
@@ -23,8 +23,8 @@ script = ExtResource("3_1bvp3")
 position = Vector2(497, 328)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
-position = Vector2(80.999954, 15.5)
-scale = Vector2(0.90625, 0.95694447)
+position = Vector2(81.5, -2.7500076)
+scale = Vector2(1.203125, 0.60774255)
 texture = ExtResource("7_kek77")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="ParallaxBackground"]

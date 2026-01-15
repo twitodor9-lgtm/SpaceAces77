@@ -74,7 +74,7 @@ func _process(delta: float) -> void:
 	if hidden_label and _in_cloud:
 		hidden_label.position = Vector2(screen_size.x / 2 - 90, 50)
 
-	# ❗ בזמן לופ – אין שליטה
+	# שליטה רק אם לא בלופ
 	if not is_doing_loop:
 		if Input.is_action_pressed("ui_left"):
 			rotation -= rotation_speed * delta
@@ -97,6 +97,11 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("do_loop") and not is_doing_loop:
 		_do_loop()
 
+	# ⭐ STAR PUNCH – קריאה ישירה ל־Ability
+	if Input.is_action_just_pressed("star_punch"):
+		if has_node("Abilities/StarPunch"):
+			$Abilities/StarPunch.try_use()
+
 
 func _wraparound() -> void:
 	var margin := 50.0
@@ -112,7 +117,7 @@ func _wraparound() -> void:
 
 
 # ============================================================
-# LOOP MANEUVER (REAL LOOP)
+# LOOP MANEUVER
 # ============================================================
 func _do_loop() -> void:
 	print("✈️ LOOP START")
@@ -120,17 +125,13 @@ func _do_loop() -> void:
 	is_doing_loop = true
 	can_shoot = false
 
-	# הודעה
 	if loop_label:
 		loop_label.visible = true
 
-	# בלבול אויבים
 	get_tree().call_group("ground_enemies", "on_player_loop")
 	get_tree().call_group("air_enemies", "on_player_loop")
 
-	var start_rot := rotation
-	var end_rot := rotation + TAU   # 360°
-
+	var end_rot := rotation + TAU
 	var tween := create_tween()
 	tween.tween_property(self, "rotation", end_rot, 1.1)\
 		.set_trans(Tween.TRANS_SINE)\
@@ -139,7 +140,6 @@ func _do_loop() -> void:
 	await tween.finished
 
 	rotation = fmod(rotation, TAU)
-
 	is_doing_loop = false
 	can_shoot = true
 
@@ -151,13 +151,10 @@ func _do_loop() -> void:
 # SHOOT
 # ============================================================
 func shoot() -> void:
-	if bullet_scene == null:
-		return
-
 	can_shoot = false
 	var bullet = bullet_scene.instantiate()
 
-	var spawn_pos: Vector2 = global_position
+	var spawn_pos := global_position
 	if has_node("AnimatedSprite2D/GunPoint"):
 		spawn_pos = $AnimatedSprite2D/GunPoint.global_position
 	else:
@@ -175,13 +172,9 @@ func shoot() -> void:
 # BOMB
 # ============================================================
 func drop_bomb() -> void:
-	if bomb_scene == null:
-		return
-
 	can_drop_bomb = false
 	var bomb = bomb_scene.instantiate()
 	bomb.global_position = global_position
-	bomb.rotation = 0.0
 	get_tree().current_scene.add_child(bomb)
 
 	await get_tree().create_timer(bomb_cooldown).timeout

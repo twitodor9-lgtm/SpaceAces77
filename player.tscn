@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://cuwhsh21cekkm"]
+[gd_scene load_steps=8 format=3 uid="uid://cuwhsh21cekkm"]
 
 [ext_resource type="Script" uid="uid://dbjhip5owylti" path="res://player.gd" id="1_4flbx"]
 [ext_resource type="Texture2D" uid="uid://dvh6hcwpgjq7m" path="res://ChatGPT Image Dec 18, 2025, 05_05_51 AM.png" id="2_i3pqv"]
 [ext_resource type="Texture2D" uid="uid://bltdqtr3py80n" path="res://Bullet (5).png" id="3_i3pqv"]
+[ext_resource type="Script" uid="uid://dxilpjbsw8dfx" path="res://Abilities/StarPunch.gd" id="4_hqtel"]
+[ext_resource type="PackedScene" uid="uid://dsao63m00bjih" path="res://Abilities/Meteor.tscn" id="5_sweqy"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_4flbx"]
 animations = [{
@@ -43,5 +45,11 @@ position = Vector2(-6.5046587, -7.175973)
 rotation = -1.6737708
 scale = Vector2(0.13528737, 0.41466916)
 texture = ExtResource("3_i3pqv")
+
+[node name="Abilities" type="Node" parent="."]
+
+[node name="StarPunch" type="Node2D" parent="Abilities"]
+script = ExtResource("4_hqtel")
+meteor_scene = ExtResource("5_sweqy")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

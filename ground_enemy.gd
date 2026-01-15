@@ -107,10 +107,11 @@ func _shoot_bullet() -> void:
 # ---------------------------------------------------
 # פגיעה / מוות
 # ---------------------------------------------------
-func take_damage() -> void:
-	health -= 1
+func take_damage(amount: int = 1) -> void:
+	health -= amount
 	if health <= 0:
 		queue_free()
+
 
 
 # ---------------------------------------------------
