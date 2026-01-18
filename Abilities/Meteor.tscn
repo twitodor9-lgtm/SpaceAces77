@@ -8,13 +8,13 @@
 [ext_resource type="Texture2D" uid="uid://c1nm6erqyk2ai" path="res://66664.png" id="6_dw7b3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_64tc3"]
-radius = 16.155495
+radius = 22.561028
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_df0g0"]
-radius = 17.117243
+radius = 23.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dw7b3"]
-radius = 16.0
+radius = 22.203604
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dw7b3"]
 radius = 4.0
@@ -29,7 +29,7 @@ scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_yahek")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, 3)
+position = Vector2(1.0000038, 3.9999962)
 rotation = -1.6947147
 shape = SubResource("CircleShape2D_64tc3")
 
@@ -49,7 +49,7 @@ scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_j0dfc")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
-position = Vector2(4, 5)
+position = Vector2(12, 5)
 shape = SubResource("CircleShape2D_df0g0")
 
 [node name="Sprite2D3" type="Sprite2D" parent="."]
@@ -58,7 +58,7 @@ scale = Vector2(0.1, 0.1)
 texture = ExtResource("4_b3j6e")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
-position = Vector2(0, 6)
+position = Vector2(-10, 4)
 shape = SubResource("CircleShape2D_dw7b3")
 
 [node name="CPUParticles2D2" type="CPUParticles2D" parent="."]

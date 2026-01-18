@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://m7y6uehi3bkq"]
+[gd_scene load_steps=16 format=3 uid="uid://m7y6uehi3bkq"]
 
 [ext_resource type="Script" uid="uid://em83rgestoi6" path="res://cloud.gd" id="1_b3oxr"]
 [ext_resource type="Texture2D" uid="uid://danv618ej1fkw" path="res://4646.png" id="2_qaedo"]
@@ -7,7 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://61hr86kmmtgf" path="res://44.png" id="5_2c7u8"]
 [ext_resource type="Texture2D" uid="uid://f4a2q1lqi61x" path="res://33.png" id="6_npi7w"]
 [ext_resource type="Texture2D" uid="uid://y6c0kx3acstp" path="res://22.png" id="7_nlmp1"]
-[ext_resource type="Texture2D" uid="uid://coqodokwmwldt" path="res://11.png" id="8_jw7rv"]
 [ext_resource type="Texture2D" uid="uid://dyfjoxjrvm0is" path="res://66.png" id="9_wxnvt"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hd7va"]
@@ -36,7 +35,7 @@ animations = [{
 "texture": ExtResource("7_nlmp1")
 }, {
 "duration": 1.0,
-"texture": ExtResource("8_jw7rv")
+"texture": null
 }],
 "loop": true,
 "name": &"default",

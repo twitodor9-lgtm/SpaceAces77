@@ -4,25 +4,31 @@ extends Area2D
 @export var damage: int = 3
 @export var life_time: float = 3.0
 
+var velocity: Vector2
+
+
 func _ready() -> void:
-	# מחיקת מטאור אוטומטית אחרי זמן
+	# ⭐ כיוון אלכסוני נקבע פעם אחת בלבד
+	var x_drift := randf_range(-120.0, 120.0)
+	velocity = Vector2(x_drift, speed)
+
+	# מחיקה אוטומטית אחרי זמן
 	get_tree().create_timer(life_time).timeout.connect(func():
 		if is_instance_valid(self):
 			queue_free()
 	)
 
-	connect("area_entered", _on_area_entered)
+	area_entered.connect(_on_area_entered)
 
 
 func _process(delta: float) -> void:
-	# נפילה אלכסונית קלה
-	position += Vector2(randf_range(-40, 40), speed) * delta
+	position += velocity * delta
 
 
 func _on_area_entered(area: Area2D) -> void:
-	# פוגע בכל אויב שיש לו take_damage
-	if area.has_method("take_damage"):
-		area.take_damage(damage)
+	# פוגע רק באויבים אמיתיים
+	if area.is_in_group("enemies") or area.is_in_group("ground_enemies"):
+		if area.has_method("take_damage"):
+			area.take_damage(damage)
 
-	# אפשר להוסיף אפקט פגיעה כאן
-	queue_free()
+		queue_free()

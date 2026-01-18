@@ -92,6 +92,16 @@ star_punch={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Player"
+2d_physics/layer_2="PlayerBullets"
+2d_physics/layer_3="Enemies"
+2d_physics/layer_4="EnemyBullets"
+2d_physics/layer_5="Meteors"
+2d_physics/layer_6="Clouds"
+2d_physics/layer_7="Environment"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
