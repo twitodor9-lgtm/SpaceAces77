@@ -21,11 +21,14 @@ radius = 4.0
 height = 84.0
 
 [node name="Meteor" type="Area2D"]
+top_level = true
+collision_layer = 16
+collision_mask = 4
 script = ExtResource("1_d7is7")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-4, 6)
-scale = Vector2(0.1, 0.1)
+scale = Vector2(0.2, 0.2)
 texture = ExtResource("2_yahek")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

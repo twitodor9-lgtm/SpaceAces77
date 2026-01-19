@@ -7,7 +7,9 @@
 radius = 1.9968815
 height = 11.999838
 
-[node name="ENEMY_PLANE_BULLET" type="Area2D"]
+[node name="ENEMY_PLANE_BULLET" type="Area2D" groups=["EnemyBullets"]]
+collision_layer = 8
+collision_mask = 53
 script = ExtResource("1_mvuvl")
 speed = 100.0
 

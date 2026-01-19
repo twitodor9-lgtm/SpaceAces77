@@ -85,6 +85,8 @@ height = 101.412964
 height = 72.24724
 
 [node name="Cloud" type="Area2D"]
+collision_layer = 32
+collision_mask = 31
 gravity_space_override = 1
 script = ExtResource("1_b3oxr")
 

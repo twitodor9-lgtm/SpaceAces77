@@ -7,7 +7,9 @@
 radius = 1.999403
 height = 11.996418
 
-[node name="EnemyBullet" type="Area2D"]
+[node name="EnemyBullet" type="Area2D" groups=["EnemyBullets"]]
+collision_layer = 8
+collision_mask = 53
 angular_damp_space_override = 1
 script = ExtResource("1_kpqax")
 speed = 300.0

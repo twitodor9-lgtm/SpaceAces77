@@ -23,6 +23,7 @@ radius = 8.339996
 [node name="Player" type="Area2D"]
 position = Vector2(77.00001, 283)
 scale = Vector2(3, 3)
+collision_mask = 60
 script = ExtResource("1_4flbx")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

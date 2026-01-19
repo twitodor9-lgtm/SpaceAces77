@@ -8,8 +8,9 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0iuym"]
 size = Vector2(91, 71.25)
 
-[node name="ground_enemy" type="Area2D"]
-visibility_layer = 9
+[node name="ground_enemy" type="Area2D" groups=["enemies"]]
+collision_layer = 4
+collision_mask = 31
 script = ExtResource("1_f8j0i")
 bullet_scene = ExtResource("2_2873i")
 

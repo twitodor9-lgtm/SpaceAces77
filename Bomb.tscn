@@ -7,7 +7,9 @@
 radius = 8.0
 height = 50.0
 
-[node name="Area2D" type="Area2D"]
+[node name="Area2D" type="Area2D" groups=["PlayerBullets"]]
+collision_layer = 2
+collision_mask = 4
 script = ExtResource("1_a4im0")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
