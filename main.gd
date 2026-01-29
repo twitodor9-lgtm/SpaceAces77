@@ -10,6 +10,7 @@ extends Node2D
 @onready var bg := $ParallaxBackground
 
 var _spawn_timer: float = 0.0
+var spawning_enabled: bool = true
 
 # === הגדרות אויבי אוויר ===
 @export var air_enemy_scene: PackedScene
@@ -55,8 +56,22 @@ func _process(delta: float) -> void:
 		#_spawn_cloud()
 		#_spawn_timer = randf_range(spawn_interval_min, spawn_interval_max)
 
+func _set_spawning_enabled(enabled: bool) -> void:
+	spawning_enabled = enabled
+
+	var air_timer: Timer = get_node_or_null("EnemySpawnTimer") as Timer
+	if air_timer:
+		if enabled: air_timer.start()
+		else: air_timer.stop()
+
+	var ground_timer: Timer = get_node_or_null("GroundEnemyTimer") as Timer
+	if ground_timer:
+		if enabled: ground_timer.start()
+		else: ground_timer.stop()
 
 func _on_air_spawn_timer_timeout() -> void:
+	if not spawning_enabled:
+		return
 	if air_enemy_scene == null:
 		return
 	
@@ -75,6 +90,8 @@ func _on_air_spawn_timer_timeout() -> void:
 
 
 func _on_ground_spawn_timer_timeout() -> void:
+	if not spawning_enabled:
+		return
 	if ground_enemy_scene == null:
 		return
 	
@@ -140,12 +157,16 @@ func _toggle_boss() -> void:
 	boss.visible = should_show
 	boss.set_process(should_show)
 	boss.set_physics_process(should_show)
+	_set_spawning_enabled(not should_show) # אם הבוס מופיע -> ספאון כבוי
 
 	if should_show:
 		var r := _get_visible_world_rect()
 		boss.global_position = Vector2(r.position.x + r.size.x + 220.0, r.position.y + r.size.y * 0.30)
+		
 func _on_boss_died() -> void:
 	print("BOSS DOWN")
+	_set_spawning_enabled(true)
+	
 	# כאן בהמשך נעצור ספאונרים/נציג הודעה/נעבור שלב
 
 #func _spawn_cloud() -> void:
