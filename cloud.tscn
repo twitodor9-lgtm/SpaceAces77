@@ -10,8 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://dyfjoxjrvm0is" path="res://66.png" id="9_wxnvt"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hd7va"]
-radius = 11.947554
-height = 145.76097
+radius = 15.044392
+height = 174.04579
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_rignd"]
 animations = [{
@@ -79,19 +79,20 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wxnvt"]
-height = 101.412964
+radius = 16.25488
+height = 154.61627
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2c7u8"]
-height = 72.24724
+radius = 15.032757
+height = 88.80197
 
 [node name="Cloud" type="Area2D"]
 collision_layer = 32
-collision_mask = 31
 gravity_space_override = 1
 script = ExtResource("1_b3oxr")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(6, -30)
+position = Vector2(21, -50.000004)
 rotation = -4.6879544
 shape = SubResource("CapsuleShape2D_hd7va")
 
@@ -101,7 +102,7 @@ scale = Vector2(0.2, 0.221)
 sprite_frames = SubResource("SpriteFrames_rignd")
 
 [node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="."]
-position = Vector2(23.000002, -31)
+position = Vector2(35, -48.999985)
 scale = Vector2(0.39553753, 0.20787129)
 sprite_frames = SubResource("SpriteFrames_wxnvt")
 

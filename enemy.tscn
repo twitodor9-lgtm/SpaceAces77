@@ -1,49 +1,39 @@
 [gd_scene load_steps=5 format=3 uid="uid://83y4asyg0dj0"]
 
 [ext_resource type="Script" uid="uid://buyuudj6h5sj2" path="res://enemy.gd" id="1_4gyqm"]
-[ext_resource type="Texture2D" uid="uid://rnk2toxgchc0" path="res://ChatGPT Image Dec 21, 2025, 04_53_03 AM.png" id="2_4gyqm"]
 [ext_resource type="PackedScene" uid="uid://bke1d6s2epq5a" path="res://enemy_plane_bullet.tscn" id="2_qi2p4"]
+[ext_resource type="Texture2D" uid="uid://r1eot5c351h2" path="res://StarJets/אוייבים/A_pixel_art_digital_illustration_features_an_aggre_transparent 2.png" id="3_qi2p4"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7k104"]
-radius = 21.023796
+radius = 27.018513
 
 [node name="ENEMY" type="Area2D" groups=["enemies"]]
+process_mode = 3
 collision_layer = 4
-collision_mask = 63
+collision_mask = 18
 script = ExtResource("1_4gyqm")
-min_speed = null
-max_speed = null
-accel = null
-base_speed = null
-turn_rate = null
-engage_turn_rate = null
-engage_distance = null
-y_offset_range = null
-aim_lead = null
-enter_margin = null
+_health = 15
+max_speed = 170.0
+turn_rate = 1.0
 bullet_scene = ExtResource("2_qi2p4")
 bullet_speed = 400.0
 fire_interval = 0.8
-clip_size = null
-reload_time = null
-aim_spread_deg = null
-life_time = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(1.9073486e-06, 3.8146973e-06)
 scale = Vector2(0.05, 0.05)
-texture = ExtResource("2_4gyqm")
+texture = ExtResource("3_qi2p4")
 flip_h = true
 
-[node name="Muzzle" type="Marker2D" parent="Sprite2D"]
-position = Vector2(460.00012, 39.999924)
-scale = Vector2(19.999998, 19.999998)
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-6, 3)
+position = Vector2(-3, 1)
 shape = SubResource("CircleShape2D_7k104")
 
 [node name="ShootTimer" type="Timer" parent="."]
 autostart = true
+
+[node name="Muzzle" type="Marker2D" parent="."]
+position = Vector2(16, 7)
+scale = Vector2(0.99999994, 0.99999994)
 
 [connection signal="timeout" from="ShootTimer" to="." method="_on_air_spawn_timer_timeout"]

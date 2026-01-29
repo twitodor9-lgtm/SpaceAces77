@@ -1,21 +1,22 @@
 [gd_scene load_steps=6 format=3 uid="uid://dr8ge6b2ksbkh"]
 
 [ext_resource type="Script" uid="uid://c107se8p00vs1" path="res://ground_enemy.gd" id="1_f8j0i"]
-[ext_resource type="PackedScene" uid="uid://d14mdkmh1fig5" path="res://EnemyBullet.tscn" id="2_2873i"]
+[ext_resource type="PackedScene" uid="uid://d14mdkmh1fig5" path="res://EnemyBullet.tscn" id="2_r5d1n"]
 [ext_resource type="Texture2D" uid="uid://hy4ynldx7i5l" path="res://111.png" id="3_r5d1n"]
 [ext_resource type="Texture2D" uid="uid://bs7mj6ff302o4" path="res://תותתחחחח1.png" id="4_r5d1n"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0iuym"]
-size = Vector2(91, 71.25)
+size = Vector2(156, 94.625)
 
 [node name="ground_enemy" type="Area2D" groups=["enemies"]]
 collision_layer = 4
-collision_mask = 31
+collision_mask = 18
 script = ExtResource("1_f8j0i")
-bullet_scene = ExtResource("2_2873i")
+health = 20
+bullet_scene = ExtResource("2_r5d1n")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(11, 3)
+position = Vector2(15, -8.6875)
 shape = SubResource("RectangleShape2D_0iuym")
 
 [node name="Base" type="Sprite2D" parent="."]

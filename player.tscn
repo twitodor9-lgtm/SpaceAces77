@@ -20,10 +20,10 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_i3pqv"]
 radius = 8.339996
 
-[node name="Player" type="Area2D"]
+[node name="Player" type="Area2D" groups=["Player"]]
 position = Vector2(77.00001, 283)
 scale = Vector2(3, 3)
-collision_mask = 60
+collision_mask = 12
 script = ExtResource("1_4flbx")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -51,6 +51,14 @@ texture = ExtResource("3_i3pqv")
 
 [node name="StarPunch" type="Node2D" parent="Abilities"]
 script = ExtResource("4_hqtel")
+spawn_left_path = NodePath("../SpawnLeft")
+spawn_right_path = NodePath("../SpawnRight")
 meteor_scene = ExtResource("5_sweqy")
+
+[node name="SpawnRight" type="Marker2D" parent="Abilities"]
+position = Vector2(644, 66)
+
+[node name="SpawnLeft" type="Marker2D" parent="Abilities"]
+position = Vector2(493, 67)
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

@@ -4,9 +4,11 @@ var _velocity: Vector2 = Vector2.ZERO
   
 func _ready() -> void:
 	add_to_group("enemy_bullets")
-	# אחרי 2.5 שניות הכדור נעלם
-	await get_tree().create_timer(2.5).timeout
-	queue_free()
+	get_tree().create_timer(2.5).timeout.connect(func():
+		if is_instance_valid(self):
+			queue_free()
+	)
+
 
 # הפונקציה שהטנק / המטוס קוראים אליה כדי להגדיר כיוון ומהירות
 func setup(direction: Vector2, custom_speed: float = -1.0) -> void:

@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var health: int = 3
+@export var health: int = 20
 @export var bullet_scene: PackedScene
 @export var bullet_speed: float = 200.0
 @export var fire_interval: float = 0.6

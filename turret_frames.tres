@@ -1,30 +1,53 @@
-[gd_resource type="SpriteFrames" load_steps=6 format=3 uid="uid://bgduhdajbwkba"]
+[gd_resource type="SpriteFrames" load_steps=8 format=3 uid="uid://bgduhdajbwkba"]
 
-[ext_resource type="Texture2D" uid="uid://4qotyacmjes5" path="res://L1.png" id="1_3janv"]
-[ext_resource type="Texture2D" uid="uid://b424vythxft02" path="res://LEFT.png" id="2_6gwkk"]
-[ext_resource type="Texture2D" uid="uid://bwfgr1x845ux" path="res://ChatGPT Image Jan 9, 2026, 03_18_31 AM.png" id="3_5gsr6"]
-[ext_resource type="Texture2D" uid="uid://cjnvsgfwwqlg4" path="res://ChatGPT Image Jan 8, 2026, 05_12_34 AM.png" id="4_gp2vd"]
-[ext_resource type="Texture2D" uid="uid://cbwlelykxsc8d" path="res://ChatGPT Image Jan 8, 2026, 05_13_19 AM.png" id="5_n4kxn"]
+[ext_resource type="Texture2D" uid="uid://cbm03fyos26hb" path="res://StarJets/אוייבים/SpaceWorm2.png" id="1_4rbem"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dm6a2"]
+atlas = ExtResource("1_4rbem")
+region = Rect2(0, 0, 244, 292)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h7c5p"]
+atlas = ExtResource("1_4rbem")
+region = Rect2(244, 0, 244, 292)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7pp8h"]
+atlas = ExtResource("1_4rbem")
+region = Rect2(488, 0, 244, 292)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3janv"]
+atlas = ExtResource("1_4rbem")
+region = Rect2(732, 0, 244, 292)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6gwkk"]
+atlas = ExtResource("1_4rbem")
+region = Rect2(976, 0, 244, 292)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5gsr6"]
+atlas = ExtResource("1_4rbem")
+region = Rect2(1220, 0, 244, 292)
 
 [resource]
 animations = [{
 "frames": [{
-"duration": 0.41,
-"texture": ExtResource("1_3janv")
+"duration": 0.91,
+"texture": SubResource("AtlasTexture_dm6a2")
 }, {
-"duration": 0.41,
-"texture": ExtResource("2_6gwkk")
+"duration": 0.91,
+"texture": SubResource("AtlasTexture_h7c5p")
 }, {
-"duration": 0.71,
-"texture": ExtResource("3_5gsr6")
+"duration": 1.01,
+"texture": SubResource("AtlasTexture_7pp8h")
 }, {
-"duration": 0.41,
-"texture": ExtResource("4_gp2vd")
+"duration": 1.11,
+"texture": SubResource("AtlasTexture_3janv")
 }, {
-"duration": 0.41,
-"texture": ExtResource("5_n4kxn")
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6gwkk")
+}, {
+"duration": 0.91,
+"texture": SubResource("AtlasTexture_5gsr6")
 }],
-"loop": true,
-"name": &"default",
-"speed": 3.0
+"loop": false,
+"name": &"new_animation",
+"speed": 2.0
 }]

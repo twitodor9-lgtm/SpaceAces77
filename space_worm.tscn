@@ -1,0 +1,75 @@
+[gd_scene load_steps=11 format=3 uid="uid://cskmba20nk27p"]
+
+[ext_resource type="Script" uid="uid://cu3j33ql65tr6" path="res://space_worm.gd" id="1_758em"]
+[ext_resource type="Texture2D" uid="uid://cbm03fyos26hb" path="res://StarJets/אוייבים/SpaceWorm2.png" id="2_bocie"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2fs3s"]
+atlas = ExtResource("2_bocie")
+region = Rect2(0, 0, 244, 292)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3pn7v"]
+atlas = ExtResource("2_bocie")
+region = Rect2(244, 0, 244, 292)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l73f5"]
+atlas = ExtResource("2_bocie")
+region = Rect2(488, 0, 244, 292)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tlsjq"]
+atlas = ExtResource("2_bocie")
+region = Rect2(732, 0, 244, 292)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x26qn"]
+atlas = ExtResource("2_bocie")
+region = Rect2(976, 0, 244, 292)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ndodv"]
+atlas = ExtResource("2_bocie")
+region = Rect2(1220, 0, 244, 292)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1uk7o"]
+animations = [{
+"frames": [{
+"duration": 1.11,
+"texture": SubResource("AtlasTexture_2fs3s")
+}, {
+"duration": 1.11,
+"texture": SubResource("AtlasTexture_3pn7v")
+}, {
+"duration": 1.21,
+"texture": SubResource("AtlasTexture_l73f5")
+}, {
+"duration": 1.21,
+"texture": SubResource("AtlasTexture_tlsjq")
+}, {
+"duration": 1.11,
+"texture": SubResource("AtlasTexture_x26qn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ndodv")
+}],
+"loop": false,
+"name": &"default",
+"speed": 16.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bocie"]
+radius = 30.0
+height = 192.0
+
+[node name="SpaceWorm" type="Area2D" groups=["enemies"]]
+collision_layer = 4
+script = ExtResource("1_758em")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0.99999994, -1.9999962)
+scale = Vector2(0.25334358, 0.6374144)
+sprite_frames = SubResource("SpriteFrames_1uk7o")
+frame = 5
+frame_progress = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 2)
+shape = SubResource("CapsuleShape2D_bocie")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://i0nchv6wly3r" path="res://New folder/A_pixel_art_digital_sprite_of_a_horizontal_blue_la_transparent 2.png" id="2_a4im0"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lmso4"]
-radius = 8.0
-height = 50.0
+radius = 14.0
+height = 60.0
 
 [node name="Area2D" type="Area2D" groups=["PlayerBullets"]]
 collision_layer = 2

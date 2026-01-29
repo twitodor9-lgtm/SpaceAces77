@@ -1,24 +1,23 @@
 [gd_scene load_steps=11 format=3 uid="uid://dsao63m00bjih"]
 
 [ext_resource type="Script" uid="uid://63ovi1f2iu74" path="res://meteor.gd" id="1_d7is7"]
-[ext_resource type="Texture2D" uid="uid://f4a2q1lqi61x" path="res://33.png" id="2_yahek"]
 [ext_resource type="Texture2D" uid="uid://dwqubitqycsfv" path="res://New folder/A_pixel_art_digital_sprite_features_a_red_laser_bo_transparent22.png" id="3_b3j6e"]
 [ext_resource type="Texture2D" uid="uid://y6c0kx3acstp" path="res://22.png" id="3_j0dfc"]
 [ext_resource type="Texture2D" uid="uid://61hr86kmmtgf" path="res://44.png" id="4_b3j6e"]
 [ext_resource type="Texture2D" uid="uid://c1nm6erqyk2ai" path="res://66664.png" id="6_dw7b3"]
+[ext_resource type="Texture2D" uid="uid://ocr0q7vuv64m" path="res://StarJets/אלמנטים עננים/11.png" id="7_bexf7"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_64tc3"]
-radius = 22.561028
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dw7b3"]
+size = Vector2(315.46008, 333.90735)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_df0g0"]
-radius = 23.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bexf7"]
+size = Vector2(268, 315)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_dw7b3"]
-radius = 22.203604
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c12wg"]
+size = Vector2(301.25, 248)
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dw7b3"]
-radius = 4.0
-height = 84.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hwudr"]
+size = Vector2(336, 282.99997)
 
 [node name="Meteor" type="Area2D"]
 top_level = true
@@ -26,60 +25,119 @@ collision_layer = 16
 collision_mask = 4
 script = ExtResource("1_d7is7")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-4, 6)
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("2_yahek")
+[node name="Variants" type="Sprite2D" parent="."]
+position = Vector2(142, -89.00001)
+scale = Vector2(0.33269963, 0.37401575)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1.0000038, 3.9999962)
-rotation = -1.6947147
-shape = SubResource("CircleShape2D_64tc3")
+[node name="2" type="Sprite2D" parent="Variants"]
+position = Vector2(9.01709, -125.66312)
+scale = Vector2(0.81202763, 0.7065439)
+texture = ExtResource("3_j0dfc")
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
-position = Vector2(-3.0000005, -50)
-rotation = -3.0368729
-scale = Vector2(0.1, 0.1)
+[node name="CPUParticles2D5" type="CPUParticles2D" parent="Variants/2"]
+position = Vector2(-33.313354, -268.67627)
+rotation = -3.0345514
+scale = Vector2(0.29619247, 0.3026623)
+skew = -0.0045933723
 texture = ExtResource("3_b3j6e")
+lifetime = 0.4
 angle_min = -84.0
 angle_max = -84.0
 scale_amount_min = 0.0
 scale_amount_max = 0.1
 
-[node name="Sprite2D2" type="Sprite2D" parent="."]
-position = Vector2(-2, 4.999998)
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("3_j0dfc")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
-position = Vector2(12, 5)
-shape = SubResource("CircleShape2D_df0g0")
-
-[node name="Sprite2D3" type="Sprite2D" parent="."]
-position = Vector2(-1.0000076, 9)
-scale = Vector2(0.1, 0.1)
+[node name="1" type="Sprite2D" parent="Variants"]
+position = Vector2(-1968.7428, -90.90524)
+scale = Vector2(0.8673632, 0.852985)
 texture = ExtResource("4_b3j6e")
 
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
-position = Vector2(-10, 4)
-shape = SubResource("CircleShape2D_dw7b3")
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Variants/1"]
+position = Vector2(-10.39592, -250.76021)
+rotation = -3.0468078
+scale = Vector2(0.34619027, 0.31383064)
+skew = 0.020894289
+texture = ExtResource("3_b3j6e")
+lifetime = 0.4
+angle_min = -84.0
+angle_max = -84.0
+scale_amount_min = 0.0
+scale_amount_max = 0.1
+
+[node name="4" type="Sprite2D" parent="Variants"]
+position = Vector2(-949.8058, -117.64209)
+rotation = -1.375109
+scale = Vector2(0.6172711, 0.6840267)
+skew = -0.040106177
+texture = ExtResource("7_bexf7")
+
+[node name="CPUParticles2D3" type="CPUParticles2D" parent="Variants/4"]
+position = Vector2(262.25146, -91.05725)
+rotation = 1.3974991
+scale = Vector2(4.3793464, 4.3496094)
+skew = -0.00248003
+amount = 5
+texture = ExtResource("3_b3j6e")
+lifetime = 0.33
+gravity = Vector2(100, 980)
+radial_accel_max = 100.0
+damping_max = 77.5
+angle_min = -96.0
+angle_max = -96.0
+scale_amount_min = 0.0
+scale_amount_max = 0.1
+
+[node name="3" type="Sprite2D" parent="Variants"]
+position = Vector2(949.80566, -173.78949)
+texture = ExtResource("7_bexf7")
+
+[node name="C1" type="CollisionShape2D" parent="."]
+position = Vector2(-523, -183)
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("RectangleShape2D_dw7b3")
+
+[node name="C2" type="CollisionShape2D" parent="."]
+position = Vector2(150, -163.00002)
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("RectangleShape2D_bexf7")
+
+[node name="C3" type="CollisionShape2D" parent="."]
+position = Vector2(450, -158)
+shape = SubResource("RectangleShape2D_c12wg")
+
+[node name="C4" type="CollisionShape2D" parent="."]
+position = Vector2(-180, -164)
+scale = Vector2(1, 1.0000001)
+shape = SubResource("RectangleShape2D_hwudr")
 
 [node name="CPUParticles2D2" type="CPUParticles2D" parent="."]
-position = Vector2(-3, -79)
+position = Vector2(335, -395)
 amount = 2
 texture = ExtResource("6_dw7b3")
+lifetime = 1.44
 randomness = 0.72
 lifetime_randomness = 0.96
 emission_shape = 4
 emission_points = PackedVector2Array()
 emission_colors = PackedColorArray()
-spread = 103.5
-gravity = Vector2(0, 80)
+spread = 120.0
+gravity = Vector2(0, 50)
 angle_min = -120.0
 angle_max = 120.0
 scale_amount_min = 0.09
 scale_amount_max = 0.09
 
-[node name="CollisionShape2D4" type="CollisionShape2D" parent="."]
-position = Vector2(-2, -33)
-shape = SubResource("CapsuleShape2D_dw7b3")
+[node name="CPUParticles2D4" type="CPUParticles2D" parent="."]
+position = Vector2(-385, -405)
+amount = 2
+texture = ExtResource("6_dw7b3")
+lifetime = 2.28
+randomness = 0.72
+emission_shape = 4
+emission_points = PackedVector2Array()
+emission_colors = PackedColorArray()
+spread = 103.5
+gravity = Vector2(0, 50)
+angle_min = -120.0
+angle_max = 120.0
+scale_amount_min = 0.09
+scale_amount_max = 0.09
