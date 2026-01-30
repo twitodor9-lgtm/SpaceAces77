@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dsauvrffiisai"
-path="res://.godot/imported/PLAYER_BLUE_clean_64x64_24c.png-8dac9a76a6f40ed453746929af1bf46d.ctex"
+uid="uid://dqyrkou6as0al"
+path="res://.godot/imported/SpaceWorm1.png-e14d17b1222787ff5f4722513bda8519.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://StarJets/PLAYER_BLUE_clean_64x64_24c.png"
-dest_files=["res://.godot/imported/PLAYER_BLUE_clean_64x64_24c.png-8dac9a76a6f40ed453746929af1bf46d.ctex"]
+source_file="res://StarJets/אוייבים/SpaceWorm1.png"
+dest_files=["res://.godot/imported/SpaceWorm1.png-e14d17b1222787ff5f4722513bda8519.ctex"]
 
 [params]
 

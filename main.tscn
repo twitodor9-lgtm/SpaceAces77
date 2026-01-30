@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dgxbuurbohuk6"]
+[gd_scene load_steps=14 format=3 uid="uid://dgxbuurbohuk6"]
 
 [ext_resource type="Script" uid="uid://b6rn10gsr4cpm" path="res://main.gd" id="1_lquwl"]
 [ext_resource type="PackedScene" uid="uid://83y4asyg0dj0" path="res://enemy.tscn" id="2_1bvp3"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cuwhsh21cekkm" path="res://player.tscn" id="3_7mycd"]
 [ext_resource type="PackedScene" uid="uid://dr8ge6b2ksbkh" path="res://Ground_enemy.tscn" id="4_lquwl"]
 [ext_resource type="Script" uid="uid://dowpp5jo8qy7f" path="res://cloud_spawner.gd" id="6_272bh"]
+[ext_resource type="PackedScene" uid="uid://c2f22vcq3xhro" path="res://interceptor.tscn" id="6_w48qg"]
 [ext_resource type="PackedScene" uid="uid://m7y6uehi3bkq" path="res://cloud.tscn" id="7_5vw27"]
 [ext_resource type="Texture2D" uid="uid://ccftnrhgbt3jj" path="res://StarJets/רקעים/רקע2.jpg" id="7_kek77"]
 [ext_resource type="Script" uid="uid://bs7lyun460h31" path="res://hud.gd" id="8_efxa6"]
@@ -16,9 +17,14 @@
 [node name="Main" type="Node2D" groups=["ground"]]
 script = ExtResource("1_lquwl")
 cloud_scene = ExtResource("7_5vw27")
+interceptor_scene = ExtResource("6_w48qg")
 air_enemy_scene = ExtResource("2_1bvp3")
 player_scene = ExtResource("3_7mycd")
 ground_enemy_scene = ExtResource("4_lquwl")
+
+[node name="Interceptor" parent="." instance=ExtResource("6_w48qg")]
+max_speed = 300.0
+bullet_speed = 250.0
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 script = ExtResource("3_1bvp3")
@@ -90,6 +96,30 @@ offset_right = 1146.0
 offset_bottom = 54.0
 step = 0.1
 value = 100.0
+
+[node name="StageClearLabel" type="Label" parent="UI"]
+anchors_preset = -1
+anchor_left = -0.008
+anchor_top = 0.27
+anchor_right = -0.008
+anchor_bottom = 0.27
+offset_left = 502.6
+offset_top = 6.0
+offset_right = 723.6
+offset_bottom = 56.0
+text = "Stage Clear               "
+clip_text = true
+uppercase = true
+
+[node name="StageLabel" type="Label" parent="UI"]
+anchors_preset = -1
+anchor_left = 0.287
+anchor_top = -0.0050000004
+anchor_right = 0.693
+anchor_bottom = 0.245
+offset_left = 0.6000061
+offset_right = 2.3999634
+offset_bottom = -39.0
 
 [node name="UI2" type="CanvasLayer" parent="."]
 

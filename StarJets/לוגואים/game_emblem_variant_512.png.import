@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dvy1xdqf8v50t"
-path="res://.godot/imported/ChatGPT Image Jan 28, 2026, 12_32_43 AM.png-cea6d7d949f27830117a0b3d6fce7ae4.ctex"
+uid="uid://dbvxq6y0oqgcy"
+path="res://.godot/imported/game_emblem_variant_512.png-52d16471e1c1363a5fdec2a0d04aabca.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://StarJets/ChatGPT Image Jan 28, 2026, 12_32_43 AM.png"
-dest_files=["res://.godot/imported/ChatGPT Image Jan 28, 2026, 12_32_43 AM.png-cea6d7d949f27830117a0b3d6fce7ae4.ctex"]
+source_file="res://StarJets/לוגואים/game_emblem_variant_512.png"
+dest_files=["res://.godot/imported/game_emblem_variant_512.png-52d16471e1c1363a5fdec2a0d04aabca.ctex"]
 
 [params]
 

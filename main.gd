@@ -6,13 +6,16 @@ extends Node2D
 @export var cloud_speed_min: float = 20.0
 @export var cloud_speed_max: float = 50.0
 @onready var boss := $Boss
+var boss_spawned: bool = false
 
 @onready var bg := $ParallaxBackground
+@export var interceptor_scene: PackedScene
+@export var interceptor_chance: float = 0.25
+@export var interceptor_start_stage: int = 2
+var stage_index: int = 1
 
-var _spawn_timer: float = 0.0
-var spawning_enabled: bool = true
 
-# === הגדרות אויבי אוויר ===
+
 @export var air_enemy_scene: PackedScene
 @export var max_air_enemies: int = 4
 @export var player_scene: PackedScene
@@ -23,6 +26,32 @@ var spawning_enabled: bool = true
 @export var ground_min_distance: float = 220.0
 @export var ground_spawn_y: float = 520.0
 @export var ground_spawn_tries: int = 12
+
+var _spawn_timer: float = 0.0
+var spawning_enabled: bool = true
+
+# === הגדרות אויבי אוויר ===
+func _on_air_spawn_timer_timeout() -> void:
+	if not spawning_enabled:
+		return
+	if air_enemy_scene == null:
+		return
+
+	var existing: int = get_tree().get_nodes_in_group("air_enemies").size()
+	if existing >= max_air_enemies:
+		return
+
+	var chosen: PackedScene = air_enemy_scene
+
+	if interceptor_scene != null and stage_index >= interceptor_start_stage:
+		if randf() < interceptor_chance:
+			chosen = interceptor_scene
+
+	var enemy: Node2D = chosen.instantiate() as Node2D
+	add_child(enemy)
+	# ... המשך מיקום וכו'
+
+	
 
 
 func _ready() -> void:
@@ -69,25 +98,7 @@ func _set_spawning_enabled(enabled: bool) -> void:
 		if enabled: ground_timer.start()
 		else: ground_timer.stop()
 
-func _on_air_spawn_timer_timeout() -> void:
-	if not spawning_enabled:
-		return
-	if air_enemy_scene == null:
-		return
-	
-	var existing := get_tree().get_nodes_in_group("air_enemies").size()
-	if existing >= max_air_enemies:
-		return
-	
-	var enemy = air_enemy_scene.instantiate()
-	add_child(enemy)
-	
-	var view := get_viewport_rect().size
-	enemy.global_position = Vector2(
-		randf_range(100, view.x - 100),
-		-50
-	)
-
+# ... המשך מיקום וכו'
 
 func _on_ground_spawn_timer_timeout() -> void:
 	if not spawning_enabled:
@@ -165,7 +176,16 @@ func _toggle_boss() -> void:
 		
 func _on_boss_died() -> void:
 	print("BOSS DOWN")
+
+	stage_index += 1
+	boss_spawned = false
+
 	_set_spawning_enabled(true)
+
+	# אם אתה מזמן בוס עם toggle, תוודא שהוא כבוי אחרי המוות (למקרה של hide/show)
+	if boss != null and boss.visible:
+		_toggle_boss()
+
 	
 	# כאן בהמשך נעצור ספאונרים/נציג הודעה/נעבור שלב
 
