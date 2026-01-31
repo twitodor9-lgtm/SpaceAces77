@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b31twnp3sq7br"
-path="res://.godot/imported/Emblem_of_Iran.svg.png-faef8fe4729a11d5bb718ac61471686a.ctex"
+uid="uid://nmbxq0s600d7"
+path="res://.godot/imported/Emblem_of_Iran.svg.png-707b143cd26d6d6d35ad0b195a9d5835.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://StarJets/Emblem_of_Iran.svg.png"
-dest_files=["res://.godot/imported/Emblem_of_Iran.svg.png-faef8fe4729a11d5bb718ac61471686a.ctex"]
+source_file="res://StarJets/לוגואים/Emblem_of_Iran.svg.png"
+dest_files=["res://.godot/imported/Emblem_of_Iran.svg.png-707b143cd26d6d6d35ad0b195a9d5835.ctex"]
 
 [params]
 

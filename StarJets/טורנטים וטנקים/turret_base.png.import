@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bsolchn8d1jti"
-path="res://.godot/imported/game_emblem_variant_512.png-f604c5e7e027cc90df0c0644138e275f.ctex"
+uid="uid://b2ck7yp34aliv"
+path="res://.godot/imported/turret_base.png-450458fa0afbd7d3487c0e2b1edbab85.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://StarJets/game_emblem_variant_512.png"
-dest_files=["res://.godot/imported/game_emblem_variant_512.png-f604c5e7e027cc90df0c0644138e275f.ctex"]
+source_file="res://StarJets/טורנטים וטנקים/turret_base.png"
+dest_files=["res://.godot/imported/turret_base.png-450458fa0afbd7d3487c0e2b1edbab85.ctex"]
 
 [params]
 

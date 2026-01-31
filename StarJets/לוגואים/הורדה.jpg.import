@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cw60pex0k3ro2"
-path="res://.godot/imported/emblem_sharpened_crisp.png-a4d7d64ff1b224e2d0abcbaf1a43b2ed.ctex"
+uid="uid://bwmr0uf1wij0n"
+path="res://.godot/imported/הורדה.jpg-decccc9106040a17cb0f6b6d917d87c7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://StarJets/emblem_sharpened_crisp.png"
-dest_files=["res://.godot/imported/emblem_sharpened_crisp.png-a4d7d64ff1b224e2d0abcbaf1a43b2ed.ctex"]
+source_file="res://StarJets/לוגואים/הורדה.jpg"
+dest_files=["res://.godot/imported/הורדה.jpg-decccc9106040a17cb0f6b6d917d87c7.ctex"]
 
 [params]
 
