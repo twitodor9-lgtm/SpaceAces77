@@ -23,6 +23,11 @@ var spawning_enabled: bool = true
 @export var ground_min_distance: float = 220.0
 @export var ground_spawn_y: float = 520.0
 @export var ground_spawn_tries: int = 12
+@export var boss_score_threshold: int = 300
+var score: int = 0
+var boss_spawned: bool = false
+
+@onready var score_label: Label = $UI/ScoreLabel
 
 
 func _ready() -> void:
@@ -55,6 +60,14 @@ func _process(delta: float) -> void:
 	#if _spawn_timer <= 0.0:
 		#_spawn_cloud()
 		#_spawn_timer = randf_range(spawn_interval_min, spawn_interval_max)
+func add_score(points: int) -> void:
+	score += points
+	score_label.text = str(score)
+
+	if (not boss_spawned) and score >= boss_score_threshold:
+		boss_spawned = true
+		# זימון בוס כמו במקש B
+		_toggle_boss()
 
 func _set_spawning_enabled(enabled: bool) -> void:
 	spawning_enabled = enabled
@@ -136,7 +149,7 @@ func _get_visible_world_rect() -> Rect2:
 	var maxy: float = maxf(maxf(p0.y, p1.y), maxf(p2.y, p3.y))
 
 	return Rect2(Vector2(minx, miny), Vector2(maxx - minx, maxy - miny))
-
+	
 func _is_ground_x_free(candidate_x: float, min_dist: float) -> bool:
 	for e in get_tree().get_nodes_in_group("ground_enemies"):
 		if e is Node2D:
@@ -166,6 +179,7 @@ func _toggle_boss() -> void:
 func _on_boss_died() -> void:
 	print("BOSS DOWN")
 	_set_spawning_enabled(true)
+	
 	
 	# כאן בהמשך נעצור ספאונרים/נציג הודעה/נעבור שלב
 
