@@ -28,7 +28,7 @@ var stage_index: int = 1
 @export var ground_spawn_tries: int = 12
 @export var boss_score_threshold: int = 300
 var score: int = 0
-var boss_spawned: bool = false
+
 
 @onready var score_label: Label = $UI/ScoreLabel
 
@@ -55,6 +55,7 @@ func _on_air_spawn_timer_timeout() -> void:
 	var enemy: Node2D = chosen.instantiate() as Node2D
 	add_child(enemy)
 	# ... המשך מיקום וכו'
+	($UI as Node).call("set_stage", stage_index)
 
 	
 
@@ -192,12 +193,16 @@ func _on_boss_died() -> void:
 
 	stage_index += 1
 	boss_spawned = false
+	($UI as Node).call("set_stage", stage_index)
 
 	_set_spawning_enabled(true)
 
 	# אם אתה מזמן בוס עם toggle, תוודא שהוא כבוי אחרי המוות (למקרה של hide/show)
 	if boss != null and boss.visible:
 		_toggle_boss()
+	max_air_enemies = min(max_air_enemies + 1, 8)
+	interceptor_chance = min(interceptor_chance + 0.05, 0.45)
+	boss_score_threshold += 200
 
 	
 	

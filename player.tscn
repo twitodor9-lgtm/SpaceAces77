@@ -1,10 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://cuwhsh21cekkm"]
+[gd_scene load_steps=12 format=3 uid="uid://cuwhsh21cekkm"]
 
 [ext_resource type="Script" uid="uid://dbjhip5owylti" path="res://player.gd" id="1_4flbx"]
 [ext_resource type="Texture2D" uid="uid://dvh6hcwpgjq7m" path="res://ChatGPT Image Dec 18, 2025, 05_05_51 AM.png" id="2_i3pqv"]
 [ext_resource type="Texture2D" uid="uid://bltdqtr3py80n" path="res://Bullet (5).png" id="3_i3pqv"]
 [ext_resource type="Script" uid="uid://dxilpjbsw8dfx" path="res://Abilities/StarPunch.gd" id="4_hqtel"]
 [ext_resource type="PackedScene" uid="uid://dsao63m00bjih" path="res://Abilities/Meteor.tscn" id="5_sweqy"]
+[ext_resource type="Script" uid="uid://dsguyo2p3rxhh" path="res://Abilities/DolphinWave/dolphin_wave.gd" id="6_2hs0m"]
+[ext_resource type="PackedScene" uid="uid://cdgoxoop7p0ry" path="res://Abilities/DolphinWave/DolphinRunner.tscn" id="7_1jxqw"]
+[ext_resource type="Script" uid="uid://b4h7j6h2m2me5" path="res://Abilities/way_jump.gd" id="8_b26j0"]
+[ext_resource type="Script" uid="uid://fxk8yahxrwd1" path="res://Abilities/turbo.gd" id="9_n7ghd"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_4flbx"]
 animations = [{
@@ -25,10 +29,12 @@ position = Vector2(77.00001, 283)
 scale = Vector2(3, 3)
 collision_mask = 12
 script = ExtResource("1_4flbx")
+way_jump_path = NodePath("Abilities/WayJump")
+turbo_path = NodePath("Abilities/Turbo")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(-8.333334, -6.999999)
-scale = Vector2(0.066, 0.065)
+position = Vector2(8.062666, -3.6933336)
+scale = Vector2(0.06522657, 0.064401045)
 sprite_frames = SubResource("SpriteFrames_4flbx")
 animation = &"FLY"
 flip_h = true
@@ -37,14 +43,14 @@ flip_h = true
 position = Vector2(81.64014, -31.916504)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-9.000002, -7.666667)
+position = Vector2(7.999998, -6.666667)
 shape = SubResource("CircleShape2D_i3pqv")
 
 [node name="ThrustFlame" type="Sprite2D" parent="."]
 show_behind_parent = true
-position = Vector2(-6.5046587, -7.175973)
-rotation = -1.6737708
-scale = Vector2(0.13528737, 0.41466916)
+position = Vector2(9.39468, -4.1269016)
+rotation = -1.7872171
+scale = Vector2(0.30336174, 0.409595)
 texture = ExtResource("3_i3pqv")
 
 [node name="Abilities" type="Node" parent="."]
@@ -60,5 +66,16 @@ position = Vector2(644, 66)
 
 [node name="SpawnLeft" type="Marker2D" parent="Abilities"]
 position = Vector2(493, 67)
+
+[node name="DolphinWaveAbility" type="Node2D" parent="Abilities"]
+script = ExtResource("6_2hs0m")
+dolphin_runner_scene = ExtResource("7_1jxqw")
+dolphins_count = 14
+
+[node name="WayJump" type="Node2D" parent="Abilities"]
+script = ExtResource("8_b26j0")
+
+[node name="Turbo" type="Node2D" parent="Abilities"]
+script = ExtResource("9_n7ghd")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

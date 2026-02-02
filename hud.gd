@@ -1,5 +1,5 @@
 extends CanvasLayer
-
+@onready var stage_label: Label = $StageLabel
 @export var player_path: NodePath
 @export var star_punch_path: NodePath
 @export var low_zone_ratio := 0.45
@@ -69,3 +69,5 @@ func _update_boss_bar() -> void:
 
 	else:
 		boss_bar.visible = false
+func set_stage(n: int) -> void:
+	stage_label.text = "STAGE %d" % n

@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://dowpp5jo8qy7f" path="res://cloud_spawner.gd" id="6_272bh"]
 [ext_resource type="PackedScene" uid="uid://c2f22vcq3xhro" path="res://interceptor.tscn" id="6_w48qg"]
 [ext_resource type="PackedScene" uid="uid://m7y6uehi3bkq" path="res://cloud.tscn" id="7_5vw27"]
-[ext_resource type="Texture2D" uid="uid://ccftnrhgbt3jj" path="res://StarJets/רקעים/רקע2.jpg" id="7_kek77"]
+[ext_resource type="Texture2D" uid="uid://fjboaufo3mjj" path="res://StarJets/רקעים/רקע2.jpg" id="7_kek77"]
 [ext_resource type="Script" uid="uid://bs7lyun460h31" path="res://hud.gd" id="8_efxa6"]
 [ext_resource type="Script" uid="uid://nigexlpnf55" path="res://worm_spawner.gd" id="9_4c57u"]
 [ext_resource type="PackedScene" uid="uid://cskmba20nk27p" path="res://space_worm.tscn" id="10_efxa6"]
@@ -23,8 +23,7 @@ player_scene = ExtResource("3_7mycd")
 ground_enemy_scene = ExtResource("4_lquwl")
 
 [node name="Interceptor" parent="." instance=ExtResource("6_w48qg")]
-max_speed = 300.0
-bullet_speed = 250.0
+script = null
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 script = ExtResource("3_1bvp3")
@@ -98,6 +97,7 @@ step = 0.1
 value = 100.0
 
 [node name="StageClearLabel" type="Label" parent="UI"]
+visible = false
 anchors_preset = -1
 anchor_left = -0.008
 anchor_top = 0.27

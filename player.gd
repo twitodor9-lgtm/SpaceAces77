@@ -1,14 +1,19 @@
 extends Area2D
+@export var ability_label_path: NodePath
+@export var ability_label_duration: float = 0.8
+var _ability_label_timer: float = 0.0
+var _ability_label: Label
 
 # =========================
 # Flight
 # =========================
 @export var forward_speed: float = 250.0
 @export var rotation_speed: float = 2.5
-
+	
 var screen_size: Vector2
 @onready var hidden_label: Label = null
 @onready var loop_label: Label = null
+
 
 var is_doing_loop := false
 
@@ -69,11 +74,29 @@ func _ready() -> void:
 
 	add_to_group("player")
 
+	_ability_label = get_node_or_null(ability_label_path) as Label
+	if _ability_label:
+		_ability_label.text = ""
 
 func _process(delta: float) -> void:
 	if hidden_label and _in_cloud:
 		hidden_label.position = Vector2(screen_size.x / 2 - 90, 50)
+	
+	# Abilities
+	if Input.is_action_just_pressed("ability_way_jump"):
+		var a = get_node_or_null(way_jump_path)
+		if a and a.has_method("try_use"):
+			a.try_use()
+	if Input.is_action_just_pressed("ability_way_jump"):
+		print("INPUT: way_jump pressed")
 
+	if Input.is_action_just_pressed("ability_turbo"):
+		var b = get_node_or_null(turbo_path)
+		if b and b.has_method("try_use"):
+			b.try_use()
+	if Input.is_action_just_pressed("ability_turbo"):
+		print("INPUT: turbo pressed")
+	
 	# שליטה רק אם לא בלופ
 	if not is_doing_loop:
 		if Input.is_action_pressed("ui_left"):
@@ -83,10 +106,18 @@ func _process(delta: float) -> void:
 
 	scale = base_scale
 
-	var velocity := Vector2(forward_speed, 0.0).rotated(rotation)
+	# ✅ TURBO משפיע רק על מהירות התנועה
+	var turbo_speed := forward_speed * _turbo_mult
+	var velocity := Vector2(turbo_speed, 0.0).rotated(rotation)
 	position += velocity * delta
 
+
 	_wraparound()
+	if _ability_label and _ability_label_timer > 0.0:
+		_ability_label_timer -= delta
+	if _ability_label_timer <= 0.0:
+			_ability_label.text = ""
+
 
 	if Input.is_action_pressed("ui_select") and can_shoot and not is_doing_loop:
 		shoot()
@@ -101,6 +132,13 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("star_punch"):
 		if has_node("Abilities/StarPunch"):
 			$Abilities/StarPunch.try_use()
+	if Input.is_action_just_pressed("dolphin_wave"):
+		$Abilities/DolphinWaveAbility.try_use()
+	if Input.is_action_just_pressed("dolphin_wave"):
+		var n := $Abilities.get_node_or_null("DolphinWaveAbility")
+		print("DolphinWaveAbility node=", n)
+		if n:
+			n.try_use()
 
 
 func _wraparound() -> void:
@@ -198,3 +236,41 @@ func exit_cloud() -> void:
 
 func is_hidden() -> bool:
 	return _in_cloud
+@export var way_jump_path: NodePath
+@export var turbo_path: NodePath
+
+var _invuln_until_ms: int = 0
+var _turbo_mult: float = 1.0
+
+func set_invulnerable(seconds: float) -> void:
+	_invuln_until_ms = Time.get_ticks_msec() + int(seconds * 1000.0)
+
+func is_invulnerable() -> bool:
+	return Time.get_ticks_msec() < _invuln_until_ms
+	
+var _turbo_seq: int = 0
+
+func apply_turbo(mult: float, duration: float) -> void:
+	_turbo_mult = mult
+	# אחרי duration מחזירים ל-1
+	var my_token := Time.get_ticks_msec()
+	await get_tree().create_timer(duration).timeout
+	# אם בינתיים הופעל שוב טורבו, לא לדרוס
+	if Time.get_ticks_msec() >= my_token:
+		_turbo_mult = 1.0
+# func apply_turbo(mult: float, duration: float) -> void:
+	_turbo_seq += 1
+	var seq := _turbo_seq
+
+	_turbo_mult = mult
+	print("Player: TURBO mult=", mult)
+
+	await get_tree().create_timer(duration).timeout
+	if _turbo_seq == seq:
+		_turbo_mult = 1.0
+		print("Player: TURBO END")
+func show_ability_text(text: String) -> void:
+	if _ability_label == null:
+		return
+	_ability_label.text = text
+	_ability_label_timer = ability_label_duration
