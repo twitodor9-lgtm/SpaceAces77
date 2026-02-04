@@ -29,3 +29,5 @@ func try_use() -> void:
 
 	print("Turbo: APPLY")
 	_player.apply_turbo(mult, duration)
+	if _player and _player.has_method("show_ability_text"):
+		_player.show_ability_text("TURBO!")

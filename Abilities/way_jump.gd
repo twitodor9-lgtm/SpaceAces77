@@ -26,6 +26,8 @@ func try_use() -> void:
 	# קפיצה קדימה לפי כיוון המטוס
 	var dir := Vector2(1, 0).rotated(_player.rotation)
 	var target := _player.position + dir * distance
+	if _player and _player.has_method("show_ability_text"):
+		_player.show_ability_text("WAY JUMP!")
 
 	# clamp לפי מסך (מתאים ל-wraparound שלך)
 	var screen := _player.get_viewport_rect().size

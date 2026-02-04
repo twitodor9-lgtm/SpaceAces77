@@ -2,7 +2,8 @@ extends Area2D
 @export var ability_label_path: NodePath
 @export var ability_label_duration: float = 0.8
 var _ability_label_timer: float = 0.0
-var _ability_label: Label
+@onready var _ability_label: Label = get_node_or_null("/root/Main/UI/AbilityLabel") as Label
+#var _ability_label: Label = null
 
 # =========================
 # Flight
@@ -71,13 +72,19 @@ func _ready() -> void:
 
 	if has_node("AnimatedSprite2D"):
 		$AnimatedSprite2D.play("FLY")
-
+				
 	add_to_group("player")
 
 	_ability_label = get_node_or_null(ability_label_path) as Label
 	if _ability_label:
 		_ability_label.text = ""
-
+	print("ability_label_path=", ability_label_path, " label=", _ability_label)
+	print("AbilityLabel=", _ability_label)
+	_ability_label = get_tree().get_first_node_in_group("ability_label") as Label
+	if is_instance_valid(_ability_label):
+		_ability_label.visible = false
+		_ability_label.text = ""
+	
 func _process(delta: float) -> void:
 	if hidden_label and _in_cloud:
 		hidden_label.position = Vector2(screen_size.x / 2 - 90, 50)
@@ -113,12 +120,7 @@ func _process(delta: float) -> void:
 
 
 	_wraparound()
-	if _ability_label and _ability_label_timer > 0.0:
-		_ability_label_timer -= delta
-	if _ability_label_timer <= 0.0:
-			_ability_label.text = ""
-
-
+	
 	if Input.is_action_pressed("ui_select") and can_shoot and not is_doing_loop:
 		shoot()
 
@@ -127,6 +129,12 @@ func _process(delta: float) -> void:
 
 	if Input.is_action_just_pressed("do_loop") and not is_doing_loop:
 		_do_loop()
+# אחרי התנועה / בסוף _process
+	if _ability_label_timer > 0.0:
+		_ability_label_timer -= delta
+	if _ability_label_timer <= 0.0:
+		if is_instance_valid(_ability_label):
+			_ability_label.text = ""
 
 	# ⭐ STAR PUNCH – קריאה ישירה ל־Ability
 	if Input.is_action_just_pressed("star_punch"):
@@ -139,8 +147,12 @@ func _process(delta: float) -> void:
 		print("DolphinWaveAbility node=", n)
 		if n:
 			n.try_use()
-
-
+	if _ability_label_timer > 0.0:
+		_ability_label_timer -= delta
+		if _ability_label_timer <= 0.0 and is_instance_valid(_ability_label):
+			_ability_label.text = ""
+			_ability_label.visible = false
+	
 func _wraparound() -> void:
 	var margin := 50.0
 	if position.x < -margin:
@@ -270,7 +282,18 @@ func apply_turbo(mult: float, duration: float) -> void:
 		_turbo_mult = 1.0
 		print("Player: TURBO END")
 func show_ability_text(text: String) -> void:
-	if _ability_label == null:
+	if not is_instance_valid(_ability_label):
 		return
 	_ability_label.text = text
+	_ability_label.visible = true
 	_ability_label_timer = ability_label_duration
+	print("SHOW_ABILITY_TEXT called: ", text, "  label=", _ability_label, "  path=", ability_label_path)
+
+	if not is_instance_valid(_ability_label):
+		print("❌ AbilityLabel is null/invalid")
+		return
+
+	_ability_label.text = text
+	_ability_label.visible = true
+	_ability_label_timer = ability_label_duration
+	print("✅ AbilityLabel text set to: ", _ability_label.text)

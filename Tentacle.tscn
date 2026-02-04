@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dl14h2ldkdwja"]
+
+[ext_resource type="Script" uid="uid://bji21kqalkcuv" path="res://tentacle.gd" id="1_pp1wt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3thcl"]
+size = Vector2(76, 11)
+
+[node name="Tentacle" type="Area2D"]
+script = ExtResource("1_pp1wt")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+
+[node name="HitShape" type="CollisionShape2D" parent="."]
+position = Vector2(28, 0.5)
+shape = SubResource("RectangleShape2D_3thcl")
