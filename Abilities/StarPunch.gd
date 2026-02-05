@@ -1,27 +1,17 @@
-extends Node2D
+extends AbilityBase
 @export var spawn_left_path: NodePath
 @export var spawn_right_path: NodePath
 @export var meteor_scene: PackedScene
 @export var spawn_margin_top: float = 80.0
 @export var side_margin: float = 80.0
 @export var meteor_half_width: float = 32.0 # אם המטאור 64x64 אז 32
-@export var cooldown: float = 3.0
-var cooldown_left: float = 0.0
-
 
 var _active := false
 
 func _ready() -> void:
 	add_to_group("star_punch")
 
-func _process(delta: float) -> void:
-	if cooldown_left > 0.0:
-		cooldown_left = max(0.0, cooldown_left - delta)
-
 func try_use() -> void:
-	if cooldown_left > 0.0:
-		return
-
 	# רק StarPunch "ראשי"
 	var nodes := get_tree().get_nodes_in_group("star_punch")
 	var min_id := 9223372036854775807
@@ -32,6 +22,9 @@ func try_use() -> void:
 
 	if _active:
 		return
+	if not can_use():
+		return
+
 	_active = true
 	call_deferred("_release_lock")
 
@@ -46,7 +39,6 @@ func try_use() -> void:
 		print("❌ STAR PUNCH: markers not set/found (check Inspector paths)")
 		_active = false
 		return
-	cooldown_left = cooldown
 
 	# גבולות ספאון לפי מרקרים (מסודר תמיד שמאל<ימין)
 	var left_raw := L.global_position.x
@@ -78,6 +70,7 @@ func try_use() -> void:
 
 		print("  meteor#", i, " x=", x)
 
+	show_label()
 	_active = false
 
 func _release_lock() -> void:

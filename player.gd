@@ -3,7 +3,18 @@ extends Area2D
 @export var ability_label_duration: float = 0.8
 var _ability_label_timer: float = 0.0
 @onready var _ability_label: Label = get_node_or_null("/root/Main/UI/AbilityLabel") as Label
-#var _ability_label: Label = null
+
+# =========================
+# Bounds / Ground / Lives
+# =========================
+@export var bounds_margin: float = 18.0
+@export var crash_invuln: float = 1.0
+@export var max_lives: int = 3
+@export var show_lives_label: bool = true
+
+var lives: int = 3
+var _wrap_x_until_ms: int = 0
+var _lives_label: Label = null
 
 # =========================
 # Flight
@@ -14,7 +25,6 @@ var _ability_label_timer: float = 0.0
 var screen_size: Vector2
 @onready var hidden_label: Label = null
 @onready var loop_label: Label = null
-
 
 var is_doing_loop := false
 
@@ -41,7 +51,6 @@ var can_drop_bomb := true
 # Cloud hiding
 # =========================
 var _in_cloud: bool = false
-
 
 func _ready() -> void:
 	var canvas_layer = CanvasLayer.new()
@@ -84,7 +93,12 @@ func _ready() -> void:
 	if is_instance_valid(_ability_label):
 		_ability_label.visible = false
 		_ability_label.text = ""
-	
+
+	# ✅ Lives init
+	lives = max_lives
+	_lives_label = get_node_or_null("/root/Main/UI2/LivesLabel") as Label
+	_update_lives_label()
+
 func _process(delta: float) -> void:
 	if hidden_label and _in_cloud:
 		hidden_label.position = Vector2(screen_size.x / 2 - 90, 50)
@@ -118,7 +132,6 @@ func _process(delta: float) -> void:
 	var velocity := Vector2(turbo_speed, 0.0).rotated(rotation)
 	position += velocity * delta
 
-
 	_wraparound()
 	
 	if Input.is_action_pressed("ui_select") and can_shoot and not is_doing_loop:
@@ -129,7 +142,8 @@ func _process(delta: float) -> void:
 
 	if Input.is_action_just_pressed("do_loop") and not is_doing_loop:
 		_do_loop()
-# אחרי התנועה / בסוף _process
+
+	# אחרי התנועה / בסוף _process
 	if _ability_label_timer > 0.0:
 		_ability_label_timer -= delta
 	if _ability_label_timer <= 0.0:
@@ -152,19 +166,86 @@ func _process(delta: float) -> void:
 		if _ability_label_timer <= 0.0 and is_instance_valid(_ability_label):
 			_ability_label.text = ""
 			_ability_label.visible = false
-	
+
+func enable_horizontal_wrap(seconds: float) -> void:
+	_wrap_x_until_ms = max(_wrap_x_until_ms, Time.get_ticks_msec() + int(seconds * 1000.0))
+
+func _wrap_x_active() -> bool:
+	return Time.get_ticks_msec() < _wrap_x_until_ms
+
+func _bounce(normal: Vector2) -> void:
+	var dir := Vector2(1, 0).rotated(rotation)
+	dir = dir.bounce(normal)
+	if dir.length() < 0.001:
+		dir = normal
+	rotation = dir.angle()
+
+func _update_lives_label() -> void:
+	if not show_lives_label:
+		return
+	if not is_instance_valid(_lives_label):
+		return
+	_lives_label.text = "Lives: %d" % lives
+
+func _lose_life(reason: String) -> void:
+	if is_invulnerable():
+		return
+	lives -= 1
+	_update_lives_label()
+	set_invulnerable(crash_invuln)
+	print("PLAYER HIT:", reason, " lives=", lives)
+	if lives <= 0:
+		print("PLAYER DEAD")
+
 func _wraparound() -> void:
-	var margin := 50.0
-	if position.x < -margin:
-		position.x = screen_size.x + margin
-	elif position.x > screen_size.x + margin:
-		position.x = -margin
+	# ✅ חדש:
+	# - אם יוצאים למעלה/צדדים => bounce חזרה
+	# - למטה: אם יש קרקע בשלב => מאבדים חיים, אחרת bounce
+	# - בזמן WayJump => wrap שמאל↔ימין בלבד
 
-	if position.y < -margin:
-		position.y = screen_size.y + margin
-	elif position.y > screen_size.y + margin:
-		position.y = -margin
+	screen_size = get_viewport_rect().size
+	var m := bounds_margin
 
+	var main := get_tree().current_scene
+	var has_ground := true
+	if main and main.has_method("stage_has_ground"):
+		has_ground = bool(main.call("stage_has_ground"))
+
+	var ground_y := screen_size.y
+	if has_ground and main:
+		var gl := main.get_node_or_null("GroundLine") as Node2D
+		if gl:
+			ground_y = gl.global_position.y
+
+	# X bounds: wrap רק כשהוא פעיל (WayJump)
+	if _wrap_x_active():
+		if position.x < -m:
+			position.x = screen_size.x + m
+		elif position.x > screen_size.x + m:
+			position.x = -m
+	else:
+		if position.x < m:
+			position.x = m
+			_bounce(Vector2.RIGHT)
+		elif position.x > screen_size.x - m:
+			position.x = screen_size.x - m
+			_bounce(Vector2.LEFT)
+
+	# Y top: תמיד bounce
+	if position.y < m:
+		position.y = m
+		_bounce(Vector2.DOWN)
+
+	# Y bottom: קרקע/חלל
+	if has_ground:
+		if position.y > ground_y:
+			position.y = maxf(m, ground_y - m)
+			_lose_life("GROUND")
+			_bounce(Vector2.UP)
+	else:
+		if position.y > screen_size.y - m:
+			position.y = screen_size.y - m
+			_bounce(Vector2.UP)
 
 # ============================================================
 # LOOP MANEUVER
@@ -196,7 +277,6 @@ func _do_loop() -> void:
 	if loop_label:
 		loop_label.visible = false
 
-
 # ============================================================
 # SHOOT
 # ============================================================
@@ -217,7 +297,6 @@ func shoot() -> void:
 	await get_tree().create_timer(shoot_cooldown).timeout
 	can_shoot = true
 
-
 # ============================================================
 # BOMB
 # ============================================================
@@ -229,7 +308,6 @@ func drop_bomb() -> void:
 
 	await get_tree().create_timer(bomb_cooldown).timeout
 	can_drop_bomb = true
-
 
 # ============================================================
 # CLOUD HIDING
@@ -248,6 +326,7 @@ func exit_cloud() -> void:
 
 func is_hidden() -> bool:
 	return _in_cloud
+
 @export var way_jump_path: NodePath
 @export var turbo_path: NodePath
 
@@ -259,18 +338,10 @@ func set_invulnerable(seconds: float) -> void:
 
 func is_invulnerable() -> bool:
 	return Time.get_ticks_msec() < _invuln_until_ms
-	
+
 var _turbo_seq: int = 0
 
 func apply_turbo(mult: float, duration: float) -> void:
-	_turbo_mult = mult
-	# אחרי duration מחזירים ל-1
-	var my_token := Time.get_ticks_msec()
-	await get_tree().create_timer(duration).timeout
-	# אם בינתיים הופעל שוב טורבו, לא לדרוס
-	if Time.get_ticks_msec() >= my_token:
-		_turbo_mult = 1.0
-# func apply_turbo(mult: float, duration: float) -> void:
 	_turbo_seq += 1
 	var seq := _turbo_seq
 
@@ -281,6 +352,7 @@ func apply_turbo(mult: float, duration: float) -> void:
 	if _turbo_seq == seq:
 		_turbo_mult = 1.0
 		print("Player: TURBO END")
+
 func show_ability_text(text: String) -> void:
 	if not is_instance_valid(_ability_label):
 		return

@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://cnh2y3ubc0ya"]
 
 [ext_resource type="Script" uid="uid://hme2i11lapni" path="res://bullet.gd" id="1_v8qja"]
-[ext_resource type="Texture2D" uid="uid://d3olwwg6igjxp" path="res://laserGreen11.png" id="2_v8qja"]
+[ext_resource type="Texture2D" uid="uid://lh5qvj6cmdvo" path="res://StarJets/אלמנטים עננים/לייזר/LL1.png" id="2_v8qja"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_v7oki"]
-radius = 3.0
+radius = 6.0
 height = 78.0
 
 [node name="Bullet" type="Area2D" groups=["PlayerBullets"]]
@@ -14,12 +14,11 @@ script = ExtResource("1_v8qja")
 damage = 5
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-rotation = 1.5969763
-scale = Vector2(0.38888904, 0.5370371)
+scale = Vector2(0.2, 0.2)
 texture = ExtResource("2_v8qja")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, 1)
+position = Vector2(-2, -2)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_v7oki")
 

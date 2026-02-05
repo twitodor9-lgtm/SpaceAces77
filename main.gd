@@ -14,7 +14,17 @@ var boss_spawned: bool = false
 @export var interceptor_start_stage: int = 2
 var stage_index: int = 1
 
+# ✅ באילו שלבים יש "קרקע"
+# אם הרשימה ריקה => קרקע תמיד קיימת
+@export var stages_with_ground: PackedInt32Array = PackedInt32Array([1])
 
+func stage_has_ground(stage: int = -1) -> bool:
+	var s := stage
+	if s < 0:
+		s = stage_index
+	if stages_with_ground.is_empty():
+		return true
+	return stages_with_ground.has(s)
 
 @export var air_enemy_scene: PackedScene
 @export var max_air_enemies: int = 4
@@ -28,7 +38,6 @@ var stage_index: int = 1
 @export var ground_spawn_tries: int = 12
 @export var boss_score_threshold: int = 300
 var score: int = 0
-
 
 @onready var score_label: Label = $UI/ScoreLabel
 
@@ -57,9 +66,6 @@ func _on_air_spawn_timer_timeout() -> void:
 	# ... המשך מיקום וכו'
 	($UI as Node).call("set_stage", stage_index)
 
-	
-
-
 func _ready() -> void:
 	# קישור טיימר אויבי אוויר
 	if has_node("EnemySpawnTimer"):
@@ -69,34 +75,26 @@ func _ready() -> void:
 	if has_node("GroundEnemyTimer"):
 		$GroundEnemyTimer.timeout.connect(_on_ground_spawn_timer_timeout)
 	if boss:
-		
 		boss.visible = false
 		boss.set_process(false)
 		boss.set_physics_process(false)
 	if boss.has_signal("boss_died"):
-			var sig: Signal = boss.get("boss_died")
-			if not sig.is_connected(_on_boss_died):
-				sig.connect(_on_boss_died)
+		var sig: Signal = boss.get("boss_died")
+		if not sig.is_connected(_on_boss_died):
+			sig.connect(_on_boss_died)
 	# ⭐ טיימר עננים
 	_spawn_timer = randf_range(spawn_interval_min, spawn_interval_max)
-	
 
 func _process(delta: float) -> void:
 	# ⭐ רקע נע
 	bg.scroll_offset.x += 100 * delta
-	
-	## ⭐ טיימר עננים
-	#_spawn_timer -= delta
-	#if _spawn_timer <= 0.0:
-		#_spawn_cloud()
-		#_spawn_timer = randf_range(spawn_interval_min, spawn_interval_max)
+
 func add_score(points: int) -> void:
 	score += points
 	score_label.text = str(score)
 
 	if (not boss_spawned) and score >= boss_score_threshold:
 		boss_spawned = true
-		# זימון בוס כמו במקש B
 		_toggle_boss()
 
 func _set_spawning_enabled(enabled: bool) -> void:
@@ -112,15 +110,12 @@ func _set_spawning_enabled(enabled: bool) -> void:
 		if enabled: ground_timer.start()
 		else: ground_timer.stop()
 
-# ... המשך מיקום וכו'
-
 func _on_ground_spawn_timer_timeout() -> void:
 	if not spawning_enabled:
 		return
 	if ground_enemy_scene == null:
 		return
 	
-	# בדיקת כמות טנקים על המסך
 	var existing := get_tree().get_nodes_in_group("ground_enemies").size()
 	if existing >= max_ground_enemies_on_screen:
 		return
@@ -129,7 +124,6 @@ func _on_ground_spawn_timer_timeout() -> void:
 	var x_min := 80.0
 	var x_max := view.x - 80.0
 	
-	# ניסיון למצוא מקום X פנוי
 	var spawn_x := -1.0
 	for i in range(ground_spawn_tries):
 		var candidate := randf_range(x_min, x_max)
@@ -137,11 +131,9 @@ func _on_ground_spawn_timer_timeout() -> void:
 			spawn_x = candidate
 			break
 	
-	# אם לא נמצא מקום פנוי — לא יוצרים טנק
 	if spawn_x < 0.0:
 		return
 	
-	# יצירת טנק חדש
 	var g = ground_enemy_scene.instantiate() as Node2D
 	add_child(g)
 	g.global_position = Vector2(spawn_x, ground_spawn_y)
@@ -182,7 +174,7 @@ func _toggle_boss() -> void:
 	boss.visible = should_show
 	boss.set_process(should_show)
 	boss.set_physics_process(should_show)
-	_set_spawning_enabled(not should_show) # אם הבוס מופיע -> ספאון כבוי
+	_set_spawning_enabled(not should_show)
 
 	if should_show:
 		var r := _get_visible_world_rect()
@@ -197,28 +189,8 @@ func _on_boss_died() -> void:
 
 	_set_spawning_enabled(true)
 
-	# אם אתה מזמן בוס עם toggle, תוודא שהוא כבוי אחרי המוות (למקרה של hide/show)
 	if boss != null and boss.visible:
 		_toggle_boss()
 	max_air_enemies = min(max_air_enemies + 1, 8)
 	interceptor_chance = min(interceptor_chance + 0.05, 0.45)
 	boss_score_threshold += 200
-
-	
-	
-	# כאן בהמשך נעצור ספאונרים/נציג הודעה/נעבור שלב
-
-#func _spawn_cloud() -> void:
-	#if cloud_scene == null:
-		#return
-	#
-	#var cloud = cloud_scene.instantiate()
-	#add_child(cloud)
-	#
-	#var screen_size = get_viewport_rect().size
-	## ⭐ רק בשליש העליון!
-	#var y_pos = randf_range(30, screen_size.y * 0.20)
-	#
-	#cloud.global_position = Vector2(screen_size.x + 100, y_pos)
-	#cloud.speed = randf_range(cloud_speed_min, cloud_speed_max)
-	#cloud.direction = Vector2.LEFT

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cuwhsh21cekkm"]
+[gd_scene load_steps=13 format=3 uid="uid://cuwhsh21cekkm"]
 
 [ext_resource type="Script" uid="uid://dbjhip5owylti" path="res://player.gd" id="1_4flbx"]
 [ext_resource type="Texture2D" uid="uid://dvh6hcwpgjq7m" path="res://ChatGPT Image Dec 18, 2025, 05_05_51 AM.png" id="2_i3pqv"]
@@ -6,9 +6,10 @@
 [ext_resource type="Script" uid="uid://dxilpjbsw8dfx" path="res://Abilities/StarPunch.gd" id="4_hqtel"]
 [ext_resource type="PackedScene" uid="uid://dsao63m00bjih" path="res://Abilities/Meteor.tscn" id="5_sweqy"]
 [ext_resource type="Script" uid="uid://dsguyo2p3rxhh" path="res://Abilities/DolphinWave/dolphin_wave.gd" id="6_2hs0m"]
-[ext_resource type="PackedScene" uid="uid://cdgoxoop7p0ry" path="res://Abilities/DolphinWave/DolphinRunner.tscn" id="7_1jxqw"]
+[ext_resource type="PackedScene" uid="uid://cdgoxoop7p0ry" path="res://Abilities/DolphinWave/DolphinRunner.tscn" id="7_n7ghd"]
 [ext_resource type="Script" uid="uid://b4h7j6h2m2me5" path="res://Abilities/way_jump.gd" id="8_b26j0"]
 [ext_resource type="Script" uid="uid://fxk8yahxrwd1" path="res://Abilities/turbo.gd" id="9_n7ghd"]
+[ext_resource type="Script" uid="uid://b14k3rkbpeypu" path="res://deflector_shield.gd" id="10_n7ghd"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_4flbx"]
 animations = [{
@@ -60,6 +61,8 @@ script = ExtResource("4_hqtel")
 spawn_left_path = NodePath("../SpawnLeft")
 spawn_right_path = NodePath("../SpawnRight")
 meteor_scene = ExtResource("5_sweqy")
+label_text = "STAR PUNCH!"
+cooldown = 3.0
 
 [node name="SpawnRight" type="Marker2D" parent="Abilities"]
 position = Vector2(644, 66)
@@ -69,13 +72,19 @@ position = Vector2(493, 67)
 
 [node name="DolphinWaveAbility" type="Node2D" parent="Abilities"]
 script = ExtResource("6_2hs0m")
-dolphin_runner_scene = ExtResource("7_1jxqw")
-dolphins_count = 14
+dolphin_runner_scene = ExtResource("7_n7ghd")
+cooldown = 6.0
 
 [node name="WayJump" type="Node2D" parent="Abilities"]
 script = ExtResource("8_b26j0")
+hop_step_distance = 1000.0
 
 [node name="Turbo" type="Node2D" parent="Abilities"]
 script = ExtResource("9_n7ghd")
+label_text = "TURBO!"
+
+[node name="Deflector Shield" type="Node2D" parent="Abilities"]
+script = ExtResource("10_n7ghd")
+label_text = "Deflector Shield"
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
