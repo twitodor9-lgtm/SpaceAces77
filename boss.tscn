@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b8n03lck8arpo" path="res://boss.gd" id="1_0bnu1"]
 [ext_resource type="PackedScene" uid="uid://bke1d6s2epq5a" path="res://enemy_plane_bullet.tscn" id="2_skx2t"]
-[ext_resource type="Texture2D" uid="uid://6amwikket878" path="res://image.jpg.png" id="3_lnbgr"]
+[ext_resource type="Texture2D" uid="uid://0mtydo2pcy2x" path="res://StarJets/אוייבים/A_pixel_art_digital_illustration_features_a_large__transparent.png" id="3_skx2t"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o1i15"]
 radius = 42.0
@@ -15,7 +15,7 @@ bullet_scene = ExtResource("2_skx2t")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.4, 0.4)
-texture = ExtResource("3_lnbgr")
+texture = ExtResource("3_skx2t")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -23,6 +23,6 @@ position = Vector2(-77, -4)
 shape = SubResource("CapsuleShape2D_o1i15")
 
 [node name="Muzzle" type="Marker2D" parent="."]
-position = Vector2(12, -20)
+position = Vector2(-150, 62)
 
 [node name="ShootTimer" type="Timer" parent="."]

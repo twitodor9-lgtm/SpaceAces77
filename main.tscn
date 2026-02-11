@@ -10,9 +10,9 @@
 [ext_resource type="PackedScene" uid="uid://m7y6uehi3bkq" path="res://cloud.tscn" id="7_5vw27"]
 [ext_resource type="Texture2D" uid="uid://fjboaufo3mjj" path="res://StarJets/רקעים/רקע2.jpg" id="7_kek77"]
 [ext_resource type="Script" uid="uid://bs7lyun460h31" path="res://hud.gd" id="8_efxa6"]
-[ext_resource type="Script" uid="uid://nigexlpnf55" path="res://worm_spawner.gd" id="9_4c57u"]
-[ext_resource type="PackedScene" uid="uid://cyfpmdar2fkfs" path="res://octo_whale.tscn" id="9_w48qg"]
-[ext_resource type="PackedScene" uid="uid://cskmba20nk27p" path="res://space_worm.tscn" id="10_efxa6"]
+[ext_resource type="Script" uid="uid://nigexlpnf55" path="res://Monsters/SpaceWorm/worm_spawner.gd" id="9_4c57u"]
+[ext_resource type="PackedScene" uid="uid://cyfpmdar2fkfs" path="res://Monsters/OctoWhale/octo_whale.tscn" id="9_w48qg"]
+[ext_resource type="PackedScene" uid="uid://cskmba20nk27p" path="res://Monsters/SpaceWorm/space_worm.tscn" id="10_efxa6"]
 [ext_resource type="PackedScene" uid="uid://bevyd87e1c7hg" path="res://boss.tscn" id="12_dg77c"]
 
 [node name="Main" type="Node2D" groups=["ground"]]
@@ -45,6 +45,9 @@ texture = ExtResource("7_kek77")
 
 [node name="Player" parent="." instance=ExtResource("3_7mycd")]
 position = Vector2(85, 283)
+
+[node name="ThrustFlame" parent="Player" index="2"]
+texture = null
 
 [node name="EnemySpawnTimer" type="Timer" parent="."]
 wait_time = 2.0109999999999997
@@ -164,6 +167,9 @@ position = Vector2(574, 462)
 
 [node name="Boss" parent="." instance=ExtResource("12_dg77c")]
 visible = false
+
+[node name="Sprite2D" parent="Boss" index="0"]
+texture = null
 
 [connection signal="timeout" from="EnemySpawnTimer" to="." method="_on_ground_spawn_timer_timeout"]
 

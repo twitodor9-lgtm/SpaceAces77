@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://c107se8p00vs1" path="res://ground_enemy.gd" id="1_f8j0i"]
 [ext_resource type="PackedScene" uid="uid://d14mdkmh1fig5" path="res://EnemyBullet.tscn" id="2_r5d1n"]
-[ext_resource type="Texture2D" uid="uid://hy4ynldx7i5l" path="res://111.png" id="3_r5d1n"]
-[ext_resource type="Texture2D" uid="uid://bs7mj6ff302o4" path="res://תותתחחחח1.png" id="4_r5d1n"]
+[ext_resource type="Texture2D" uid="uid://ksnmvjq3jp6r" path="res://StarJets/אוייבים/טורנטים וטנקים/‏‏תיקיה חדשה/111.png" id="3_r5d1n"]
+[ext_resource type="Texture2D" uid="uid://dg41lvcd03qlj" path="res://StarJets/אוייבים/טורנטים וטנקים/‏‏תיקיה חדשה/121.png" id="4_0iuym"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0iuym"]
 size = Vector2(156, 94.625)
@@ -28,10 +28,10 @@ scale = Vector2(0.9999998, 0.9999998)
 
 [node name="TurretSprite" type="Sprite2D" parent="TurretRoot"]
 show_behind_parent = true
-position = Vector2(70.00001, -8.000005)
-rotation = 1.5952309
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("4_r5d1n")
+position = Vector2(42.000008, -53.00001)
+rotation = 0.1308997
+scale = Vector2(0.14, 0.14)
+texture = ExtResource("4_0iuym")
 
 [node name="Muzzle" type="Marker2D" parent="TurretRoot/TurretSprite"]
 position = Vector2(-45.973946, -243.94963)

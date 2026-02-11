@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://5uyo2xh01vwa" path="res://new_enemy.gd" id="1_t2ljd"]
 [ext_resource type="PackedScene" uid="uid://divx4kwhp57o2" path="res://new_enemy_bullet.tscn" id="2_l80u0"]
-[ext_resource type="Texture2D" uid="uid://dbovcqx86pdym" path="res://New folder/A_pixel_art_illustration_in_retro_arcade_game_styl_transparent33.png" id="3_l80u0"]
+[ext_resource type="Texture2D" uid="uid://dbovcqx86pdym" path="res://StarJets/New folder/A_pixel_art_illustration_in_retro_arcade_game_styl_transparent33.png" id="3_l80u0"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_l80u0"]
 radius = 7.04163

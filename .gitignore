@@ -1,16 +1,7 @@
-# Godot 4+ specific ignores
-.godot/
-/android/
-df-2-(copy.zip
-df-2-(copy.zip
-*.zip
-*.zip
-df-2-(copy.zip
-DORRR.zip
-# Godot 4 cache (DO NOT COMMIT)
+# Godot 4 cache (אל מעלים לגיט)
 .godot/
 
-# Export/build outputs
+# Export/build outputs (לא מעלים)
 export/
 build/
 dist/
@@ -19,8 +10,16 @@ dist/
 *.apk
 *.aab
 
+# אם אתה לא רוצה להעלות ZIPים בכלל:
+*.zip
+
 # IDE / OS junk
 .vscode/
 .idea/
 Thumbs.db
 .DS_Store
+!assets.zip
+git rm -r --cached .godot
+git add .gitignore
+git commit -m "Ignore Godot cache"
+git push

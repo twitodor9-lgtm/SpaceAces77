@@ -1,13 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://m7y6uehi3bkq"]
+[gd_scene load_steps=13 format=3 uid="uid://m7y6uehi3bkq"]
 
 [ext_resource type="Script" uid="uid://em83rgestoi6" path="res://cloud.gd" id="1_b3oxr"]
-[ext_resource type="Texture2D" uid="uid://danv618ej1fkw" path="res://4646.png" id="2_qaedo"]
-[ext_resource type="Texture2D" uid="uid://yvk4k8etaqud" path="res://56.png" id="3_qy4vw"]
-[ext_resource type="Texture2D" uid="uid://c1nm6erqyk2ai" path="res://66664.png" id="4_wxnvt"]
-[ext_resource type="Texture2D" uid="uid://61hr86kmmtgf" path="res://44.png" id="5_2c7u8"]
-[ext_resource type="Texture2D" uid="uid://f4a2q1lqi61x" path="res://33.png" id="6_npi7w"]
-[ext_resource type="Texture2D" uid="uid://y6c0kx3acstp" path="res://22.png" id="7_nlmp1"]
-[ext_resource type="Texture2D" uid="uid://dyfjoxjrvm0is" path="res://66.png" id="9_wxnvt"]
+[ext_resource type="Texture2D" uid="uid://jddpdyiclpro" path="res://StarJets/אלמנטים עננים/66.png" id="2_sytix"]
+[ext_resource type="Texture2D" uid="uid://bwt6wmxa4xtpd" path="res://StarJets/אלמנטים עננים/4646.png" id="3_rmn2t"]
+[ext_resource type="Texture2D" uid="uid://c3r2lukwi0y0q" path="res://StarJets/אלמנטים עננים/66664.png" id="4_rq1uo"]
+[ext_resource type="Texture2D" uid="uid://dsg73p5gvm0b6" path="res://StarJets/אלמנטים עננים/Biplane.png" id="5_qy4vw"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hd7va"]
 radius = 15.044392
@@ -17,25 +14,7 @@ height = 174.04579
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_qy4vw")
-}, {
-"duration": 1.0,
-"texture": ExtResource("2_qaedo")
-}, {
-"duration": 1.0,
-"texture": ExtResource("4_wxnvt")
-}, {
-"duration": 1.0,
-"texture": ExtResource("5_2c7u8")
-}, {
-"duration": 1.0,
-"texture": ExtResource("6_npi7w")
-}, {
-"duration": 1.0,
-"texture": ExtResource("7_nlmp1")
-}, {
-"duration": 1.0,
-"texture": null
+"texture": ExtResource("2_sytix")
 }],
 "loop": true,
 "name": &"default",
@@ -46,10 +25,7 @@ animations = [{
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_qaedo")
-}, {
-"duration": 1.0,
-"texture": ExtResource("4_wxnvt")
+"texture": ExtResource("3_rmn2t")
 }],
 "loop": true,
 "name": &"default",
@@ -60,7 +36,7 @@ animations = [{
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("9_wxnvt")
+"texture": ExtResource("4_rq1uo")
 }],
 "loop": true,
 "name": &"default",
@@ -71,7 +47,7 @@ animations = [{
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_qy4vw")
+"texture": ExtResource("5_qy4vw")
 }],
 "loop": true,
 "name": &"default",

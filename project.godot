@@ -15,6 +15,10 @@ run/main_scene="uid://dgxbuurbohuk6"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Monsters="*res://Monsters/monster_registry.gd"
+
 [display]
 
 window/size/viewport_width=1200
@@ -125,6 +129,9 @@ ability_turbo={
 
 [layer_names]
 
+2d_render/layer_1="2"
+2d_render/layer_2="1"
+2d_render/layer_3="3"
 2d_physics/layer_1="Player"
 2d_physics/layer_2="PlayerBullets"
 2d_physics/layer_3="Enemies"

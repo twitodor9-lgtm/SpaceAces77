@@ -1,10 +1,10 @@
 [gd_scene load_steps=11 format=3 uid="uid://dsao63m00bjih"]
 
 [ext_resource type="Script" uid="uid://63ovi1f2iu74" path="res://meteor.gd" id="1_d7is7"]
-[ext_resource type="Texture2D" uid="uid://dwqubitqycsfv" path="res://New folder/A_pixel_art_digital_sprite_features_a_red_laser_bo_transparent22.png" id="3_b3j6e"]
-[ext_resource type="Texture2D" uid="uid://y6c0kx3acstp" path="res://22.png" id="3_j0dfc"]
-[ext_resource type="Texture2D" uid="uid://61hr86kmmtgf" path="res://44.png" id="4_b3j6e"]
-[ext_resource type="Texture2D" uid="uid://c1nm6erqyk2ai" path="res://66664.png" id="6_dw7b3"]
+[ext_resource type="Texture2D" uid="uid://dwqubitqycsfv" path="res://StarJets/New folder/A_pixel_art_digital_sprite_features_a_red_laser_bo_transparent22.png" id="3_b3j6e"]
+[ext_resource type="Texture2D" path="res://22.png" id="3_j0dfc"]
+[ext_resource type="Texture2D" path="res://44.png" id="4_b3j6e"]
+[ext_resource type="Texture2D" path="res://66664.png" id="6_dw7b3"]
 [ext_resource type="Texture2D" uid="uid://ocr0q7vuv64m" path="res://StarJets/אלמנטים עננים/11.png" id="7_bexf7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dw7b3"]

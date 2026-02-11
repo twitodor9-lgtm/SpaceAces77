@@ -1,0 +1,152 @@
+[gd_scene load_steps=24 format=3 uid="uid://cyfpmdar2fkfs"]
+
+[ext_resource type="Script" uid="uid://crxbchumywxws" path="res://Monsters/OctoWhale/octo_whale.gd" id="1_5w65d"]
+[ext_resource type="Texture2D" uid="uid://d2pjou57x6cpq" path="res://StarJets/אוייבים/מפלצות חלל/תמנון/TRIPI/זרועות.png2.pngימין2.png" id="2_cew6l"]
+[ext_resource type="Texture2D" uid="uid://ckte6pjncw8nn" path="res://StarJets/אוייבים/מפלצות חלל/תמנון/TRIPI/זרועות.png2.pngשמאל2.png" id="2_ollnm"]
+[ext_resource type="Texture2D" uid="uid://cbekovhgvexjf" path="res://StarJets/אוייבים/מפלצות חלל/תמנון/TRIPI/R.pngR2.png44.png" id="3_ollnm"]
+[ext_resource type="Texture2D" uid="uid://c47iwrj3alo0o" path="res://StarJets/אוייבים/מפלצות חלל/תמנון/TRIPI/R.pngR2.png44.png454.png" id="4_cew6l"]
+[ext_resource type="Texture2D" uid="uid://cctg2sr0ur7bw" path="res://StarJets/אוייבים/מפלצות חלל/תמנון/TRIPI/R.pngR2.png66.png" id="5_5kuyn"]
+[ext_resource type="Texture2D" uid="uid://gt47m4my6ccj" path="res://StarJets/אוייבים/מפלצות חלל/תמנון/TRIPI/R.pngR2.pngR3.png33.png" id="6_gwk42"]
+[ext_resource type="Texture2D" uid="uid://c30j3j6m6rjtf" path="res://StarJets/אוייבים/מפלצות חלל/תמנון/TRIPI/R.pngR2.pngR3.pngR4.png2.png" id="7_i48ho"]
+[ext_resource type="Texture2D" uid="uid://cny0n8cyl0nxj" path="res://StarJets/אוייבים/מפלצות חלל/תמנון/TRIPI/R.pngR2.pngR3.pngR4.png5.png1.png" id="8_to6no"]
+[ext_resource type="Texture2D" uid="uid://cy3wktjv5ffi0" path="res://StarJets/אוייבים/מפלצות חלל/תמנון/TRIPI/הורדה (1).png2.png464.png" id="9_hx6nr"]
+[ext_resource type="PackedScene" uid="uid://dl14h2ldkdwja" path="res://Monsters/OctoWhale/Tentacle.tscn" id="10_d0rfe"]
+[ext_resource type="Texture2D" uid="uid://dfq5qkikvx3p7" path="res://StarJets/אוייבים/מפלצות חלל/תמנון/TRIPI/הורדה.pngרגל.pngT.png222.png33.png" id="11_d0rfe"]
+[ext_resource type="Texture2D" uid="uid://lqkcvw17m62f" path="res://StarJets/אוייבים/מפלצות חלל/תמנון/TRIPI/הורדה.pngרגל.pngT.png222.png33.pngGGG4444.png" id="13_5kuyn"]
+[ext_resource type="Texture2D" uid="uid://deoiroim87pmb" path="res://StarJets/אוייבים/מפלצות חלל/תמנון/TRIPI/הורדה.pngרגל.pngT.png222.png33.pngGGGG2222.png" id="14_gwk42"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i48ho"]
+atlas = ExtResource("2_cew6l")
+region = Rect2(21, 0, 437, 307)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_to6no"]
+atlas = ExtResource("2_cew6l")
+region = Rect2(461, 0, 437, 307)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hx6nr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i48ho")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_to6no")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5kuyn"]
+atlas = ExtResource("2_ollnm")
+region = Rect2(461, 0, 437, 307)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gwk42"]
+atlas = ExtResource("2_ollnm")
+region = Rect2(901, 0, 437, 307)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_i48ho"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5kuyn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gwk42")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dmpbm"]
+animations = [{
+"frames": [{
+"duration": 1.91,
+"texture": ExtResource("9_hx6nr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ollnm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_gwk42")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_5kuyn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_i48ho")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_to6no")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_cew6l")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ectjp"]
+size = Vector2(101, 9)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_l3k07"]
+animations = [{
+"frames": [{
+"duration": 2.51,
+"texture": ExtResource("11_d0rfe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_5kuyn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_gwk42")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="OctoWhale" type="Area2D"]
+position = Vector2(166, 140)
+script = ExtResource("1_5w65d")
+
+[node name="Tentacles" type="Node2D" parent="."]
+light_mask = 4
+visibility_layer = 3
+scale = Vector2(1.5, 1.5)
+
+[node name="Tentacle" parent="Tentacles" instance=ExtResource("10_d0rfe")]
+position = Vector2(528, 76.66667)
+
+[node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="."]
+position = Vector2(861.2434, 148.73204)
+rotation = 1.097812
+scale = Vector2(0.448379, 0.28559422)
+sprite_frames = SubResource("SpriteFrames_hx6nr")
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
+position = Vector2(795.098, 147.80562)
+rotation = -1.4643313
+scale = Vector2(0.38358107, 0.2801868)
+sprite_frames = SubResource("SpriteFrames_i48ho")
+frame_progress = 0.6894759
+
+[node name="Body" type="AnimatedSprite2D" parent="."]
+visibility_layer = 4
+position = Vector2(818, 41.000008)
+scale = Vector2(0.24449217, 0.24346897)
+sprite_frames = SubResource("SpriteFrames_dmpbm")
+frame_progress = 0.030853208
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(682, 100)
+shape = SubResource("RectangleShape2D_ectjp")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+light_mask = 2
+visibility_layer = 4
+position = Vector2(818.125, 198.12503)
+scale = Vector2(0.24650349, 0.47160357)
+sprite_frames = SubResource("SpriteFrames_l3k07")
