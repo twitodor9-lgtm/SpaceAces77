@@ -1,0 +1,89 @@
+[gd_scene load_steps=16 format=3 uid="uid://cufcs4ekb27ci"]
+
+[ext_resource type="Script" uid="uid://b6rn10gsr4cpm" path="res://main.gd" id="1_dn162"]
+[ext_resource type="PackedScene" uid="uid://m7y6uehi3bkq" path="res://cloud.tscn" id="2_sp0fl"]
+[ext_resource type="PackedScene" uid="uid://c2f22vcq3xhro" path="res://Enemies/interceptor.tscn" id="3_7m0ha"]
+[ext_resource type="PackedScene" uid="uid://83y4asyg0dj0" path="res://Enemies/enemy.tscn" id="4_741qh"]
+[ext_resource type="PackedScene" uid="uid://cuwhsh21cekkm" path="res://player.tscn" id="5_xsba7"]
+[ext_resource type="PackedScene" uid="uid://dr8ge6b2ksbkh" path="res://Enemies/Ground_enemy.tscn" id="6_87nms"]
+[ext_resource type="PackedScene" uid="uid://dkc28k85deuas" path="res://Enemies/Monsters/VoidRaptor/void_raptor.tscn" id="6_sp0fl"]
+[ext_resource type="Script" uid="uid://dowpp5jo8qy7f" path="res://cloud_spawner.gd" id="7_vqanp"]
+[ext_resource type="Script" uid="uid://nigexlpnf55" path="res://Enemies/Monsters/SpaceWorm/worm_spawner.gd" id="8_oueut"]
+[ext_resource type="PackedScene" uid="uid://clvj5sw14wtct" path="res://Enemies/Monsters/MonsterDirector.tscn" id="12_m0fd4"]
+[ext_resource type="Script" uid="uid://c430jmt5wkrl8" path="res://ground_mine_spawner.gd" id="14_f6vwc"]
+[ext_resource type="Script" uid="uid://1lxs7w0hps4x" path="res://low_cover_controller.gd" id="15_816c2"]
+[ext_resource type="PackedScene" uid="uid://5e1msa2d0gmv" path="res://ui.tscn" id="16_s2lxn"]
+[ext_resource type="PackedScene" uid="uid://dqwq2ahsyspxl" path="res://background.tscn" id="17_gpuv2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yaehf"]
+size = Vector2(1284.5557, 135.16743)
+
+[node name="Stage02" type="Node2D" groups=["ground"]]
+script = ExtResource("1_dn162")
+cloud_scene = ExtResource("2_sp0fl")
+interceptor_scene = ExtResource("3_7m0ha")
+air_enemy_scene = ExtResource("4_741qh")
+player_scene = ExtResource("5_xsba7")
+void_raptor_scene = ExtResource("6_sp0fl")
+ground_enemy_scene = ExtResource("6_87nms")
+
+[node name="GroundLine" type="Marker2D" parent="."]
+position = Vector2(660.4186, 650.98267)
+
+[node name="RaptorSpawn" type="Marker2D" parent="."]
+position = Vector2(1400, 520)
+
+[node name="Player" parent="." instance=ExtResource("5_xsba7")]
+position = Vector2(85, 283)
+
+[node name="ThrustFlame" parent="Player" index="2"]
+texture = null
+
+[node name="RaptorSpawn2" type="Marker2D" parent="."]
+position = Vector2(740, 585)
+
+[node name="EnemySpawnTimer" type="Timer" parent="."]
+wait_time = 2.0109999999999997
+autostart = true
+
+[node name="GroundEnemyTimer" type="Timer" parent="."]
+
+[node name="CloudSpawner" type="Node2D" parent="."]
+script = ExtResource("7_vqanp")
+cloud_scene = ExtResource("2_sp0fl")
+
+[node name="WormSpawner" type="Node2D" parent="."]
+script = ExtResource("8_oueut")
+
+[node name="MonsterDirector" parent="." instance=ExtResource("12_m0fd4")]
+
+[node name="GroundMineSpawner" type="Node2D" parent="."]
+script = ExtResource("14_f6vwc")
+
+[node name="LowCoverController" type="Node2D" parent="."]
+script = ExtResource("15_816c2")
+player_path = NodePath("../Player")
+
+[node name="UIRoot" parent="." instance=ExtResource("16_s2lxn")]
+
+[node name="Background" parent="." instance=ExtResource("17_gpuv2")]
+position = Vector2(-618, 1246)
+
+[node name="FarSprite" parent="Background/ParallaxBackground/FarLayer" index="0"]
+visible = false
+
+[node name="NearSprite" parent="Background/ParallaxBackground/NearLayer" index="0"]
+visible = false
+
+[node name="Ground" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
+position = Vector2(651, 724)
+rotation = -3.111922
+scale = Vector2(0.9999999, 0.9999999)
+shape = SubResource("RectangleShape2D_yaehf")
+
+[connection signal="timeout" from="EnemySpawnTimer" to="." method="_on_ground_spawn_timer_timeout"]
+
+[editable path="Player"]
+[editable path="Background"]

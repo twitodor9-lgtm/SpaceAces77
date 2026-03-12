@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://bl1ktmc558fww"]
+
+[ext_resource type="Script" uid="uid://cci1lo5ywkjbl" path="res://Enemies/enemy_plane_bullet.gd" id="1_o57xu"]
+[ext_resource type="Texture2D" uid="uid://bwoh0q01qcqs3" path="res://PNGStarJets/אלמנטים עננים/לייזר/LR.png" id="3_jbmxg"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lobnu"]
+radius = 3.0153382
+height = 54.056175
+
+[node name="enemy_plane_bullet" type="Area2D"]
+script = ExtResource("1_o57xu")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.15345268, 0.13636363)
+texture = ExtResource("3_jbmxg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.9999995, 2.2737368e-13)
+rotation = -1.5865043
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("CapsuleShape2D_lobnu")

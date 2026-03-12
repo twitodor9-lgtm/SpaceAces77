@@ -11,24 +11,26 @@ config_version=5
 [application]
 
 config/name="עותק מהשיחה הראשונה"
-run/main_scene="uid://dgxbuurbohuk6"
+run/main_scene="uid://u5jbqghcfvaj"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-Monsters="*res://Monsters/monster_registry.gd"
+Monsters="*res://Enemies/Monsters/monster_registry.gd"
+GameBalance="*res://scripts/Balance.gd"
+GameState="*res://scripts/GameState.gd"
 
 [display]
 
-window/size/viewport_width=1200
-window/size/viewport_height=600
-window/size/resizable=false
-window/stretch/scale_mode="integer"
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/size/initial_position_type=0
+window/stretch/mode="canvas_items"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/copy_context_ai/plugin.cfg")
+enabled=PackedStringArray("res://addons/anim_sheet/plugin.cfg", "res://addons/auto_polygon2d_triangulation/plugin.cfg", "res://addons/copy_context_ai/plugin.cfg", "res://addons/soupik/plugin.cfg")
 
 [input]
 

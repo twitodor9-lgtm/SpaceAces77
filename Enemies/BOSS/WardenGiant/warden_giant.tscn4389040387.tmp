@@ -1,0 +1,61 @@
+[gd_scene load_steps=10 format=3 uid="uid://c8fqd22b4vbwl"]
+
+[ext_resource type="Script" uid="uid://c8lk5cnkfq7j6" path="res://Enemies/WardenGiant/WardenGiant.gd" id="1_jx4c8"]
+[ext_resource type="Texture2D" uid="uid://114rnibaf1nn" path="res://PNGStarJets/אוייבים/בוסים/רובוט/M3/ChatGPT Image Feb 17, 2026, 03_36_24 AM.png12.png55.pngB.png" id="4_t3bpk"]
+[ext_resource type="Texture2D" uid="uid://djrt83xcgoq2m" path="res://PNGStarJets/אוייבים/בוסים/רובוט/M3/ChatGPT Image Feb 17, 2026, 03_36_24 AM.png12.png55.pngB33.png" id="5_00beu"]
+[ext_resource type="Texture2D" uid="uid://drh4ov58fx7n6" path="res://PNGStarJets/אוייבים/בוסים/רובוט/M3/ChatGPT Image Feb 17, 2026, 03_36_24 AM.png12.png55.pngB2.png" id="6_sjsxm"]
+[ext_resource type="Texture2D" uid="uid://rbernxsjxxmj" path="res://PNGStarJets/אוייבים/בוסים/רובוט/M3/ChatGPT Image Feb 17, 2026, 03_36_24 AM.png12.png55.pngB1.png" id="7_ow45m"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_161w8"]
+atlas = ExtResource("4_t3bpk")
+region = Rect2(0, 0, 225, 284)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xxc80"]
+atlas = ExtResource("4_t3bpk")
+region = Rect2(225, 0, 225, 284)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vscj2"]
+atlas = ExtResource("4_t3bpk")
+region = Rect2(450, 0, 225, 284)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rhcl2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_161w8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xxc80")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vscj2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_00beu")
+}, {
+"duration": 1.01,
+"texture": ExtResource("6_sjsxm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_ow45m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_ow45m")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}]
+
+[node name="WardenGiant" type="Area2D"]
+script = ExtResource("1_jx4c8")
+
+[node name="Anim" type="AnimatedSprite2D" parent="."]
+position = Vector2(0.75, 0)
+scale = Vector2(1.0076143, 1)
+sprite_frames = SubResource("SpriteFrames_rhcl2")
+frame_progress = 0.53016955
+
+[node name="Muzzle" type="Marker2D" parent="."]
+
+[node name="AttackTimer" type="Timer" parent="."]

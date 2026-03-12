@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://cokcfysrossp7"]
+
+[ext_resource type="Script" uid="uid://cian86wdm1l6" path="res://Enemies/Monsters/VoidRaptor/plasma_projectile.gd" id="1_ucfbi"]
+[ext_resource type="Texture2D" uid="uid://lh5qvj6cmdvo" path="res://PNGStarJets/E1אלמנטים עננים/לייזר/LL1.png" id="2_03anm"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uopd1"]
+height = 167.9793
+
+[node name="PlasmaProjectile" type="Area2D" groups=["enemy_projectiles"]]
+script = ExtResource("1_ucfbi")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(2.9999962, 4.000002)
+scale = Vector2(0.5542857, 0.30864197)
+texture = ExtResource("2_03anm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = -1.5865043
+shape = SubResource("CapsuleShape2D_uopd1")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]

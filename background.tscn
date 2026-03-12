@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://dqwq2ahsyspxl"]
+
+[ext_resource type="Script" uid="uid://cfwrwavsaw7w1" path="res://background_controller.gd" id="1_oabld"]
+[ext_resource type="Texture2D" uid="uid://iaww1lsc2cjx" path="res://PNGStarJets/BAרקעים/A1/1.pngA2.png" id="2_xehqc"]
+[ext_resource type="Texture2D" uid="uid://cju5fjawtl44n" path="res://PNGStarJets/BAרקעים/A1/1.pngA.png" id="3_splo0"]
+
+[node name="Background" type="Node2D"]
+script = ExtResource("1_oabld")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="FarLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+
+[node name="FarSprite" type="Sprite2D" parent="ParallaxBackground/FarLayer"]
+position = Vector2(0, -6.000002)
+scale = Vector2(0.9411765, 0.7257683)
+texture = ExtResource("2_xehqc")
+centered = false
+
+[node name="NearLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+
+[node name="NearSprite" type="Sprite2D" parent="ParallaxBackground/NearLayer"]
+position = Vector2(0, 301)
+scale = Vector2(0.9426471, 1.2228739)
+texture = ExtResource("3_splo0")
+centered = false

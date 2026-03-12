@@ -1,16 +1,16 @@
 [gd_scene load_steps=13 format=3 uid="uid://cdgoxoop7p0ry"]
 
 [ext_resource type="Script" uid="uid://q2j82lswrl1" path="res://Abilities/DolphinWave/dolphin_runner.gd" id="1_aw0kn"]
-[ext_resource type="Texture2D" uid="uid://d1424atmr7b4x" path="res://StarJets/כוחות/‏‏תיקיה חדשה/דול חלל שיט.png2222.png0.png" id="2_7ohfx"]
-[ext_resource type="Texture2D" uid="uid://cr5ne33qfuyly" path="res://StarJets/כוחות/‏‏תיקיה חדשה/דול חלל שיט.png2222.png11.png" id="3_1b1wb"]
-[ext_resource type="Texture2D" uid="uid://c5x8oc4cxawx8" path="res://StarJets/כוחות/‏‏תיקיה חדשה/דול חלל שיט.png2222.png22.png" id="4_pqff0"]
-[ext_resource type="Texture2D" uid="uid://dc40kxyfdex8m" path="res://StarJets/כוחות/‏‏תיקיה חדשה/דול חלל שיט.png2222.png333.png" id="5_myiba"]
-[ext_resource type="Texture2D" uid="uid://8awuvpvy6ueu" path="res://StarJets/כוחות/‏‏תיקיה חדשה/דול חלל שיט.png2222.png4444.png" id="6_fqyi3"]
-[ext_resource type="Texture2D" uid="uid://chjou5dvll0do" path="res://StarJets/כוחות/‏‏תיקיה חדשה/דול חלל שיט.png2222.png55555.png" id="7_o8psl"]
-[ext_resource type="Texture2D" uid="uid://dgi5atmys447o" path="res://StarJets/כוחות/‏‏תיקיה חדשה/דול חלל שיט.png2222.png6666.png" id="8_7adde"]
-[ext_resource type="Texture2D" uid="uid://dlm3ntioax14h" path="res://StarJets/כוחות/‏‏תיקיה חדשה/דול חלל שיט.png2222.png7777.png" id="9_6u871"]
-[ext_resource type="Texture2D" uid="uid://cg8c7nyl7n8lf" path="res://StarJets/כוחות/‏‏תיקיה חדשה/דול חלל שיט.png2222.png88888.png" id="10_sg5a4"]
-[ext_resource type="Texture2D" uid="uid://betq475m8dvr7" path="res://StarJets/כוחות/‏‏תיקיה חדשה/דול חלל שיט.png2222.png9999.png" id="11_2ks1i"]
+[ext_resource type="Texture2D" uid="uid://d1424atmr7b4x" path="res://PNGStarJets/כוחות/‏‏תיקיה חדשה/דול חלל שיט.png2222.png0.png" id="2_7ohfx"]
+[ext_resource type="Texture2D" uid="uid://cr5ne33qfuyly" path="res://PNGStarJets/כוחות/‏‏תיקיה חדשה/דול חלל שיט.png2222.png11.png" id="3_1b1wb"]
+[ext_resource type="Texture2D" uid="uid://c5x8oc4cxawx8" path="res://PNGStarJets/כוחות/‏‏תיקיה חדשה/דול חלל שיט.png2222.png22.png" id="4_pqff0"]
+[ext_resource type="Texture2D" uid="uid://dc40kxyfdex8m" path="res://PNGStarJets/כוחות/‏‏תיקיה חדשה/דול חלל שיט.png2222.png333.png" id="5_myiba"]
+[ext_resource type="Texture2D" uid="uid://8awuvpvy6ueu" path="res://PNGStarJets/כוחות/‏‏תיקיה חדשה/דול חלל שיט.png2222.png4444.png" id="6_fqyi3"]
+[ext_resource type="Texture2D" uid="uid://chjou5dvll0do" path="res://PNGStarJets/כוחות/‏‏תיקיה חדשה/דול חלל שיט.png2222.png55555.png" id="7_o8psl"]
+[ext_resource type="Texture2D" uid="uid://dgi5atmys447o" path="res://PNGStarJets/כוחות/‏‏תיקיה חדשה/דול חלל שיט.png2222.png6666.png" id="8_7adde"]
+[ext_resource type="Texture2D" uid="uid://dlm3ntioax14h" path="res://PNGStarJets/כוחות/‏‏תיקיה חדשה/דול חלל שיט.png2222.png7777.png" id="9_6u871"]
+[ext_resource type="Texture2D" uid="uid://cg8c7nyl7n8lf" path="res://PNGStarJets/כוחות/‏‏תיקיה חדשה/דול חלל שיט.png2222.png88888.png" id="10_sg5a4"]
+[ext_resource type="Texture2D" uid="uid://betq475m8dvr7" path="res://PNGStarJets/כוחות/‏‏תיקיה חדשה/דול חלל שיט.png2222.png9999.png" id="11_2ks1i"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_sgtb2"]
 animations = [{
@@ -50,7 +50,7 @@ animations = [{
 "speed": 15.0
 }]
 
-[node name="DolphinRunner" type="Node2D"]
+[node name="DolphinRunner" type="Node2D" groups=["player_projectiles"]]
 script = ExtResource("1_aw0kn")
 
 [node name="Anim" type="AnimatedSprite2D" parent="."]

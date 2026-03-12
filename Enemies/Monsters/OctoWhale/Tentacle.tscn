@@ -1,0 +1,116 @@
+[gd_scene load_steps=19 format=3 uid="uid://dl14h2ldkdwja"]
+
+[ext_resource type="Script" uid="uid://bji21kqalkcuv" path="res://Enemies/Monsters/OctoWhale/tentacle.gd" id="1_t7clf"]
+[ext_resource type="Texture2D" uid="uid://dkgupw4g1rm3b" path="res://PNGStarJets/אוייבים/מפלצות חלל/תמנון/TRIPI/זרועות.png2.pngימין3.png" id="2_ctx4j"]
+[ext_resource type="Texture2D" uid="uid://d2pjou57x6cpq" path="res://PNGStarJets/אוייבים/מפלצות חלל/תמנון/TRIPI/זרועות.png2.pngימין2.png" id="3_i2lw3"]
+[ext_resource type="Texture2D" uid="uid://ckte6pjncw8nn" path="res://PNGStarJets/אוייבים/מפלצות חלל/תמנון/TRIPI/זרועות.png2.pngשמאל2.png" id="4_eei6i"]
+[ext_resource type="Texture2D" uid="uid://c7047ec6lmled" path="res://PNGStarJets/אוייבים/מפלצות חלל/תמנון/TRIPI/זרועות.png2.pngשמאל3.png" id="5_mhwxs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3thcl"]
+size = Vector2(76, 11)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kr6n4"]
+atlas = ExtResource("2_ctx4j")
+region = Rect2(0, 0, 489, 394)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dafbq"]
+atlas = ExtResource("2_ctx4j")
+region = Rect2(489, 0, 489, 394)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xiguh"]
+atlas = ExtResource("3_i2lw3")
+region = Rect2(0, 0, 446, 307)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uncxp"]
+atlas = ExtResource("3_i2lw3")
+region = Rect2(446, 0, 446, 307)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sptqs"]
+atlas = ExtResource("3_i2lw3")
+region = Rect2(892, 0, 446, 307)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tpngl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kr6n4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dafbq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xiguh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uncxp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sptqs")
+}],
+"loop": true,
+"name": &"default",
+"speed": 9.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0hul6"]
+atlas = ExtResource("4_eei6i")
+region = Rect2(892, 0, 446, 307)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pssrj"]
+atlas = ExtResource("4_eei6i")
+region = Rect2(446, 0, 446, 307)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_glfcb"]
+atlas = ExtResource("4_eei6i")
+region = Rect2(0, 0, 446, 307)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eyw0k"]
+atlas = ExtResource("5_mhwxs")
+region = Rect2(0, 0, 489, 394)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x7l5h"]
+atlas = ExtResource("5_mhwxs")
+region = Rect2(489, 0, 489, 394)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8qwdl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0hul6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pssrj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_glfcb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eyw0k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x7l5h")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}]
+
+[node name="Tentacle" type="Area2D" groups=["enemy_projectiles"]]
+position = Vector2(822, 94)
+script = ExtResource("1_t7clf")
+
+[node name="HitShape" type="CollisionShape2D" parent="."]
+position = Vector2(-39, -7)
+shape = SubResource("RectangleShape2D_3thcl")
+
+[node name="RIGHT" type="AnimatedSprite2D" parent="."]
+position = Vector2(64.99999, -13.999998)
+scale = Vector2(0.17, 0.18144667)
+sprite_frames = SubResource("SpriteFrames_tpngl")
+frame_progress = 0.016843775
+
+[node name="LEFT" type="AnimatedSprite2D" parent="."]
+position = Vector2(-23.999992, -17.000004)
+scale = Vector2(0.20607638, 0.20226382)
+sprite_frames = SubResource("SpriteFrames_8qwdl")
+frame_progress = 0.9679503

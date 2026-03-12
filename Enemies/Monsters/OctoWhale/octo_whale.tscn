@@ -1,0 +1,146 @@
+[gd_scene load_steps=22 format=3 uid="uid://cyfpmdar2fkfs"]
+
+[ext_resource type="Script" uid="uid://crxbchumywxws" path="res://Enemies/Monsters/OctoWhale/octo_whale.gd" id="1_5w65d"]
+[ext_resource type="Texture2D" uid="uid://fjffvwhg713a" path="res://PNGStarJets/אוייבים/מפלצות חלל/תמנון/TRIPI/R.png3322.png" id="3_l6t2r"]
+[ext_resource type="Texture2D" uid="uid://cbekovhgvexjf" path="res://PNGStarJets/אוייבים/מפלצות חלל/תמנון/TRIPI/R.pngR2.png44.png" id="4_y8861"]
+[ext_resource type="Texture2D" uid="uid://c47iwrj3alo0o" path="res://PNGStarJets/אוייבים/מפלצות חלל/תמנון/TRIPI/R.pngR2.png44.png454.png" id="5_puro3"]
+[ext_resource type="Texture2D" uid="uid://cctg2sr0ur7bw" path="res://PNGStarJets/אוייבים/מפלצות חלל/תמנון/TRIPI/R.pngR2.png66.png" id="6_nc68q"]
+[ext_resource type="Texture2D" uid="uid://gt47m4my6ccj" path="res://PNGStarJets/אוייבים/מפלצות חלל/תמנון/TRIPI/R.pngR2.pngR3.png33.png" id="7_tldbv"]
+[ext_resource type="Texture2D" uid="uid://c30j3j6m6rjtf" path="res://PNGStarJets/אוייבים/מפלצות חלל/תמנון/TRIPI/R.pngR2.pngR3.pngR4.png2.png" id="8_w0gg0"]
+[ext_resource type="Texture2D" uid="uid://cny0n8cyl0nxj" path="res://PNGStarJets/אוייבים/מפלצות חלל/תמנון/TRIPI/R.pngR2.pngR3.pngR4.png5.png1.png" id="9_vsvsb"]
+[ext_resource type="Texture2D" uid="uid://cy3wktjv5ffi0" path="res://PNGStarJets/אוייבים/מפלצות חלל/תמנון/TRIPI/הורדה (1).png2.png464.png" id="10_6pk6a"]
+[ext_resource type="PackedScene" uid="uid://dl14h2ldkdwja" path="res://Enemies/Monsters/OctoWhale/Tentacle.tscn" id="10_d0rfe"]
+[ext_resource type="Texture2D" uid="uid://dfq5qkikvx3p7" path="res://PNGStarJets/אוייבים/מפלצות חלל/תמנון/TRIPI/הורדה.pngרגל.pngT.png222.png33.png" id="11_xuv4t"]
+[ext_resource type="Texture2D" uid="uid://cfks8707ho08u" path="res://PNGStarJets/אוייבים/מפלצות חלל/תמנון/TRIPI/הורדה.pngרגל.pngT.png222.png1.png" id="12_fcamp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i48ho"]
+region = Rect2(21, 0, 437, 307)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_to6no"]
+region = Rect2(461, 0, 437, 307)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hx6nr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i48ho")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_to6no")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5kuyn"]
+region = Rect2(461, 0, 437, 307)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gwk42"]
+region = Rect2(901, 0, 437, 307)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_i48ho"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5kuyn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gwk42")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dmpbm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_l6t2r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_y8861")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_puro3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_nc68q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_tldbv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_w0gg0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_vsvsb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_6pk6a")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ectjp"]
+size = Vector2(101, 9)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_l3k07"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("11_xuv4t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_fcamp")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="OctoWhale" type="Area2D" groups=["boss"]]
+position = Vector2(166, 140)
+script = ExtResource("1_5w65d")
+
+[node name="Tentacles" type="Node2D" parent="."]
+light_mask = 4
+visibility_layer = 3
+scale = Vector2(1.5, 1.5)
+
+[node name="Tentacle" parent="Tentacles" instance=ExtResource("10_d0rfe")]
+position = Vector2(528, 76.66667)
+
+[node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="."]
+position = Vector2(861.2434, 148.73204)
+rotation = 1.097812
+scale = Vector2(0.448379, 0.28559422)
+sprite_frames = SubResource("SpriteFrames_hx6nr")
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
+position = Vector2(795.098, 147.80562)
+rotation = -1.4643313
+scale = Vector2(0.38358107, 0.2801868)
+sprite_frames = SubResource("SpriteFrames_i48ho")
+frame_progress = 0.6894759
+
+[node name="Body" type="AnimatedSprite2D" parent="."]
+visibility_layer = 4
+position = Vector2(818, 41.000008)
+scale = Vector2(0.24449217, 0.24346897)
+sprite_frames = SubResource("SpriteFrames_dmpbm")
+frame_progress = 0.030853208
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(682, 100)
+shape = SubResource("RectangleShape2D_ectjp")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+light_mask = 2
+visibility_layer = 4
+position = Vector2(818.125, 198.12503)
+scale = Vector2(0.24650349, 0.47160357)
+sprite_frames = SubResource("SpriteFrames_l3k07")

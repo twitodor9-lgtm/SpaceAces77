@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://dr8ge6b2ksbkh"]
+
+[ext_resource type="Script" uid="uid://c107se8p00vs1" path="res://Enemies/ground_enemy.gd" id="1_f8j0i"]
+[ext_resource type="PackedScene" uid="uid://d14mdkmh1fig5" path="res://Enemies/EnemyBullet.tscn" id="2_r5d1n"]
+[ext_resource type="Texture2D" uid="uid://ksnmvjq3jp6r" path="res://PNGStarJets/אוייבים/טורנטים וטנקים/‏‏תיקיה חדשה/111.png" id="3_r5d1n"]
+[ext_resource type="Texture2D" uid="uid://dg41lvcd03qlj" path="res://PNGStarJets/אוייבים/טורנטים וטנקים/‏‏תיקיה חדשה/121.png" id="4_0iuym"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0iuym"]
+size = Vector2(156, 94.625)
+
+[node name="ground_enemy" type="Area2D" groups=["enemies"]]
+position = Vector2(941, 41)
+collision_layer = 4
+collision_mask = 19
+script = ExtResource("1_f8j0i")
+bullet_scene = ExtResource("2_r5d1n")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["enemies"]]
+position = Vector2(-285.3039, 142.44)
+shape = SubResource("RectangleShape2D_0iuym")
+
+[node name="Base" type="Sprite2D" parent="."]
+position = Vector2(-314.304, 156.44)
+scale = Vector2(0.122, 0.12)
+texture = ExtResource("3_r5d1n")
+
+[node name="TurretRoot" type="Node2D" parent="." groups=["enemies"]]
+position = Vector2(-311.3039, 127.439995)
+scale = Vector2(0.9999998, 0.9999998)
+
+[node name="TurretSprite" type="Sprite2D" parent="TurretRoot"]
+show_behind_parent = true
+position = Vector2(13.9999695, -28)
+rotation = 0.0017453292
+scale = Vector2(0.13578387, 0.14)
+texture = ExtResource("4_0iuym")
+
+[node name="Muzzle" type="Marker2D" parent="TurretRoot/TurretSprite"]
+position = Vector2(354.464, 10.969391)
+
+[node name="ShootTimer" type="Timer" parent="."]
