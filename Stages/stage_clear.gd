@@ -1,23 +1,27 @@
 extends Control
 
-const CHARACTER_SELECT_SCENE: String = "res://_context/Stages/CharacterSelect.tscn"
-
-@onready var score_label: Label = $CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ScoreLabel
-@onready var continue_button: Button = $CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ContinueButton
+@onready var score_label: Label = get_node_or_null("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ScoreLabel") as Label
+@onready var next_button: Button = get_node_or_null("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ContinueButton") as Button
 
 func _ready() -> void:
 	if score_label != null:
 		score_label.text = "SCORE: %d" % GameState.score
-		print("STAGE CLEAR SCORE:", GameState.score)
 
-	if continue_button != null and not continue_button.pressed.is_connected(_on_next_pressed):
-		continue_button.pressed.connect(_on_next_pressed)
+	if next_button != null:
+		if not next_button.pressed.is_connected(_on_next_pressed):
+			next_button.pressed.connect(_on_next_pressed)
+
+	print("stage_clear_label=", score_label, " next_button=", next_button)
 
 func _on_next_pressed() -> void:
-	GameState.stage_index += 1
+	GameState.stage_index = 1
 
-	if not ResourceLoader.exists(CHARACTER_SELECT_SCENE):
-		push_error("CharacterSelect scene not found: " + CHARACTER_SELECT_SCENE)
+	var char_select_path := "res://Stages/CharacterSelect.tscn"
+	if not ResourceLoader.exists(char_select_path):
+		char_select_path = "res://_context/Stages/CharacterSelect.tscn"
+
+	if not ResourceLoader.exists(char_select_path):
+		push_error("CharacterSelect scene not found in res://Stages or res://_context/Stages")
 		return
 
-	get_tree().change_scene_to_file(CHARACTER_SELECT_SCENE)
+	get_tree().change_scene_to_file(char_select_path)

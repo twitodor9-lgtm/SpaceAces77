@@ -224,7 +224,16 @@ func add_score(points: int) -> void:
 func _go_to_stage_clear() -> void:
 	GameState.score = score
 	print("DEBUG: GO TO STAGE CLEAR WITH SCORE:", GameState.score)
-	get_tree().change_scene_to_file("res://_context/Stages/StageClear.tscn")
+
+	var stage_clear_path := "res://Stages/StageClear.tscn"
+	if not ResourceLoader.exists(stage_clear_path):
+		stage_clear_path = "res://_context/Stages/StageClear.tscn"
+
+	if not ResourceLoader.exists(stage_clear_path):
+		push_error("StageClear scene not found in res://Stages or res://_context/Stages")
+		return
+
+	get_tree().change_scene_to_file(stage_clear_path)
 
 func _set_spawning_enabled(enabled: bool) -> void:
 	spawning_enabled = enabled
