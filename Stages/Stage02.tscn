@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cufcs4ekb27ci"]
+[gd_scene load_steps=17 format=3 uid="uid://cufcs4ekb27ci"]
 
 [ext_resource type="Script" uid="uid://b6rn10gsr4cpm" path="res://main.gd" id="1_dn162"]
 [ext_resource type="PackedScene" uid="uid://m7y6uehi3bkq" path="res://cloud.tscn" id="2_sp0fl"]
@@ -6,12 +6,13 @@
 [ext_resource type="PackedScene" uid="uid://83y4asyg0dj0" path="res://Enemies/enemy.tscn" id="4_741qh"]
 [ext_resource type="PackedScene" uid="uid://cuwhsh21cekkm" path="res://player.tscn" id="5_xsba7"]
 [ext_resource type="PackedScene" uid="uid://dr8ge6b2ksbkh" path="res://Enemies/Ground_enemy.tscn" id="6_87nms"]
-[ext_resource type="PackedScene" uid="uid://dkc28k85deuas" path="res://Enemies/Monsters/VoidRaptor/void_raptor.tscn" id="6_sp0fl"]
+[ext_resource type="PackedScene" path="res://Enemies/Monsters/VoidRaptor/void_raptor.tscn" id="6_sp0fl"]
 [ext_resource type="Script" uid="uid://dowpp5jo8qy7f" path="res://cloud_spawner.gd" id="7_vqanp"]
 [ext_resource type="Script" uid="uid://nigexlpnf55" path="res://Enemies/Monsters/SpaceWorm/worm_spawner.gd" id="8_oueut"]
+[ext_resource type="PackedScene" uid="uid://bpywkm46wsv14" path="res://Enemies/ground_mine/ground_mine.tscn" id="9_puj1h"]
 [ext_resource type="PackedScene" uid="uid://clvj5sw14wtct" path="res://Enemies/Monsters/MonsterDirector.tscn" id="12_m0fd4"]
-[ext_resource type="Script" uid="uid://c430jmt5wkrl8" path="res://ground_mine_spawner.gd" id="14_f6vwc"]
 [ext_resource type="Script" uid="uid://1lxs7w0hps4x" path="res://low_cover_controller.gd" id="15_816c2"]
+[ext_resource type="PackedScene" uid="uid://cb21ai081jmdq" path="res://Enemies/ground_mine/ground_mine_spawner.tscn" id="15_puj1h"]
 [ext_resource type="PackedScene" uid="uid://5e1msa2d0gmv" path="res://ui.tscn" id="16_s2lxn"]
 [ext_resource type="PackedScene" uid="uid://dqwq2ahsyspxl" path="res://background.tscn" id="17_gpuv2"]
 
@@ -27,6 +28,9 @@ player_scene = ExtResource("5_xsba7")
 void_raptor_scene = ExtResource("6_sp0fl")
 ground_enemy_scene = ExtResource("6_87nms")
 
+[node name="GroundMineSpawner2" parent="." instance=ExtResource("15_puj1h")]
+mine_scene = ExtResource("9_puj1h")
+
 [node name="GroundLine" type="Marker2D" parent="."]
 position = Vector2(660.4186, 650.98267)
 
@@ -38,9 +42,6 @@ position = Vector2(85, 283)
 
 [node name="ThrustFlame" parent="Player" index="2"]
 texture = null
-
-[node name="RaptorSpawn2" type="Marker2D" parent="."]
-position = Vector2(740, 585)
 
 [node name="EnemySpawnTimer" type="Timer" parent="."]
 wait_time = 2.0109999999999997
@@ -56,9 +57,6 @@ cloud_scene = ExtResource("2_sp0fl")
 script = ExtResource("8_oueut")
 
 [node name="MonsterDirector" parent="." instance=ExtResource("12_m0fd4")]
-
-[node name="GroundMineSpawner" type="Node2D" parent="."]
-script = ExtResource("14_f6vwc")
 
 [node name="LowCoverController" type="Node2D" parent="."]
 script = ExtResource("15_816c2")
@@ -78,7 +76,7 @@ visible = false
 [node name="Ground" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
-position = Vector2(651, 724)
+position = Vector2(634.00006, 774)
 rotation = -3.111922
 scale = Vector2(0.9999999, 0.9999999)
 shape = SubResource("RectangleShape2D_yaehf")

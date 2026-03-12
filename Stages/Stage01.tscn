@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://do1ci5kqhns2o"]
+[gd_scene load_steps=18 format=3 uid="uid://do1ci5kqhns2o"]
 
 [ext_resource type="Script" uid="uid://b6rn10gsr4cpm" path="res://main.gd" id="1_e5es8"]
 [ext_resource type="PackedScene" uid="uid://m7y6uehi3bkq" path="res://cloud.tscn" id="2_o1nvr"]
@@ -7,10 +7,12 @@
 [ext_resource type="PackedScene" uid="uid://cuwhsh21cekkm" path="res://player.tscn" id="5_0mp8v"]
 [ext_resource type="PackedScene" uid="uid://dr8ge6b2ksbkh" path="res://Enemies/Ground_enemy.tscn" id="6_y0j1r"]
 [ext_resource type="Script" uid="uid://dowpp5jo8qy7f" path="res://cloud_spawner.gd" id="7_kiotb"]
+[ext_resource type="PackedScene" uid="uid://bpywkm46wsv14" path="res://Enemies/ground_mine/ground_mine.tscn" id="8_1h2ju"]
 [ext_resource type="Script" uid="uid://nigexlpnf55" path="res://Enemies/Monsters/SpaceWorm/worm_spawner.gd" id="8_3t0cu"]
 [ext_resource type="PackedScene" uid="uid://clvj5sw14wtct" path="res://Enemies/Monsters/MonsterDirector.tscn" id="12_s1jso"]
 [ext_resource type="PackedScene" uid="uid://c8fqd22b4vbwl" path="res://Enemies/BOSS/WardenGiant/warden_giant.tscn" id="13_jmgbh"]
-[ext_resource type="Script" uid="uid://c430jmt5wkrl8" path="res://ground_mine_spawner.gd" id="14_rqgc6"]
+[ext_resource type="Script" uid="uid://c430jmt5wkrl8" path="res://Enemies/ground_mine/ground_mine_spawner.gd" id="14_rqgc6"]
+[ext_resource type="PackedScene" uid="uid://cb21ai081jmdq" path="res://Enemies/ground_mine/ground_mine_spawner.tscn" id="15_fbu0m"]
 [ext_resource type="Script" uid="uid://1lxs7w0hps4x" path="res://low_cover_controller.gd" id="15_yt0ns"]
 [ext_resource type="PackedScene" uid="uid://5e1msa2d0gmv" path="res://ui.tscn" id="16_51yj6"]
 [ext_resource type="PackedScene" uid="uid://dqwq2ahsyspxl" path="res://background.tscn" id="17_hbmrt"]
@@ -37,6 +39,9 @@ ground_min_distance = null
 ground_spawn_y = null
 ground_spawn_tries = null
 boss_score_threshold = null
+
+[node name="GroundMineSpawner2" parent="." instance=ExtResource("15_fbu0m")]
+mine_scene = ExtResource("8_1h2ju")
 
 [node name="GroundLine" type="Marker2D" parent="."]
 position = Vector2(660.4186, 650.98267)
@@ -81,7 +86,7 @@ position = Vector2(-618, 1246)
 [node name="Ground" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
-position = Vector2(643, 620)
+position = Vector2(639.00006, 717.00006)
 rotation = -3.111922
 scale = Vector2(0.9999999, 0.9999999)
 shape = SubResource("RectangleShape2D_yaehf")

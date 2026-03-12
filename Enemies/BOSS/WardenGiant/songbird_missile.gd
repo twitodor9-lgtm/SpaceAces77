@@ -4,6 +4,7 @@ extends Area2D
 @export var turn_speed: float = 10.0
 @export var lifetime: float = 3.2
 @export var damage: int = 1
+@export var shooter_immunity_time: float = 0.30
 
 @export var weave_strength: float = 0.85
 @export var separation_strength: float = 120.0
@@ -12,6 +13,7 @@ var target: Node2D = null
 var shooter: Node2D = null
 var vel: Vector2 = Vector2.RIGHT
 var _seed: float = 0.0
+var _can_hit_shooter: bool = false
 
 func set_target(t: Node2D) -> void:
 	target = t
@@ -29,9 +31,19 @@ func _ready() -> void:
 	add_to_group("songbirds")
 	body_entered.connect(_on_body_entered)
 
+	if shooter_immunity_time <= 0.0:
+		_can_hit_shooter = true
+	else:
+		_arm_after_delay()
+
 	await get_tree().create_timer(lifetime).timeout
 	if is_instance_valid(self):
 		queue_free()
+
+func _arm_after_delay() -> void:
+	await get_tree().create_timer(shooter_immunity_time).timeout
+	if is_instance_valid(self):
+		_can_hit_shooter = true
 
 func _physics_process(delta: float) -> void:
 	var desired: Vector2 = vel
@@ -70,6 +82,17 @@ func _on_body_entered(body: Node) -> void:
 		return
 
 	if shooter != null and body == shooter:
+		if not _can_hit_shooter:
+			return
+
+		if body.has_method("apply_homing_missile_hit"):
+			body.call("apply_homing_missile_hit", damage)
+		elif body.has_method("take_damage"):
+			body.call("take_damage", damage)
+		elif body.has_method("hurt"):
+			body.call("hurt", damage)
+
+		queue_free()
 		return
 
 	if body.has_method("take_damage"):

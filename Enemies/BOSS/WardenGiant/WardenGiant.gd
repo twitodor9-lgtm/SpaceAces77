@@ -30,6 +30,10 @@ signal lock_ended(target: Node)
 @export var slam_windup: float = 0.35
 @export var slam_cooldown: float = 0.25
 
+# Friendly fire מהטילים של הבוס
+@export var self_missile_damage_scale: float = 1.0
+@export var self_missile_bypass_overheat: bool = true
+
 # סצנות
 @export var bullet_scene: PackedScene
 @export var fire_cooldown: float = 0.25
@@ -336,6 +340,23 @@ func take_damage(amount: int) -> void:
 		return
 
 	hp -= amount
+	if hp <= 0:
+		_die()
+
+func apply_homing_missile_hit(amount: int) -> void:
+	if state == State.DEAD:
+		return
+	if amount <= 0:
+		return
+	if (not vulnerable) and (not self_missile_bypass_overheat):
+		return
+
+	var final_damage: int = maxi(1, int(round(float(amount) * self_missile_damage_scale)))
+	hp -= final_damage
+
+	if debug_attacks:
+		print("[BOSS FRIENDLY FIRE] dmg=", final_damage, " hp=", hp, "/", max_hp, " vulnerable=", vulnerable)
+
 	if hp <= 0:
 		_die()
 

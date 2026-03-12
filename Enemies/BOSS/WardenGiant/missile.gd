@@ -4,11 +4,13 @@ extends Area2D
 @export var turn_speed: float = 7.0
 @export var lifetime: float = 4.0
 @export var damage: int = 1
+@export var shooter_immunity_time: float = 0.35
 
 var target: Node2D
 var shooter: Node2D
 
 var vel := Vector2.RIGHT
+var _can_hit_shooter: bool = false
 
 func set_target(t: Node2D) -> void:
 	target = t
@@ -24,9 +26,19 @@ func _ready() -> void:
 	add_to_group("enemy_projectiles")
 	body_entered.connect(_on_body_entered)
 
+	if shooter_immunity_time <= 0.0:
+		_can_hit_shooter = true
+	else:
+		_arm_after_delay()
+
 	await get_tree().create_timer(lifetime).timeout
 	if is_instance_valid(self):
 		queue_free()
+
+func _arm_after_delay() -> void:
+	await get_tree().create_timer(shooter_immunity_time).timeout
+	if is_instance_valid(self):
+		_can_hit_shooter = true
 
 func _physics_process(delta: float) -> void:
 	if target != null and is_instance_valid(target):
@@ -42,8 +54,20 @@ func _on_body_entered(body: Node) -> void:
 	if shooter == null and body.is_in_group("boss"):
 		return
 
-	# לא לפגוע במי שירה אותך
+	# חסינות קצרה ליורה רק מיד אחרי השיגור.
+	# אחרי שהטיל "מתחמש" הוא כן יכול לחזור ולפגוע בבוס.
 	if shooter != null and body == shooter:
+		if not _can_hit_shooter:
+			return
+
+		if body.has_method("apply_homing_missile_hit"):
+			body.call("apply_homing_missile_hit", damage)
+		elif body.has_method("take_damage"):
+			body.call("take_damage", damage)
+		elif body.has_method("hurt"):
+			body.call("hurt", damage)
+
+		queue_free()
 		return
 
 	if body.has_method("take_damage"):

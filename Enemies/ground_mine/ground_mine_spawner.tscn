@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cb21ai081jmdq"]
+
+[ext_resource type="Script" uid="uid://c430jmt5wkrl8" path="res://Enemies/ground_mine/ground_mine_spawner.gd" id="1_3vivp"]
+
+[node name="GroundMineSpawner" type="Node2D"]
+script = ExtResource("1_3vivp")
