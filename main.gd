@@ -1,18 +1,15 @@
 extends Node2D
 
+const STAGE_CLEAR_SCENE_PATH := "res://Stages/StageClear.tscn"
+
 @export var cloud_scene: PackedScene
 @export var spawn_interval_min: float = 3.0
 @export var spawn_interval_max: float = 8.0
 @export var cloud_speed_min: float = 20.0
 @export var cloud_speed_max: float = 50.0
-@onready var boss = get_node_or_null("Boss")
-var boss_spawned: bool = false
-
-@onready var bg = get_node_or_null("ParallaxBackground")
 @export var interceptor_scene: PackedScene
 @export var interceptor_chance: float = 0.25
 @export var interceptor_start_stage: int = 2
-var stage_index: int = 1
 @export var air_enemy_scene: PackedScene
 @export var max_air_enemies: int = 4
 @export var player_scene: PackedScene
@@ -25,90 +22,104 @@ var stage_index: int = 1
 @export var ground_spawn_y: float = 520.0
 @export var ground_spawn_tries: int = 12
 @export var boss_score_threshold: int = 300
-var score: int = 0
 
 # ✅ באילו שלבים יש "קרקע"
 # אם הרשימה ריקה => קרקע תמיד קיימת
 @export var stages_with_ground: PackedInt32Array = PackedInt32Array([1])
 
-# מפלצות
-var octo_whale_spawned := false
-var monster_director = null
-
+@onready var boss: Node = get_node_or_null("Boss")
 @onready var score_label: Label = get_node_or_null("UI/ScoreLabel") as Label
 
+var boss_spawned: bool = false
+var stage_index: int = 1
+var score: int = 0
+var octo_whale_spawned := false
+var monster_director = null
 var _spawn_timer: float = 0.0
 var spawning_enabled: bool = true
 
 func _ready() -> void:
 	score = GameState.score
+	stage_index = GameState.stage_index
 
-	spawn_void_raptor()
-
-	GameBalance.stage_index = maxi(GameState.stage_index - 1, 0)
-	print("STAGE:", GameState.stage_index, " RULES:", GameBalance.rules())
-
-	_apply_stage_rules()
-
+	GameBalance.stage_index = maxi(stage_index - 1, 0)
+	print("STAGE:", stage_index, " RULES:", GameBalance.rules())
 	print("CAMERA:", get_viewport().get_camera_2d())
 
-	var ui_root := get_node_or_null("UIRoot")
-	if ui_root != null:
-		if ui_root.has_signal("next_stage_pressed"):
-			var sig: Signal = ui_root.get("next_stage_pressed")
-			if not sig.is_connected(_on_next_stage_pressed):
-				sig.connect(_on_next_stage_pressed)
-		if ui_root.has_method("set_stage"):
-			ui_root.call("set_stage", GameState.stage_index)
-		if ui_root.has_method("set_score"):
-			ui_root.call("set_score", score)
+	_setup_ui()
+	_setup_background()
+	_setup_spawn_timers()
+	_setup_boss()
+	_setup_monster_director()
+	_cleanup_preplaced_monsters()
 
+	_apply_stage_rules()
+	spawn_void_raptor()
+
+	_spawn_timer = randf_range(spawn_interval_min, spawn_interval_max)
+
+	_print_all_groups(get_tree().current_scene)
+	print("READY SCORE:", score)
+
+func _setup_ui() -> void:
+	var ui_root := get_node_or_null("UIRoot")
+	if ui_root == null:
+		return
+
+	if ui_root.has_signal("next_stage_pressed"):
+		var sig: Signal = ui_root.get("next_stage_pressed")
+		if not sig.is_connected(_on_next_stage_pressed):
+			sig.connect(_on_next_stage_pressed)
+
+	if ui_root.has_method("set_stage"):
+		ui_root.call("set_stage", stage_index)
+
+	if ui_root.has_method("set_score"):
+		ui_root.call("set_score", score)
+
+func _setup_background() -> void:
 	var bg_node := get_node_or_null("Background")
 	if bg_node != null and bg_node.has_method("apply_stage"):
 		bg_node.call("apply_stage")
 
-	# קישור טיימר אויבי אוויר
-	if has_node("EnemySpawnTimer"):
-		var air_timer: Timer = $EnemySpawnTimer
-		if not air_timer.timeout.is_connected(_on_air_spawn_timer_timeout):
-			air_timer.timeout.connect(_on_air_spawn_timer_timeout)
+func _setup_spawn_timers() -> void:
+	_connect_timer("EnemySpawnTimer", _on_air_spawn_timer_timeout)
+	_connect_timer("GroundEnemyTimer", _on_ground_spawn_timer_timeout)
 
-	# קישור טיימר אויבי קרקע (טורטים)
-	if has_node("GroundEnemyTimer"):
-		var ground_timer: Timer = $GroundEnemyTimer
-		if not ground_timer.timeout.is_connected(_on_ground_spawn_timer_timeout):
-			ground_timer.timeout.connect(_on_ground_spawn_timer_timeout)
+func _connect_timer(timer_name: String, callback: Callable) -> void:
+	var timer := get_node_or_null(timer_name) as Timer
+	if timer == null:
+		return
+	if not timer.timeout.is_connected(callback):
+		timer.timeout.connect(callback)
 
-	# בוס מתחיל כבוי
-	if boss:
-		boss.visible = false
-		boss.set_process(false)
-		boss.set_physics_process(false)
+func _setup_boss() -> void:
+	if boss == null:
+		return
 
-	if boss and boss.has_signal("boss_died"):
+	boss.visible = false
+	boss.set_process(false)
+	boss.set_physics_process(false)
+
+	if boss.has_signal("boss_died"):
 		var boss_sig: Signal = boss.get("boss_died")
 		if not boss_sig.is_connected(_on_boss_died):
 			boss_sig.connect(_on_boss_died)
 
-	# ⭐ טיימר עננים
-	_spawn_timer = randf_range(spawn_interval_min, spawn_interval_max)
-
-	# ✅ חשוב: אם ה-OctoWhale כבר קיים ב-main.tscn, מוחקים אותו כדי שיופיע רק בקריאה
-	var pre_ow := get_node_or_null("OctoWhale")
-	if pre_ow:
-		pre_ow.queue_free()
-
-	# שימוש ב-MonsterDirector קיים אם יש, אחרת יוצרים חדש
+func _setup_monster_director() -> void:
 	var existing_md := get_node_or_null("MonsterDirector")
 	if existing_md != null:
 		monster_director = existing_md
-	else:
-		monster_director = MonsterDirector.new()
-		monster_director.name = "MonsterDirector"
-		add_child(monster_director)
+		return
 
-	_print_all_groups(get_tree().current_scene)
-	print("READY SCORE:", score)
+	monster_director = MonsterDirector.new()
+	monster_director.name = "MonsterDirector"
+	add_child(monster_director)
+
+func _cleanup_preplaced_monsters() -> void:
+	var pre_ow := get_node_or_null("OctoWhale")
+	if pre_ow:
+		pre_ow.queue_free()
 
 func _apply_stage_rules() -> void:
 	_set_timer_enabled(get_node_or_null("EnemySpawnTimer") as Timer,
@@ -166,7 +177,6 @@ func stage_has_ground(stage: int = -1) -> bool:
 		return true
 	return stages_with_ground.has(s)
 
-# === הגדרות אויבי אוויר ===
 func _on_air_spawn_timer_timeout() -> void:
 	if not spawning_enabled:
 		return
@@ -178,31 +188,23 @@ func _on_air_spawn_timer_timeout() -> void:
 		return
 
 	var chosen: PackedScene = air_enemy_scene
-
-	if interceptor_scene != null and stage_index >= interceptor_start_stage:
-		if randf() < interceptor_chance:
-			chosen = interceptor_scene
+	if interceptor_scene != null and stage_index >= interceptor_start_stage and randf() < interceptor_chance:
+		chosen = interceptor_scene
 
 	var enemy: Node2D = chosen.instantiate() as Node2D
 	add_child(enemy)
 
-	var ui_root := get_node_or_null("UIRoot")
-	if ui_root != null and ui_root.has_method("set_stage"):
-		ui_root.call("set_stage", GameBalance.stage_index)
-
 func _print_all_groups(root: Node) -> void:
 	var groups: Dictionary = {}
-
 	var stack: Array[Node] = [root]
+
 	while stack.size() > 0:
 		var n: Node = stack.pop_back()
 
-		var gs: Array[StringName] = n.get_groups()
-		for g: StringName in gs:
+		for g: StringName in n.get_groups():
 			groups[g] = true
 
-		var children: Array[Node] = n.get_children()
-		for c: Node in children:
+		for c: Node in n.get_children():
 			stack.append(c)
 
 	print("ALL GROUPS IN SCENE:", groups.keys())
@@ -225,32 +227,16 @@ func _go_to_stage_clear() -> void:
 	GameState.score = score
 	print("DEBUG: GO TO STAGE CLEAR WITH SCORE:", GameState.score)
 
-	var stage_clear_path := "res://Stages/StageClear.tscn"
-	if not ResourceLoader.exists(stage_clear_path):
-		stage_clear_path = "res://_context/Stages/StageClear.tscn"
-
-	if not ResourceLoader.exists(stage_clear_path):
-		push_error("StageClear scene not found in res://Stages or res://_context/Stages")
+	if not ResourceLoader.exists(STAGE_CLEAR_SCENE_PATH):
+		push_error("StageClear scene not found: %s" % STAGE_CLEAR_SCENE_PATH)
 		return
 
-	get_tree().change_scene_to_file(stage_clear_path)
+	get_tree().change_scene_to_file(STAGE_CLEAR_SCENE_PATH)
 
 func _set_spawning_enabled(enabled: bool) -> void:
 	spawning_enabled = enabled
-
-	var air_timer: Timer = get_node_or_null("EnemySpawnTimer") as Timer
-	if air_timer:
-		if enabled:
-			air_timer.start()
-		else:
-			air_timer.stop()
-
-	var ground_timer: Timer = get_node_or_null("GroundEnemyTimer") as Timer
-	if ground_timer:
-		if enabled:
-			ground_timer.start()
-		else:
-			ground_timer.stop()
+	_set_timer_enabled(get_node_or_null("EnemySpawnTimer") as Timer, enabled)
+	_set_timer_enabled(get_node_or_null("GroundEnemyTimer") as Timer, enabled)
 
 func _on_ground_spawn_timer_timeout() -> void:
 	if not spawning_enabled:
@@ -338,13 +324,10 @@ func spawn_void_raptor() -> void:
 	if void_raptor_scene == null:
 		return
 
-	# לא ליצור פעמיים
 	if get_node_or_null("VoidRaptor") != null:
 		return
 
 	var r := _get_visible_world_rect()
-
-	# ברירת מחדל: בתוך המסך, קצת מעל הקרקע
 	var x := r.position.x + r.size.x * 0.75
 	var y := ground_spawn_y - 80.0
 
@@ -352,7 +335,6 @@ func spawn_void_raptor() -> void:
 	if gl != null:
 		y = gl.global_position.y - 80.0
 
-	# אם יש Marker ייעודי – עדיף
 	var spawn_marker := get_node_or_null("RaptorSpawn") as Marker2D
 	if spawn_marker != null:
 		x = spawn_marker.global_position.x
