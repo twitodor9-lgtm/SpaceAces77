@@ -81,7 +81,8 @@ rotation = -3.111922
 scale = Vector2(0.9999999, 0.9999999)
 shape = SubResource("RectangleShape2D_yaehf")
 
-[connection signal="timeout" from="EnemySpawnTimer" to="." method="_on_ground_spawn_timer_timeout"]
+[connection signal="timeout" from="EnemySpawnTimer" to="." method="_on_air_spawn_timer_timeout"]
+[connection signal="timeout" from="GroundEnemyTimer" to="." method="_on_ground_spawn_timer_timeout"]
 
 [editable path="Player"]
 [editable path="Background"]
