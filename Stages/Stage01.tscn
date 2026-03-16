@@ -18,7 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://dqwq2ahsyspxl" path="res://background.tscn" id="17_hbmrt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yaehf"]
-size = Vector2(1284.5557, 135.16743)
+size = Vector2(1282.0001, 66)
 
 [node name="Stage01" type="Node2D" groups=["ground"]]
 script = ExtResource("1_e5es8")
@@ -81,13 +81,12 @@ player_path = NodePath("../Player")
 [node name="UIRoot" parent="." instance=ExtResource("16_51yj6")]
 
 [node name="Background" parent="." instance=ExtResource("17_hbmrt")]
-position = Vector2(-618, 1246)
+position = Vector2(-604, 1343)
 
 [node name="Ground" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
-position = Vector2(639.00006, 717.00006)
-rotation = -3.111922
+position = Vector2(642, 667)
 scale = Vector2(0.9999999, 0.9999999)
 shape = SubResource("RectangleShape2D_yaehf")
 

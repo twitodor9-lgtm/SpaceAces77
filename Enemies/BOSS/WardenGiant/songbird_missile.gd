@@ -26,10 +26,17 @@ func set_initial_direction(dir: Vector2) -> void:
 		vel = dir.normalized()
 
 func _ready() -> void:
+	monitoring = true
+	monitorable = true
+
+	for i in range(1, 33):
+		set_collision_mask_value(i, true)
+
 	_seed = randf() * TAU
 	add_to_group("enemy_projectiles")
 	add_to_group("songbirds")
 	body_entered.connect(_on_body_entered)
+	area_entered.connect(_on_area_entered)
 
 	if shooter_immunity_time <= 0.0:
 		_can_hit_shooter = true
@@ -50,18 +57,16 @@ func _physics_process(delta: float) -> void:
 	if target != null and is_instance_valid(target):
 		desired = (target.global_position - global_position).normalized()
 
-	# weave
 	var t: float = float(Time.get_ticks_msec()) / 1000.0
 	var weave: Vector2 = Vector2(cos(t * 8.0 + _seed), sin(t * 8.0 + _seed)) * weave_strength
 	desired = (desired + weave).normalized()
 
-	# separation
 	var push: Vector2 = Vector2.ZERO
-	var arr := get_tree().get_nodes_in_group("songbirds")
+	var arr: Array = get_tree().get_nodes_in_group("songbirds")
 	for n in arr:
 		if n == self:
 			continue
-		var other := n as Node2D
+		var other: Node2D = n as Node2D
 		if other == null:
 			continue
 		var d: float = global_position.distance_to(other.global_position)
@@ -76,28 +81,37 @@ func _physics_process(delta: float) -> void:
 	rotation = vel.angle()
 
 func _on_body_entered(body: Node) -> void:
-	# לפעמים יש collision בפריים הראשון לפני שקיבלנו set_shooter מהבוס.
-	# במקרה כזה נתעלם מפגיעה בבוס כדי שהטיל לא ייעלם מיד.
-	if shooter == null and body.is_in_group("boss"):
+	_try_hit(body)
+
+func _on_area_entered(area: Area2D) -> void:
+	_try_hit(area)
+
+func _try_hit(hit: Node) -> void:
+	if hit == null:
 		return
 
-	if shooter != null and body == shooter:
+	if shooter == null and hit.is_in_group("boss"):
+		return
+
+	if shooter != null and hit == shooter:
 		if not _can_hit_shooter:
 			return
 
-		if body.has_method("apply_homing_missile_hit"):
-			body.call("apply_homing_missile_hit", damage)
-		elif body.has_method("take_damage"):
-			body.call("take_damage", damage)
-		elif body.has_method("hurt"):
-			body.call("hurt", damage)
-
-		queue_free()
+		if _apply_damage(hit):
+			queue_free()
 		return
 
-	if body.has_method("take_damage"):
-		body.call("take_damage", damage)
-	elif body.has_method("hurt"):
-		body.call("hurt", damage)
+	if _apply_damage(hit):
+		queue_free()
 
-	queue_free()
+func _apply_damage(hit: Node) -> bool:
+	if hit.has_method("apply_homing_missile_hit"):
+		hit.call("apply_homing_missile_hit", damage)
+		return true
+	if hit.has_method("take_damage"):
+		hit.call("take_damage", damage)
+		return true
+	if hit.has_method("hurt"):
+		hit.call("hurt", damage)
+		return true
+	return false

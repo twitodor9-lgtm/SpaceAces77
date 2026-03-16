@@ -1,23 +1,24 @@
 [gd_scene load_steps=4 format=3 uid="uid://cy31v0n8h75cf"]
 
 [ext_resource type="Script" uid="uid://ci72musec0r3u" path="res://Enemies/BOSS/WardenGiant/missile.gd" id="1_icirc"]
-[ext_resource type="Texture2D" uid="uid://dkcomvi43vley" path="res://PNGStarJets/Eאוייבים/בוסים/רובוט/M1/SONGBIRDS.png55.png" id="2_h46vk"]
+[ext_resource type="Texture2D" uid="uid://dkcomvi43vley" path="res://PNGStarJets/ENEMYאוייבים/BOSSבוסים/ROBOT/M1/SONGBIRDS.png55.png" id="2_h46vk"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5hk1w"]
 radius = 59.992584
 height = 340.27222
 
 [node name="Missile" type="Area2D"]
+collision_layer = 4
 script = ExtResource("1_icirc")
 turn_speed = 5.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(9.536743e-07, 2)
-scale = Vector2(0.27021274, 0.2452381)
+position = Vector2(-2.3841858e-07, 0.9999995)
+scale = Vector2(0.21223405, 0.18095241)
 texture = ExtResource("2_h46vk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.9999962, 3.9999943)
+position = Vector2(-2.3841858e-07, 3.8146973e-06)
 rotation = -1.5865043
 scale = Vector2(0.1, 0.1)
 shape = SubResource("CapsuleShape2D_5hk1w")
