@@ -200,6 +200,29 @@ The game supports online co-op without collapsing under sync complexity.
 
 ---
 
+## Future Helmet / HUD Personalization
+As the AR helmet HUD grows, each player should eventually be able to customize their own visor output.
+
+### Long-term goal
+Every player can decide, for their own helmet UI:
+- which threat labels appear
+- which warnings appear
+- whether some HUD elements are hidden
+- the scale/size of important HUD elements
+- preferred density of tactical information
+
+### Why this matters
+This becomes especially valuable once the game supports:
+- multiple players
+- different play styles
+- different screen sizes / readability needs
+- co-op roles where players may want different HUD priorities
+
+### Design principle
+HUD personalization should be per-player, not a single global setting shared by everyone.
+
+---
+
 ## Health Bar Policy
 ### Use health bars for
 - bosses
