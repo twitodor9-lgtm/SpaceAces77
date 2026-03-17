@@ -1,8 +1,11 @@
 extends "res://Enemies/enemy.gd"
 
+@export_group("Interceptor Tuning")
 @export var speed_multiplier: float = 1.35
 @export var tighter_turn_multiplier: float = 1.25
 @export var close_engage_distance: float = 220.0
+
+@export_group("Boost Pass")
 @export var boost_speed: float = 340.0
 @export var boost_duration: float = 0.45
 @export var boost_cooldown: float = 1.8
