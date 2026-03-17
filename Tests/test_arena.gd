@@ -235,7 +235,7 @@ func _make_menu_button(title: String, controls: Array[Control]) -> MenuButton:
 	return menu_button
 
 func _show_help() -> void:
-	_set_status("Ready. Use Stage presets instead of manual backgrounds.")
+	pass
 
 func _toggle_controls_help() -> void:
 	if _controls_panel == null:

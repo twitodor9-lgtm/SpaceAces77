@@ -155,6 +155,7 @@ func _resolve_ui_references() -> void:
 
 	if is_instance_valid(_lives_label):
 		_lives_label.visible = show_lives_label
+		_lives_label.add_theme_color_override("font_color", Color(0.42, 1.0, 0.66, 1.0))
 
 
 func _find_ui_layer() -> CanvasLayer:
