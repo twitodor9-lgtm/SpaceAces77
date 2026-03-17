@@ -2,32 +2,14 @@ extends Node2D
 
 const ROBOT_SCALE := Vector2(1.7, 1.7)
 const GROUND_MINE_TRIGGER_Y := 500.0
-const BG_PRESETS := [
-	{
-		"far": "res://PNGStarJets/BAרקעים/A1/1.pngA2.png",
-		"near": "res://PNGStarJets/BAרקעים/A1/1.pngA.png",
-		"far_scale": Vector2(0.9411765, 0.7257683),
-		"near_scale": Vector2(0.9426471, 1.2228739),
-		"near_pos": Vector2(0, 301),
-		"far_pos": Vector2(0, -6.000002),
-	},
-	{
-		"far": "res://PNGStarJets/BAרקעים/A1/bg_far.png",
-		"near": "res://PNGStarJets/BAרקעים/A1/bg_near.png",
-		"far_scale": Vector2(1, 1),
-		"near_scale": Vector2(1, 1),
-		"near_pos": Vector2.ZERO,
-		"far_pos": Vector2.ZERO,
-	},
-	{
-		"far": "res://PNGStarJets/BAרקעים/C1_lunar_1280x720.png",
-		"near": "res://PNGStarJets/BAרקעים/C2_lunar_1280x720.png",
-		"far_scale": Vector2(1, 1),
-		"near_scale": Vector2(1, 1),
-		"near_pos": Vector2.ZERO,
-		"far_pos": Vector2.ZERO,
-	},
-]
+const NEUTRAL_BG := {
+	"far": "res://PNGStarJets/BAרקעים/A1/1.pngA2.png",
+	"near": "res://PNGStarJets/BAרקעים/A1/1.pngA.png",
+	"far_scale": Vector2(0.9411765, 0.7257683),
+	"near_scale": Vector2(0.9426471, 1.2228739),
+	"near_pos": Vector2(0, 301),
+	"far_pos": Vector2(0, -6.000002),
+}
 
 @export var player_scene: PackedScene
 @export var background_scene: PackedScene
@@ -49,12 +31,17 @@ var _ui_root: CanvasLayer = null
 var _game_ui: CanvasLayer = null
 var _controls_panel: PanelContainer = null
 var _enemies_panel: PanelContainer = null
+var _worm_spawner: Node = null
+var _score: int = 0
+var _arena_stage_mode: int = -1 # -1 = neutral
 
 func _ready() -> void:
 	_setup_background()
 	_setup_player()
+	_setup_worm_spawner()
 	_setup_game_ui()
 	_setup_ui()
+	_apply_neutral_arena()
 	_show_help()
 
 func _process(_delta: float) -> void:
@@ -82,7 +69,6 @@ func _setup_background() -> void:
 	_background = background_scene.instantiate() as Node2D
 	add_child(_background)
 	_background.name = "Background"
-	_apply_background_preview(0)
 
 func _setup_player() -> void:
 	if player_scene == null:
@@ -91,6 +77,17 @@ func _setup_player() -> void:
 	_player.name = "Player"
 	add_child(_player)
 	_player.global_position = Vector2(180, 340)
+
+func _setup_worm_spawner() -> void:
+	_worm_spawner = Node2D.new()
+	_worm_spawner.name = "WormSpawner"
+	var script := load("res://Enemies/Monsters/SpaceWorm/worm_spawner.gd")
+	_worm_spawner.set_script(script)
+	add_child(_worm_spawner)
+	_worm_spawner.set("worm_scene", space_worm_scene)
+	_worm_spawner.set("player_path", NodePath("../Player"))
+	_worm_spawner.set("ground_line_path", NodePath("../GroundLine"))
+	_worm_spawner.set_process(false)
 
 func _setup_game_ui() -> void:
 	if ui_scene == null:
@@ -103,9 +100,9 @@ func _setup_game_ui() -> void:
 	_game_ui.set("player_path", NodePath("../Player"))
 	_game_ui.set("star_punch_path", NodePath("../Player/Abilities/StarPunch"))
 	if _game_ui.has_method("set_stage"):
-		_game_ui.call("set_stage", 1)
+		_game_ui.call("set_stage", 0)
 	if _game_ui.has_method("set_score"):
-		_game_ui.call("set_score", 0)
+		_game_ui.call("set_score", _score)
 
 func _setup_ui() -> void:
 	_ui_root = CanvasLayer.new()
@@ -121,10 +118,11 @@ func _setup_ui() -> void:
 	top_bar.add_child(row)
 
 	row.add_child(_make_top_button("Enemies", _toggle_enemies_panel))
-	row.add_child(_make_menu_button("Backgrounds", [
-		_make_button("Background 1", func(): _apply_background_preview(0)),
-		_make_button("Background 2", func(): _apply_background_preview(1)),
-		_make_button("Background 3", func(): _apply_background_preview(2)),
+	row.add_child(_make_menu_button("Stages", [
+		_make_button("Neutral Arena", _apply_neutral_arena),
+		_make_button("Stage 1 Rules", func(): _apply_stage_mode(0)),
+		_make_button("Stage 2 Rules", func(): _apply_stage_mode(1)),
+		_make_button("Stage 3 Rules", func(): _apply_stage_mode(2)),
 	]))
 	row.add_child(_make_menu_button("Tools", [
 		_make_button("Clear Enemies", _clear_test_enemies),
@@ -160,7 +158,7 @@ func _setup_enemies_panel() -> void:
 	root.add_child(_make_section_label("Monsters"))
 	root.add_child(_make_button("Spawn Void Raptor", _spawn_void_raptor))
 	root.add_child(_make_button("Spawn Octo Whale", _spawn_octo_whale))
-	root.add_child(_make_button("Spawn Space Worm", _spawn_space_worm))
+	root.add_child(_make_button("Trigger Space Worm", _trigger_space_worm))
 	root.add_child(_make_section_label("Ground"))
 	root.add_child(_make_button("Spawn Ground Mine", _spawn_ground_mine))
 	root.add_child(_make_button("Spawn Turret", _spawn_turret))
@@ -242,7 +240,7 @@ func _make_menu_button(title: String, controls: Array[Control]) -> MenuButton:
 	return menu_button
 
 func _show_help() -> void:
-	_set_status("Ready. Top bar moved right. Arrow keys should only control the player now.")
+	_set_status("Ready. Use Stage presets instead of manual backgrounds.")
 
 func _toggle_controls_help() -> void:
 	if _controls_panel == null:
@@ -258,55 +256,96 @@ func _toggle_enemies_panel() -> void:
 	if _enemies_panel.visible and _controls_panel != null:
 		_controls_panel.visible = false
 
+func _apply_neutral_arena() -> void:
+	_arena_stage_mode = -1
+	if _worm_spawner != null:
+		_worm_spawner.set_process(false)
+	_apply_background_preset(NEUTRAL_BG)
+	if _game_ui != null and _game_ui.has_method("set_stage"):
+		_game_ui.call("set_stage", 0)
+	_set_status("Neutral arena loaded")
+
+func _apply_stage_mode(stage_idx: int) -> void:
+	_arena_stage_mode = stage_idx
+	GameBalance.stage_index = stage_idx
+	if _background != null and _background.has_method("_apply"):
+		_background.call("_apply")
+	if _worm_spawner != null:
+		_worm_spawner.set_process(GameBalance.rule("worm_enabled", false))
+		_worm_spawner.set("cooldown", float(GameBalance.rule("worm_cooldown", 2.5)))
+		_worm_spawner.set("telegraph_time", float(GameBalance.rule("telegraph_time", 0.55)))
+	if _game_ui != null and _game_ui.has_method("set_stage"):
+		_game_ui.call("set_stage", stage_idx + 1)
+	_set_status("Stage %d rules loaded" % (stage_idx + 1))
+
+func _apply_background_preset(preset: Dictionary) -> void:
+	if _background == null:
+		return
+	var far := _background.get_node_or_null("ParallaxBackground/FarLayer/FarSprite") as Sprite2D
+	var near := _background.get_node_or_null("ParallaxBackground/NearLayer/NearSprite") as Sprite2D
+	if far != null:
+		far.visible = true
+		far.texture = load(String(preset["far"]))
+		far.scale = preset["far_scale"]
+		far.position = preset["far_pos"]
+	if near != null:
+		near.visible = true
+		near.texture = load(String(preset["near"]))
+		near.scale = preset["near_scale"]
+		near.position = preset["near_pos"]
+
 func _spawn_robot() -> void:
-	var robot := _spawn_scene(robot_scene, Vector2(930, 340), 'test_enemy') as Node2D
+	var robot := _spawn_scene(robot_scene, Vector2(930, 340), "test_enemy") as Node2D
 	if robot == null:
 		return
 	robot.scale = ROBOT_SCALE
-	_set_status('Robot spawned')
+	_set_status("Robot spawned")
 
 func _spawn_ground_mine() -> void:
-	var mine := _spawn_scene(ground_mine_scene, Vector2(860, 605), 'test_enemy') as Node2D
+	var mine := _spawn_scene(ground_mine_scene, Vector2(860, 605), "test_enemy") as Node2D
 	if mine == null:
 		return
 	mine.set_physics_process(false)
 	mine.set_process(false)
 	_pending_ground_mines.append(mine)
-	_set_status('Ground mine armed. Wakes only below Y=%d' % int(GROUND_MINE_TRIGGER_Y))
+	_set_status("Ground mine armed. Wakes only below Y=%d" % int(GROUND_MINE_TRIGGER_Y))
 
 func _spawn_void_raptor() -> void:
-	if _spawn_scene(void_raptor_scene, Vector2(900, 520), 'test_enemy') != null:
-		_set_status('Void Raptor spawned')
+	if _spawn_scene(void_raptor_scene, Vector2(900, 520), "test_enemy") != null:
+		_set_status("Void Raptor spawned")
 
 func _spawn_octo_whale() -> void:
-	if _spawn_scene(octo_whale_scene, Vector2(1020, 360), 'test_enemy') != null:
-		_set_status('Octo Whale spawned')
+	if _spawn_scene(octo_whale_scene, Vector2(1020, 360), "test_enemy") != null:
+		_set_status("Octo Whale spawned")
 
-func _spawn_space_worm() -> void:
-	var worm := _spawn_scene(space_worm_scene, Vector2(980, 640), 'test_enemy')
-	if worm != null and worm.has_method('start_attack'):
-		worm.call('start_attack', 980.0, 640.0, 0.0, 0.0)
-		_set_status('Space Worm spawned')
+func _trigger_space_worm() -> void:
+	if _worm_spawner == null or _player == null:
+		return
+	var trigger_y := 620.0
+	_player.global_position.y = trigger_y
+	_worm_spawner.set_process(true)
+	_worm_spawner.call("_process", 0.016)
+	_set_status("Triggered Space Worm via WormSpawner")
 
 func _spawn_air_enemy() -> void:
-	if _spawn_scene(air_enemy_scene, Vector2(980, 260), 'test_enemy') != null:
-		_set_status('Air enemy spawned')
+	if _spawn_scene(air_enemy_scene, Vector2(980, 260), "test_enemy") != null:
+		_set_status("Air enemy spawned")
 
 func _spawn_interceptor() -> void:
-	if _spawn_scene(interceptor_scene, Vector2(980, 220), 'test_enemy') != null:
-		_set_status('Interceptor spawned')
+	if _spawn_scene(interceptor_scene, Vector2(980, 220), "test_enemy") != null:
+		_set_status("Interceptor spawned")
 
 func _spawn_turret() -> void:
-	if _spawn_scene(turret_scene, Vector2(960, 470), 'test_enemy') != null:
-		_set_status('Turret spawned')
+	if _spawn_scene(turret_scene, Vector2(960, 470), "test_enemy") != null:
+		_set_status("Turret spawned")
 
 func _spawn_scene(scene: PackedScene, pos: Vector2, group_name: StringName) -> Node:
 	if scene == null:
-		_set_status('Scene is not assigned yet')
+		_set_status("Scene is not assigned yet")
 		return null
 	var inst := scene.instantiate()
 	if inst == null:
-		_set_status('Failed to instantiate scene')
+		_set_status("Failed to instantiate scene")
 		return null
 	add_child(inst)
 	if inst is Node2D:
@@ -322,47 +361,32 @@ func _update_ground_mine_activation() -> void:
 			mine.set_physics_process(true)
 			mine.set_process(true)
 	_pending_ground_mines.clear()
-	_set_status('Ground mine activated')
+	_set_status("Ground mine activated")
 
 func _clear_test_enemies() -> void:
-	for n in get_tree().get_nodes_in_group('test_enemy'):
+	for n in get_tree().get_nodes_in_group("test_enemy"):
 		n.queue_free()
 	_pending_ground_mines.clear()
-	_set_status('Cleared test enemies')
+	_set_status("Cleared test enemies")
 
 func _reset_player() -> void:
 	if is_instance_valid(_player):
 		_player.queue_free()
 	_setup_player()
-	_set_status('Player reset')
-
-func _apply_background_preview(index: int) -> void:
-	if _background == null or index < 0 or index >= BG_PRESETS.size():
-		return
-	var preset: Dictionary = BG_PRESETS[index]
-	var far := _background.get_node_or_null('ParallaxBackground/FarLayer/FarSprite') as Sprite2D
-	var near := _background.get_node_or_null('ParallaxBackground/NearLayer/NearSprite') as Sprite2D
-	if far != null:
-		far.texture = load(String(preset['far']))
-	if near != null:
-		near.texture = load(String(preset['near']))
-	_set_status('Background %d loaded' % (index + 1))
+	_set_status("Player reset")
 
 func _set_time_scale(scale_value: float) -> void:
 	Engine.time_scale = scale_value
-	_set_status('Time scale set to %.2fx' % scale_value)
+	_set_status("Time scale set to %.2fx" % scale_value)
 
 func _set_status(text: String) -> void:
 	if _status_label != null:
 		_status_label.text = text
 
 func add_score(points: int) -> void:
-	if _game_ui != null and _game_ui.has_method('set_score'):
-		var current_label := _game_ui.get_node_or_null('UI/ScoreLabel') as Label
-		var current := 0
-		if current_label != null:
-			current = int(current_label.text)
-		_game_ui.call('set_score', current + points)
+	_score += points
+	if _game_ui != null and _game_ui.has_method("set_score"):
+		_game_ui.call("set_score", _score)
 
 func stage_has_ground(stage: int = -1) -> bool:
 	return true
