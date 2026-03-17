@@ -1,8 +1,19 @@
 extends RefCounted
 class_name GameplayRuntime
 
+static func find_node(host: Node, name: String) -> Node:
+	if host == null:
+		return null
+	var direct := host.get_node_or_null(name)
+	if direct != null:
+		return direct
+	var shell := host.get_node_or_null("GameplayShell")
+	if shell != null:
+		return shell.get_node_or_null(name)
+	return null
+
 static func setup_ui(host: Node, stage_index: int, score: int, next_stage_callback: Callable = Callable()) -> CanvasLayer:
-	var ui_root := host.get_node_or_null("UIRoot") as CanvasLayer
+	var ui_root := find_node(host, "UIRoot") as CanvasLayer
 	if ui_root == null:
 		return null
 
@@ -20,13 +31,13 @@ static func setup_ui(host: Node, stage_index: int, score: int, next_stage_callba
 	return ui_root
 
 static func setup_background(host: Node) -> Node:
-	var bg_node := host.get_node_or_null("Background")
+	var bg_node := find_node(host, "Background")
 	if bg_node != null and bg_node.has_method("apply_stage"):
 		bg_node.call("apply_stage")
 	return bg_node
 
 static func connect_timer(host: Node, timer_name: String, callback: Callable) -> Timer:
-	var timer := host.get_node_or_null(timer_name) as Timer
+	var timer := find_node(host, timer_name) as Timer
 	if timer == null:
 		return null
 	if callback.is_valid() and not timer.timeout.is_connected(callback):
@@ -34,7 +45,7 @@ static func connect_timer(host: Node, timer_name: String, callback: Callable) ->
 	return timer
 
 static func setup_monster_director(host: Node) -> MonsterDirector:
-	var existing_md := host.get_node_or_null("MonsterDirector")
+	var existing_md := find_node(host, "MonsterDirector")
 	if existing_md is MonsterDirector:
 		return existing_md as MonsterDirector
 
@@ -44,7 +55,7 @@ static func setup_monster_director(host: Node) -> MonsterDirector:
 	return md
 
 static func setup_worm_spawner(host: Node, worm_scene: PackedScene, player_path: NodePath, ground_line_path: NodePath) -> Node:
-	var existing := host.get_node_or_null("WormSpawner")
+	var existing := find_node(host, "WormSpawner")
 	if existing == null:
 		existing = Node2D.new()
 		existing.name = "WormSpawner"
@@ -78,14 +89,14 @@ static func set_node_enabled(node: Node, enabled: bool) -> void:
 		(node as Area2D).monitorable = enabled
 
 static func apply_stage_rules(host: Node) -> void:
-	set_timer_enabled(host.get_node_or_null("EnemySpawnTimer") as Timer,
+	set_timer_enabled(find_node(host, "EnemySpawnTimer") as Timer,
 		bool(GameBalance.rule("air_spawner_enabled", true)))
 
-	set_timer_enabled(host.get_node_or_null("GroundEnemyTimer") as Timer,
+	set_timer_enabled(find_node(host, "GroundEnemyTimer") as Timer,
 		bool(GameBalance.rule("ground_spawner_enabled", true)))
 
-	set_node_enabled(host.get_node_or_null("CloudSpawner"),
+	set_node_enabled(find_node(host, "CloudSpawner"),
 		bool(GameBalance.rule("cloud_spawner_enabled", true)))
 
-	set_node_enabled(host.get_node_or_null("WormSpawner"),
+	set_node_enabled(find_node(host, "WormSpawner"),
 		bool(GameBalance.rule("worm_enabled", false)))

@@ -114,11 +114,11 @@ func spawn_void_raptor() -> Node:
 	var x := r.position.x + r.size.x - 120.0
 	var y := ground_spawn_y - 80.0
 
-	var gl := get_node_or_null("GroundLine") as Marker2D
+	var gl := GameplayRuntime.find_node(self, "GroundLine") as Marker2D
 	if gl != null:
 		y = gl.global_position.y - 90.0
 
-	var spawn_marker := get_node_or_null("RaptorSpawn") as Marker2D
+	var spawn_marker := GameplayRuntime.find_node(self, "RaptorSpawn") as Marker2D
 	if spawn_marker != null:
 		x = spawn_marker.global_position.x
 		y = spawn_marker.global_position.y
@@ -182,7 +182,7 @@ func add_score(points: int) -> void:
 	score += points
 	GameState.score = score
 
-	var ui_root := get_node_or_null("UIRoot")
+	var ui_root := GameplayRuntime.find_node(self, "UIRoot")
 	if ui_root != null and ui_root.has_method("set_score"):
 		ui_root.call("set_score", score)
 
@@ -204,8 +204,8 @@ func _go_to_stage_clear() -> void:
 
 func _set_spawning_enabled(enabled: bool) -> void:
 	spawning_enabled = enabled
-	_set_timer_enabled(get_node_or_null("EnemySpawnTimer") as Timer, enabled)
-	_set_timer_enabled(get_node_or_null("GroundEnemyTimer") as Timer, enabled)
+	_set_timer_enabled(GameplayRuntime.find_node(self, "EnemySpawnTimer") as Timer, enabled)
+	_set_timer_enabled(GameplayRuntime.find_node(self, "GroundEnemyTimer") as Timer, enabled)
 
 func _on_ground_spawn_timer_timeout() -> void:
 	if not spawning_enabled:
