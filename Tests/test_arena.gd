@@ -71,10 +71,17 @@ func _bind_shell_nodes() -> void:
 	if _background != null:
 		GameplayRuntime.setup_background(_shell)
 
+	if low_cover != null:
+		low_cover.set("player_path", NodePath("../Player"))
+		low_cover.set("GroundLine_path", NodePath("../GroundLine"))
+		if low_cover.has_method("_ready"):
+			low_cover.call("_ready")
+
 	if _worm_spawner != null:
 		_worm_spawner.set("worm_scene", load("res://Enemies/Monsters/SpaceWorm/space_worm.tscn"))
 		_worm_spawner.set("player_path", NodePath("../Player"))
 		_worm_spawner.set("ground_line_path", NodePath("../GroundLine"))
+		_worm_spawner.set("dip_chance_override", 1.0)
 		if _worm_spawner.has_method("_ready"):
 			_worm_spawner.call("_ready")
 		_worm_spawner.set_process(false)
@@ -242,12 +249,18 @@ func _toggle_enemies_panel() -> void:
 
 func _apply_neutral_arena() -> void:
 	_arena_stage_mode = -1
-	if _worm_spawner != null:
-		_worm_spawner.set_process(false)
+	GameBalance.stage_index = 0
+	if _background != null and _background.has_method("_apply"):
+		_background.call("_apply")
 	_apply_background_id(NEUTRAL_BACKGROUND_ID)
+	if _worm_spawner != null:
+		_worm_spawner.set_process(true)
+		_worm_spawner.set("cooldown", 0.6)
+		_worm_spawner.set("telegraph_time", 0.35)
+		_worm_spawner.set("dip_chance_override", 1.0)
 	if _game_ui != null and _game_ui.has_method("set_stage"):
 		_game_ui.call("set_stage", 0)
-	_set_status("Neutral arena loaded")
+	_set_status("Neutral arena loaded (worm + low cover active)")
 
 func _apply_stage_mode(stage_idx: int) -> void:
 	_arena_stage_mode = stage_idx
@@ -393,4 +406,6 @@ func add_score(points: int) -> void:
 		_game_ui.call("set_score", _score)
 
 func stage_has_ground(stage: int = -1) -> bool:
+	return true
+> bool:
 	return true

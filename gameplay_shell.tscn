@@ -41,6 +41,7 @@ script = ExtResource("4_worm")
 [node name="LowCoverController" type="Node2D" parent="."]
 script = ExtResource("6_low")
 player_path = NodePath("../Player")
+GroundLine_path = NodePath("../GroundLine")
 
 [node name="UIRoot" parent="." instance=ExtResource("2_ui")]
 

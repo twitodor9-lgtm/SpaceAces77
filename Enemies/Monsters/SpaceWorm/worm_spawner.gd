@@ -38,7 +38,7 @@ func _process(delta: float) -> void:
 	# קח חוקים מהמסך (אם קיימים)
 	cooldown = float(GameBalance.rule("worm_cooldown", cooldown))
 	telegraph_time = float(GameBalance.rule("telegraph_time", telegraph_time))
-	var chance: float = float(GameBalance.rule("worm_dip_chance", 0.35))
+	var chance: float = dip_chance_override if dip_chance_override >= 0.0 else float(GameBalance.rule("worm_dip_chance", 0.35))
 
 	# לא יותר מתולעת אחת (או כמה שהגדרת)
 	if _count_worms() >= max_worms:
