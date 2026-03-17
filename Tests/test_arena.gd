@@ -59,6 +59,7 @@ func _bind_shell_nodes() -> void:
 	_worm_spawner = _shell.get_node_or_null("WormSpawner")
 	_monster_director = _shell.get_node_or_null("MonsterDirector") as MonsterDirector
 	_game_ui = _shell.get_node_or_null("UIRoot") as CanvasLayer
+	var low_cover := _shell.get_node_or_null("LowCoverController")
 
 	if _player != null:
 		_player.global_position = Vector2(180, 340)
