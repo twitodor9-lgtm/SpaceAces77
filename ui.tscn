@@ -103,56 +103,43 @@ visible = false
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -150.0
-offset_top = 56.0
-offset_right = 150.0
+offset_left = -210.0
+offset_top = 52.0
+offset_right = 210.0
 offset_bottom = 92.0
 grow_horizontal = 2
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 28
-text = "LOW ALTITUDE!"
+label_settings = SubResource("LabelSettings_ar_green")
+modulate = Color(0.5, 1, 0.7, 0.9)
+text = "[AR WARNING] LOW ALTITUDE"
 
-[node name="BossBracketLeft" type="Label" parent="UI"]
-visible = false
-offset_left = 876.0
+[node name="ThreatList" type="VBoxContainer" parent="UI"]
+offset_left = 928.0
 offset_top = 16.0
-offset_right = 916.0
-offset_bottom = 48.0
-label_settings = SubResource("LabelSettings_ar_green")
-text = "["
+offset_right = 1256.0
+offset_bottom = 146.0
+alignment = 2
 
-[node name="BossBarLabel" type="Label" parent="UI"]
+[node name="Threat1" type="Label" parent="UI/ThreatList"]
 visible = false
-offset_left = 912.0
-offset_top = 14.0
-offset_right = 1084.0
-offset_bottom = 40.0
+modulate = Color(0.4, 1, 0.64, 0.72)
 label_settings = SubResource("LabelSettings_ar_green")
-text = "[AR] TARGET"
+text = "[AR] BOSS // TARGET // 100%"
 horizontal_alignment = 2
 
-[node name="BossBar" type="ProgressBar" parent="UI"]
+[node name="Threat2" type="Label" parent="UI/ThreatList"]
 visible = false
-offset_left = 1088.0
-offset_top = 20.0
-offset_right = 1260.0
-offset_bottom = 44.0
-theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
-theme_override_styles/fill = SubResource("StyleBoxFlat_bar_fill")
-theme_override_colors/font_color = Color(0.35, 1, 0.6, 1)
-theme_override_font_sizes/font_size = 16
-show_percentage = false
-step = 0.1
-value = 100.0
-
-[node name="BossBracketRight" type="Label" parent="UI"]
-visible = false
-offset_left = 1262.0
-offset_top = 16.0
-offset_right = 1294.0
-offset_bottom = 48.0
+modulate = Color(0.4, 1, 0.64, 0.58)
 label_settings = SubResource("LabelSettings_ar_green")
-text = "]"
+text = "[AR] MONSTER // TARGET // 100%"
+horizontal_alignment = 2
+
+[node name="Threat3" type="Label" parent="UI/ThreatList"]
+visible = false
+modulate = Color(0.4, 1, 0.64, 0.44)
+label_settings = SubResource("LabelSettings_ar_green")
+text = "[AR] HAZARD // TARGET // 100%"
+horizontal_alignment = 2
 
 [node name="StageClearLabel" type="Label" parent="UI"]
 visible = false

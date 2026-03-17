@@ -76,43 +76,70 @@ func _update_star_punch_bar() -> void:
 	var left: float = float(star_punch.cooldown_left)
 	star_punch_bar.value = (1.0 if cd <= 0.0 else 1.0 - clamp(left / cd, 0.0, 1.0))
 
-func _update_low_altitude() -> void:
+func _update_low_altitude(delta: float) -> void:
 	if player == null:
 		low_label.visible = false
 		return
-
-	low_label.visible = player.is_hidden_low
-
-func _update_boss_bar() -> void:
-	var tracked: Node = get_tree().get_first_node_in_group("boss")
-	var tag := "[AR] BOSS"
-	if tracked == null:
-		tracked = get_tree().get_first_node_in_group("health_bar_target")
-		tag = "[AR] MONSTER"
-	if tracked == null:
-		boss_bar.visible = false
-		boss_bar_label.visible = false
-		return
-
-	var tracked_item := tracked as CanvasItem
-	if tracked_item == null or not tracked_item.visible:
-		boss_bar.visible = false
-		boss_bar_label.visible = false
-		return
-
-	if tracked.has_method("get_health_ratio"):
-		boss_bar.visible = true
-		boss_bar_label.visible = true
-		boss_bracket_left.visible = true
-		boss_bracket_right.visible = true
-		boss_bar.value = tracked.get_health_ratio() * 100.0
-		var display_name := String(tracked.name).replace("_", " ").to_upper()
-		boss_bar_label.text = "%s // %s" % [tag, display_name]
+	if player.is_hidden_low:
+		_low_flash_t += delta * 7.0
+		low_label.visible = true
+		low_label.modulate.a = 0.45 + (sin(_low_flash_t) * 0.25 + 0.25)
 	else:
-		boss_bar.visible = false
-		boss_bar_label.visible = false
-		boss_bracket_left.visible = false
-		boss_bracket_right.visible = false
+		_low_flash_t = 0.0
+		low_label.visible = false
+
+func _remember_threat(node: Node, tag: String) -> void:
+	if node == null or not node.has_method("get_health_ratio"):
+		return
+	var key := str(node.get_instance_id())
+	var display_name := String(node.name).replace("_", " ").to_upper()
+	_threat_memory[key] = {
+		"node": node,
+		"tag": tag,
+		"name": display_name,
+		"ttl": 1.25,
+	}
+
+func _update_threat_list(delta: float) -> void:
+	var boss := get_tree().get_first_node_in_group("boss")
+	if boss != null:
+		_remember_threat(boss, "[AR] BOSS")
+	for node in get_tree().get_nodes_in_group("health_bar_target"):
+		if node != null:
+			_remember_threat(node, "[AR] MONSTER")
+
+	var rows: Array = []
+	for key in _threat_memory.keys():
+		var entry = _threat_memory[key]
+		entry["ttl"] = float(entry["ttl"]) - delta
+		var node: Node = entry["node"]
+		var alive := node != null and is_instance_valid(node)
+		if alive:
+			var item := node as CanvasItem
+			alive = item != null and item.visible and node.has_method("get_health_ratio")
+		if not alive and float(entry["ttl"]) <= 0.0:
+			_threat_memory.erase(key)
+			continue
+		var ratio := 0.0
+		if alive:
+			ratio = float(node.call("get_health_ratio"))
+		rows.append({
+			"text": "%s // %s // %d%%" % [entry["tag"], entry["name"], int(round(ratio * 100.0))],
+			"alpha": clamp(float(entry["ttl"]), 0.18, 1.0),
+			"priority": 2 if String(entry["tag"]).contains("BOSS") else 1,
+			"ratio": ratio,
+		})
+	rows.sort_custom(func(a, b): return a["priority"] > b["priority"] if a["priority"] != b["priority"] else a["ratio"] > b["ratio"])
+	for i in range(threat_labels.size()):
+		var lbl := threat_labels[i]
+		if i < rows.size():
+			lbl.visible = true
+			lbl.text = rows[i]["text"]
+			var c := lbl.modulate
+			c.a = rows[i]["alpha"] * (0.72 - i * 0.12)
+			lbl.modulate = c
+		else:
+			lbl.visible = false
 
 func _get_visible_world_rect() -> Rect2:
 	var vp := get_viewport().get_visible_rect().size
