@@ -14,6 +14,7 @@ var _dead: bool = false
 
 var _did_hit: bool = false
 var _can_hit: bool = false
+var _attack_seq: int = 0
 
 func _ready() -> void:
 	add_to_group("worms")
@@ -28,17 +29,30 @@ func _ready() -> void:
 	if not anim.animation_finished.is_connected(_on_anim_finished):
 		anim.animation_finished.connect(_on_anim_finished)
 
+	z_index = 50
 	anim.play("default")
 
 func start_attack(target_x: float, ground_y: float, telegraph_time: float, leap_height: float) -> void:
-	# ✅ אין תנועה בסקריפט: רק קובעים מיקום קבוע
-	global_position = Vector2(target_x, ground_y)
+	_attack_seq += 1
+	var seq := _attack_seq
 
 	# איפוס מצב לכל הופעה חדשה
 	_did_hit = false
 	_can_hit = false
 
-	# מתחילים אנימציה מהתחלה
+	var underground_y := ground_y + 90.0
+	var emerge_y := ground_y - maxf(leap_height, 80.0)
+	global_position = Vector2(target_x, underground_y)
+
+	if telegraph_time > 0.0:
+		await get_tree().create_timer(telegraph_time).timeout
+		if _attack_seq != seq or not is_instance_valid(self):
+			return
+
+	var tween := create_tween()
+	tween.tween_property(self, "global_position:y", emerge_y, 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "global_position:y", ground_y, 0.22).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+
 	anim.frame = 0
 	anim.play("default")
 
