@@ -1,29 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://5e1msa2d0gmv"]
+[gd_scene load_steps=3 format=3 uid="uid://5e1msa2d0gmv"]
 
 [ext_resource type="Script" uid="uid://dy2ctodunk3gt" path="res://ui_root.gd" id="1_fyqef"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar_bg"]
-bg_color = Color(0.02, 0.07, 0.04, 0.82)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.23, 1, 0.54, 0.65)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-shadow_color = Color(0.12, 1, 0.45, 0.35)
-shadow_size = 6
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar_fill"]
-bg_color = Color(0.18, 1, 0.46, 0.95)
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
-shadow_color = Color(0.18, 1, 0.46, 0.6)
-shadow_size = 4
 
 [sub_resource type="LabelSettings" id="LabelSettings_ar_green"]
 font_size = 20
@@ -51,10 +28,10 @@ offset_right = 189.0
 offset_bottom = 44.0
 
 [node name="STAGE CLEAR" type="Label" parent="."]
-offset_left = 19.0
-offset_top = 1.0
-offset_right = 121.0
-offset_bottom = 24.0
+offset_left = 523.0
+offset_top = 52.0
+offset_right = 625.0
+offset_bottom = 75.0
 text = "STAGE CLEAR"
 
 [node name="NEXT" type="Button" parent="."]
@@ -67,24 +44,24 @@ text = "NEXT "
 [node name="UI2" type="CanvasLayer" parent="."]
 
 [node name="LivesLabel" type="Label" parent="UI2" groups=["lives_label"]]
-offset_left = 20.0
-offset_top = 68.0
-offset_right = 150.0
-offset_bottom = 100.0
+offset_left = 17.0
+offset_top = 86.0
+offset_right = 147.0
+offset_bottom = 125.0
 theme_override_font_sizes/font_size = 28
 text = "Lives: 3"
 
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="ScoreLabel" type="Label" parent="UI"]
+modulate = Color(0.42, 1, 0.66, 0.82)
 custom_minimum_size = Vector2(20, 20)
 offset_left = 20.0
 offset_top = 20.0
 offset_right = 220.0
 offset_bottom = 65.0
-label_settings = SubResource("LabelSettings_ar_green")
-modulate = Color(0.42, 1, 0.66, 0.82)
 text = "SCORE: 0"
+label_settings = SubResource("LabelSettings_ar_green")
 
 [node name="StarPunchBar" type="ProgressBar" parent="UI"]
 visible = false
@@ -101,6 +78,7 @@ value = 1.0
 
 [node name="LowAltitudeLabel" type="Label" parent="UI"]
 visible = false
+modulate = Color(0.5, 1, 0.7, 0.9)
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -109,10 +87,9 @@ offset_top = 52.0
 offset_right = 210.0
 offset_bottom = 92.0
 grow_horizontal = 2
-horizontal_alignment = 1
-label_settings = SubResource("LabelSettings_ar_green")
-modulate = Color(0.5, 1, 0.7, 0.9)
 text = "[AR WARNING] LOW ALTITUDE"
+label_settings = SubResource("LabelSettings_ar_green")
+horizontal_alignment = 1
 
 [node name="ThreatList" type="VBoxContainer" parent="UI"]
 offset_left = 928.0
@@ -124,22 +101,25 @@ alignment = 2
 [node name="Threat1" type="Label" parent="UI/ThreatList"]
 visible = false
 modulate = Color(0.4, 1, 0.64, 0.72)
+layout_mode = 2
+text = " BOSS // TARGET // 100%"
 label_settings = SubResource("LabelSettings_ar_green")
-text = "[AR] BOSS // TARGET // 100%"
 horizontal_alignment = 2
 
 [node name="Threat2" type="Label" parent="UI/ThreatList"]
 visible = false
 modulate = Color(0.4, 1, 0.64, 0.58)
+layout_mode = 2
+text = "MONSTER // TARGET // 100%"
 label_settings = SubResource("LabelSettings_ar_green")
-text = "[AR] MONSTER // TARGET // 100%"
 horizontal_alignment = 2
 
 [node name="Threat3" type="Label" parent="UI/ThreatList"]
 visible = false
 modulate = Color(0.4, 1, 0.64, 0.44)
+layout_mode = 2
+text = "HAZARD // TARGET // 100%"
 label_settings = SubResource("LabelSettings_ar_green")
-text = "[AR] HAZARD // TARGET // 100%"
 horizontal_alignment = 2
 
 [node name="StageClearLabel" type="Label" parent="UI"]
@@ -166,11 +146,12 @@ offset_top = 96.0
 offset_right = 110.0
 offset_bottom = 128.0
 grow_horizontal = 2
-horizontal_alignment = 1
 theme_override_font_sizes/font_size = 26
+horizontal_alignment = 1
 
 [node name="AbilityLabel" type="Label" parent="UI" groups=["ability_label"]]
 visible = false
+modulate = Color(0.42, 1, 0.66, 0.9)
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -179,6 +160,7 @@ offset_top = 138.0
 offset_right = 180.0
 offset_bottom = 172.0
 grow_horizontal = 2
-horizontal_alignment = 1
-theme_override_font_sizes/font_size = 28
+label_settings = SubResource("LabelSettings_ar_green")
 text = "ABILITY"
+horizontal_alignment = 1
+al_alignment = 1

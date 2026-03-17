@@ -74,6 +74,8 @@ func _connect_timer(timer_name: String, callback: Callable) -> void:
 
 func _setup_boss() -> void:
 	if boss == null:
+		boss = get_node_or_null("WardenGiant")
+	if boss == null:
 		return
 
 	boss.visible = false

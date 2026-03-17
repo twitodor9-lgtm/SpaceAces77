@@ -23,6 +23,7 @@ var star_punch: Node
 var _threat_memory: Dictionary = {}
 var _low_flash_t: float = 0.0
 var _low_recent_t: float = 0.0
+var _stage_label_t: float = 0.0
 
 func set_score(value: int) -> void:
 	score_label.text = str(value)
@@ -41,6 +42,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	_update_star_punch_bar()
 	_update_low_altitude(delta)
+	_update_stage_label(delta)
 	_update_threat_list(delta)
 
 func show_stage_clear() -> void:
@@ -59,6 +61,21 @@ func _on_next_pressed() -> void:
 
 func set_stage(n: int) -> void:
 	stage_label.text = "STAGE %d" % n
+	stage_label.visible = true
+	stage_label.modulate = Color(0.42, 1.0, 0.66, 0.92)
+	_stage_label_t = 2.4
+
+func _update_stage_label(delta: float) -> void:
+	if not stage_label.visible:
+		return
+	_stage_label_t = maxf(_stage_label_t - delta, 0.0)
+	if _stage_label_t <= 0.0:
+		stage_label.visible = false
+		return
+	var alpha := 1.0
+	if _stage_label_t < 0.8:
+		alpha = _stage_label_t / 0.8
+	stage_label.modulate = Color(0.42, 1.0, 0.66, 0.92 * alpha)
 
 func _update_star_punch_bar() -> void:
 	if star_punch == null:
@@ -79,7 +96,7 @@ func _update_low_altitude(delta: float) -> void:
 		low_label.visible = false
 		return
 
-	if player.is_hidden_low:
+	if "is_hidden_low" in player and player.is_hidden_low:
 		_low_flash_t += delta * 7.0
 		_low_recent_t = 0.9
 		low_label.visible = true
@@ -90,14 +107,19 @@ func _update_low_altitude(delta: float) -> void:
 		low_label.visible = false
 	_low_recent_t = maxf(_low_recent_t - delta, 0.0)
 
-func _remember_threat(node: Node, tag: String) -> void:
+func _remember_threat(node: Node, default_tag: String) -> void:
 	if node == null or not is_instance_valid(node) or not node.has_method("get_health_ratio"):
 		return
 	var key := str(node.get_instance_id())
-	var display_name := String(node.name).replace("_", " ").to_upper()
+	var display_name := String(node.get("ar_threat_text") if "ar_threat_text" in node else "")
+	if display_name.strip_edges() == "":
+		display_name = String(node.name).replace("_", " ").to_upper()
+	var type_name := String(node.get("ar_threat_type") if "ar_threat_type" in node else "")
+	if type_name.strip_edges() == "":
+		type_name = default_tag
 	_threat_memory[key] = {
 		"node": node,
-		"tag": tag,
+		"tag": type_name,
 		"name": display_name,
 		"ttl": 1.25,
 	}
@@ -131,7 +153,7 @@ func _update_threat_list(delta: float) -> void:
 			ratio = float(node.call("get_health_ratio"))
 
 		rows.append({
-			"text": "%s // %s // %d%%" % [String(entry.get("tag", "[AR] TARGET")), String(entry.get("name", "UNKNOWN")), int(round(ratio * 100.0))],
+			"text": "%s // %s // %d%%" % [String(entry.get("tag", "TARGET")), String(entry.get("name", "UNKNOWN")), int(round(ratio * 100.0))],
 			"alpha": clamp(float(entry.get("ttl", 0.0)), 0.18, 1.0),
 			"priority": 2 if String(entry.get("tag", "")).contains("BOSS") else 1,
 			"ratio": ratio,
