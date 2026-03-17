@@ -9,6 +9,7 @@ extends Node2D
 @export var telegraph_time: float = 0.55
 @export var leap_height: float = 220.0
 @export var max_worms: int = 1
+@export var dip_chance_override: float = -1.0
 
 var _player: Node2D
 var _ground: Node2D

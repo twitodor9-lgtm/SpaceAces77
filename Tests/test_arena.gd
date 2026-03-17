@@ -407,5 +407,3 @@ func add_score(points: int) -> void:
 
 func stage_has_ground(stage: int = -1) -> bool:
 	return true
-> bool:
-	return true
