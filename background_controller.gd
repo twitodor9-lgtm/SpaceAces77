@@ -52,11 +52,19 @@ func _apply() -> void:
 	_apply_rules(GameBalance.rules())
 
 func apply_background_id(background_id: String) -> void:
-	var preset := BackgroundCatalog.get_preset(background_id)
+	var preset := _get_catalog_preset(background_id)
 	if preset.is_empty():
 		push_warning("Unknown background preset: %s" % background_id)
 		return
 	_apply_preset(preset)
+
+func _get_catalog_preset(background_id: String) -> Dictionary:
+	var catalog_script := load("res://scripts/background_catalog.gd")
+	if catalog_script == null:
+		return {}
+	if catalog_script.has_method("get_preset"):
+		return catalog_script.get_preset(background_id)
+	return {}
 
 func apply_preset_resource(preset: BackgroundPreset) -> void:
 	if preset == null:
