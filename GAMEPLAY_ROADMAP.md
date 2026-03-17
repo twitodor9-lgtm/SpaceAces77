@@ -148,6 +148,15 @@ Different stages can use different structures:
 - Stage 2 or 3: first major ground transition
 - later stages: more varied structures depending on pacing and design needs
 
+### Future onboarding goal for Stage 1
+Stage 1 should later include lightweight in-game hints that teach the player to use core abilities naturally.
+These hints should feel like tactical prompts, not heavy tutorials.
+Examples:
+- when to use Star Punch
+- when Dolphin Wave is useful
+- when low altitude is helpful or dangerous
+- when special movement or defense tools should be considered
+
 This keeps the ground mode meaningful instead of making it feel mandatory and repetitive in every stage.
 
 ---
