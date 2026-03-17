@@ -111,6 +111,7 @@ Move AR HUD fields into a shared base script or common target layer, so future e
 ### Session 2
 - finish `Stage01_new`
 - confirm stage shell flow is stable
+- tune Stage 1 core shmup pacing
 
 ### Session 3
 - build a first crash prototype in arena or a test scene
@@ -120,6 +121,11 @@ Move AR HUD fields into a shared base script or common target layer, so future e
 
 ### Session 5
 - mount prototype for VoidRaptor
+
+### Future session
+- prototype rescue / extraction flow for grounded players
+- decide how AI rescue and player rescue differ
+- connect extraction concept to future co-op structure
 
 ---
 
