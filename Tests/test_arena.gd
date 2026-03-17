@@ -71,7 +71,6 @@ func _spawn_robot() -> void:
 	if robot == null:
 		return
 	robot.scale = ROBOT_SCALE
-	robot.z_index = 10
 
 func _spawn_ground_mine() -> void:
 	var mine := _spawn_scene(ground_mine_scene, Vector2(860, 605), "test_enemy") as Node2D
@@ -86,11 +85,6 @@ func _spawn_void_raptor() -> void:
 	var raptor := _spawn_scene(void_raptor_scene, Vector2(900, 520), "test_enemy") as Node2D
 	if raptor == null:
 		return
-	raptor.z_index = 10
-	if raptor.has_node("Anim"):
-		var anim := raptor.get_node("Anim")
-		if anim is CanvasItem:
-			(anim as CanvasItem).z_index = 11
 	_set_status("Void Raptor spawned")
 
 func _spawn_scene(scene: PackedScene, pos: Vector2, group_name: StringName) -> Node:

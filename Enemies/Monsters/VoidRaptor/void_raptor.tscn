@@ -3,23 +3,23 @@
 [ext_resource type="Script" path="res://void_raptor.gd" id="1_raptor_script"]
 [ext_resource type="PackedScene" path="res://Enemies/Monsters/VoidRaptor/PlasmaProjectile.tscn" id="2_projectile"]
 
-[ext_resource type="Texture2D" path="res://PNGStarJets/Eאוייבים/מפלצות חלל/DINO/IDILE/IDILE1.png11.png" id="3_idle1"]
-[ext_resource type="Texture2D" path="res://PNGStarJets/Eאוייבים/מפלצות חלל/DINO/IDILE/IDILE1.png22.png" id="4_idle2"]
+[ext_resource type="Texture2D" path="res://PNGStarJets/ENEMYאוייבים/MONSTERSמפלצות חלל/DINO/IDILE/IDILE1.png11.png" id="3_idle1"]
+[ext_resource type="Texture2D" path="res://PNGStarJets/ENEMYאוייבים/MONSTERSמפלצות חלל/DINO/IDILE/IDILE1.png22.png" id="4_idle2"]
 
-[ext_resource type="Texture2D" path="res://PNGStarJets/Eאוייבים/מפלצות חלל/DINO/RUN/RUN.png11.png" id="5_run1"]
-[ext_resource type="Texture2D" path="res://PNGStarJets/Eאוייבים/מפלצות חלל/DINO/RUN/RUN.png22.png" id="6_run2"]
+[ext_resource type="Texture2D" path="res://PNGStarJets/ENEMYאוייבים/MONSTERSמפלצות חלל/DINO/RUN/RUN.png11.png" id="5_run1"]
+[ext_resource type="Texture2D" path="res://PNGStarJets/ENEMYאוייבים/MONSTERSמפלצות חלל/DINO/RUN/RUN.png22.png" id="6_run2"]
 
-[ext_resource type="Texture2D" path="res://PNGStarJets/Eאוייבים/מפלצות חלל/DINO/BITE HURT/BITE-HURT.png11.png" id="7_bite1"]
-[ext_resource type="Texture2D" path="res://PNGStarJets/Eאוייבים/מפלצות חלל/DINO/BITE HURT/BITE-HURT.png22.png" id="8_bite2"]
+[ext_resource type="Texture2D" path="res://PNGStarJets/ENEMYאוייבים/MONSTERSמפלצות חלל/DINO/BITE HURT/BITE-HURT.png11.png" id="7_bite1"]
+[ext_resource type="Texture2D" path="res://PNGStarJets/ENEMYאוייבים/MONSTERSמפלצות חלל/DINO/BITE HURT/BITE-HURT.png22.png" id="8_bite2"]
 
-[ext_resource type="Texture2D" path="res://PNGStarJets/Eאוייבים/מפלצות חלל/DINO/SPITT/SPIT.png11.png" id="9_spit1"]
-[ext_resource type="Texture2D" path="res://PNGStarJets/Eאוייבים/מפלצות חלל/DINO/SPITT/SPIT.png33.png" id="10_spit2"]
+[ext_resource type="Texture2D" path="res://PNGStarJets/ENEMYאוייבים/MONSTERSמפלצות חלל/DINO/SPITT/SPIT.png11.png" id="9_spit1"]
+[ext_resource type="Texture2D" path="res://PNGStarJets/ENEMYאוייבים/MONSTERSמפלצות חלל/DINO/SPITT/SPIT.png33.png" id="10_spit2"]
 
-[ext_resource type="Texture2D" path="res://PNGStarJets/Eאוייבים/מפלצות חלל/DINO/JUMP/JUMP.png1.png" id="11_jump1"]
-[ext_resource type="Texture2D" path="res://PNGStarJets/Eאוייבים/מפלצות חלל/DINO/JUMP/JUMP.png2.png" id="12_jump2"]
+[ext_resource type="Texture2D" path="res://PNGStarJets/ENEMYאוייבים/MONSTERSמפלצות חלל/DINO/JUMP/JUMP.png1.png" id="11_jump1"]
+[ext_resource type="Texture2D" path="res://PNGStarJets/ENEMYאוייבים/MONSTERSמפלצות חלל/DINO/JUMP/JUMP.png2.png" id="12_jump2"]
 
-[ext_resource type="Texture2D" path="res://PNGStarJets/Eאוייבים/מפלצות חלל/DINO/DIE/DIE.png11.png" id="13_die1"]
-[ext_resource type="Texture2D" path="res://PNGStarJets/Eאוייבים/מפלצות חלל/DINO/DIE/DIE.png22.png" id="14_die2"]
+[ext_resource type="Texture2D" path="res://PNGStarJets/ENEMYאוייבים/MONSTERSמפלצות חלל/DINO/DIE/DIE.png11.png" id="13_die1"]
+[ext_resource type="Texture2D" path="res://PNGStarJets/ENEMYאוייבים/MONSTERSמפלצות חלל/DINO/DIE/DIE.png22.png" id="14_die2"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_raptor"]
 animations = [{
