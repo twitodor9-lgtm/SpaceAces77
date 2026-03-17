@@ -608,4 +608,3 @@ class DeflectorShieldFX extends Node2D:
 			var ang := (float(i) / 6.0) * TAU + _t * 2.6
 			var v := Vector2.RIGHT.rotated(ang)
 			draw_line(v * (r * 0.75), v * (r * 1.05), Color(0.8, 0.95, 1.0, 0.22 * fade), 2.0)
-.0)
