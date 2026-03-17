@@ -273,7 +273,18 @@ func _input(event: InputEvent) -> void:
 
 func _toggle_boss() -> void:
 	if boss == null:
-		return
+		if boss_scene == null:
+			print("_toggle_boss: boss_scene is null")
+			return
+		boss = boss_scene.instantiate()
+		if boss == null:
+			print("_toggle_boss: failed to instantiate boss_scene")
+			return
+		add_child(boss)
+		if boss.has_signal("boss_died"):
+			var boss_sig: Signal = boss.get("boss_died")
+			if not boss_sig.is_connected(_on_boss_died):
+				boss_sig.connect(_on_boss_died)
 
 	var should_show: bool = not boss.visible
 	print("_toggle_boss: should_show=", should_show, " current_visible=", boss.visible)
