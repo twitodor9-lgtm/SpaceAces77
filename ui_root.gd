@@ -112,8 +112,9 @@ func _update_threat_list(delta: float) -> void:
 	for key in _threat_memory.keys():
 		var entry: Dictionary = _threat_memory[key]
 		entry["ttl"] = float(entry.get("ttl", 0.0)) - delta
-		var node: Node = entry.get("node") as Node
-		var alive := node != null and is_instance_valid(node)
+		var node_ref: Variant = entry.get("node", null)
+		var alive := node_ref != null and is_instance_valid(node_ref)
+		var node: Node = node_ref if alive else null
 		if alive:
 			var item := node as CanvasItem
 			alive = item != null and item.visible and node.has_method("get_health_ratio")
@@ -122,7 +123,7 @@ func _update_threat_list(delta: float) -> void:
 			continue
 
 		var ratio := 0.0
-		if alive:
+		if alive and node != null:
 			ratio = float(node.call("get_health_ratio"))
 
 		rows.append({
