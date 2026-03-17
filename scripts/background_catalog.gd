@@ -2,43 +2,25 @@ extends RefCounted
 class_name BackgroundCatalog
 
 const PRESETS := {
-	"neutral_arena": {
-		"far": "res://PNGStarJets/BAרקעים/A1/1.pngA2.png",
-		"near": "res://PNGStarJets/BAרקעים/A1/1.pngA.png",
-		"far_scale": Vector2(0.9411765, 0.7257683),
-		"near_scale": Vector2(0.9426471, 1.2228739),
-		"far_pos": Vector2(0, -6.000002),
-		"near_pos": Vector2(0, 301),
-		"drift_speed": 0.0,
-	},
-	"stage01_clean": {
-		"far": "res://PNGStarJets/BAרקעים/A1/1.pngA2.png",
-		"near": "res://PNGStarJets/BAרקעים/A1/1.pngA.png",
-		"far_scale": Vector2(0.9411765, 0.7257683),
-		"near_scale": Vector2(0.9426471, 1.2228739),
-		"far_pos": Vector2(0, -6.000002),
-		"near_pos": Vector2(0, 301),
-		"drift_speed": 0.0,
-	},
-	"stage02_worm": {
-		"far": "res://PNGStarJets/BAרקעים/C1_lunar_1280x720.png",
-		"near": "res://PNGStarJets/BAרקעים/C2_lunar_1280x720.png",
-		"far_scale": Vector2.ONE,
-		"near_scale": Vector2.ONE,
-		"far_pos": Vector2.ZERO,
-		"near_pos": Vector2.ZERO,
-		"drift_speed": 0.0,
-	},
-	"stage03_low_cover": {
-		"far": "res://PNGStarJets/BAרקעים/C2_lunar_1280x720.png",
-		"near": "res://PNGStarJets/BAרקעים/C3_lunar_1280x720.png",
-		"far_scale": Vector2.ONE,
-		"near_scale": Vector2.ONE,
-		"far_pos": Vector2.ZERO,
-		"near_pos": Vector2.ZERO,
-		"drift_speed": 0.0,
-	},
+	"neutral_arena": _from_resource("res://backgrounds/neutral_arena.tres"),
+	"stage01_clean": _from_resource("res://backgrounds/neutral_arena.tres"),
+	"stage02_worm": _from_resource("res://backgrounds/stage02_worm.tres"),
+	"stage03_low_cover": _from_resource("res://backgrounds/stage03_low_cover.tres"),
 }
+
+static func _from_resource(path: String) -> Dictionary:
+	var preset := load(path) as BackgroundPreset
+	if preset == null:
+		return {}
+	return {
+		"far": preset.far_texture.resource_path if preset.far_texture != null else "",
+		"near": preset.near_texture.resource_path if preset.near_texture != null else "",
+		"far_scale": preset.far_scale,
+		"near_scale": preset.near_scale,
+		"far_pos": preset.far_position,
+		"near_pos": preset.near_position,
+		"drift_speed": preset.drift_speed,
+	}
 
 static func get_preset(id: String) -> Dictionary:
 	return PRESETS.get(id, {}).duplicate(true)

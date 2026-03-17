@@ -2,6 +2,8 @@
 extends Node2D
 
 @export var drift_speed: float = 0.0
+@export var background_preset: BackgroundPreset
+@export var preview_preset: BackgroundPreset
 @export var preview_background_id: String = ""
 
 # זה רק לתצוגה בעורך
@@ -29,15 +31,24 @@ func _apply() -> void:
 
 	# בעורך: אפשר לבחור preset ישירות, או לפי stage index
 	if Engine.is_editor_hint():
+		if preview_preset != null:
+			apply_preset_resource(preview_preset)
+			return
 		if preview_background_id != "":
 			apply_background_id(preview_background_id)
+			return
+		if background_preset != null:
+			apply_preset_resource(background_preset)
 			return
 		var i := clampi(preview_stage_index, 0, GameBalance.STAGES.size() - 1)
 		var rules: Dictionary = GameBalance.STAGES[i]
 		_apply_rules(rules)
 		return
 
-	# במשחק: תציג לפי השלב האמיתי
+	# במשחק: קודם preset מהאינספקטור, אחרת לפי חוקי stage
+	if background_preset != null:
+		apply_preset_resource(background_preset)
+		return
 	_apply_rules(GameBalance.rules())
 
 func apply_background_id(background_id: String) -> void:
@@ -46,6 +57,19 @@ func apply_background_id(background_id: String) -> void:
 		push_warning("Unknown background preset: %s" % background_id)
 		return
 	_apply_preset(preset)
+
+func apply_preset_resource(preset: BackgroundPreset) -> void:
+	if preset == null:
+		return
+	_apply_preset({
+		"far": preset.far_texture.resource_path if preset.far_texture != null else "",
+		"near": preset.near_texture.resource_path if preset.near_texture != null else "",
+		"far_pos": preset.far_position,
+		"near_pos": preset.near_position,
+		"far_scale": preset.far_scale,
+		"near_scale": preset.near_scale,
+		"drift_speed": preset.drift_speed,
+	})
 
 func _apply_rules(rules: Dictionary) -> void:
 	var background_id := str(rules.get("background_id", ""))
