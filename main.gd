@@ -74,19 +74,10 @@ func _connect_timer(timer_name: String, callback: Callable) -> void:
 	GameplayRuntime.connect_timer(self, timer_name, callback)
 
 func _setup_boss() -> void:
-	if boss == null:
-		boss = get_node_or_null("WardenGiant")
-	if boss == null:
-		return
-
-	boss.visible = false
-	boss.set_process(false)
-	boss.set_physics_process(false)
-
-	if boss.has_signal("boss_died"):
-		var boss_sig: Signal = boss.get("boss_died")
-		if not boss_sig.is_connected(_on_boss_died):
-			boss_sig.connect(_on_boss_died)
+	var preplaced := get_node_or_null("WardenGiant")
+	if preplaced != null:
+		preplaced.queue_free()
+	boss = null
 
 func _setup_monster_director() -> void:
 	monster_director = GameplayRuntime.setup_monster_director(self)
@@ -286,6 +277,22 @@ func _toggle_boss() -> void:
 
 	var should_show: bool = not boss.visible
 	print("_toggle_boss: should_show=", should_show, " current_visible=", boss.visible)
+	boss.visible = should_show
+	boss.set_process(should_show)
+	boss.set_physics_process(should_show)
+	_set_spawning_enabled(not should_show)
+
+	if should_show:
+		var ui_root := GameplayRuntime.find_node(self, "UIRoot")
+		if ui_root != null and ui_root.has_method("set_stage"):
+			ui_root.call("set_stage", stage_index)
+		var r := _get_visible_world_rect()
+		boss.global_position = Vector2(r.position.x + r.size.x + 220.0, r.position.y + r.size.y * 0.30)
+
+func _on_boss_died() -> void:
+	print("BOSS DOWN")
+	_go_to_stage_clear()
+oggle_boss: should_show=", should_show, " current_visible=", boss.visible)
 	boss.visible = should_show
 	boss.set_process(should_show)
 	boss.set_physics_process(should_show)
