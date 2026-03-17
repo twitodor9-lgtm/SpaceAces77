@@ -13,7 +13,6 @@ const STAGE_CLEAR_SCENE_PATH := "res://Stages/StageClear.tscn"
 @export var air_enemy_scene: PackedScene
 @export var max_air_enemies: int = 4
 @export var player_scene: PackedScene
-@export var void_raptor_scene: PackedScene
 
 # === הגדרות אויבי קרקע (טנקים/טורטים) ===
 @export var ground_enemy_scene: PackedScene
@@ -54,7 +53,6 @@ func _ready() -> void:
 	_cleanup_preplaced_monsters()
 
 	_apply_stage_rules()
-	spawn_void_raptor()
 
 	_spawn_timer = randf_range(spawn_interval_min, spawn_interval_max)
 
@@ -154,6 +152,29 @@ func _set_node_enabled(n: Node, enabled: bool) -> void:
 		(n as Area2D).monitoring = enabled
 		(n as Area2D).monitorable = enabled
 
+func spawn_named_monster(id: String, pos: Vector2) -> Node:
+	if monster_director == null:
+		return null
+	if monster_director.has_method("spawn_once"):
+		return monster_director.call("spawn_once", id, self, pos)
+	return null
+
+func spawn_void_raptor() -> Node:
+	var r := _get_visible_world_rect()
+	var x := r.position.x + r.size.x - 120.0
+	var y := ground_spawn_y - 80.0
+
+	var gl := get_node_or_null("GroundLine") as Marker2D
+	if gl != null:
+		y = gl.global_position.y - 90.0
+
+	var spawn_marker := get_node_or_null("RaptorSpawn") as Marker2D
+	if spawn_marker != null:
+		x = spawn_marker.global_position.x
+		y = spawn_marker.global_position.y
+
+	return spawn_named_monster("void_raptor", Vector2(x, y))
+
 func _on_next_stage_pressed() -> void:
 	GameState.next_stage()
 
@@ -163,11 +184,9 @@ func call_octo_whale() -> void:
 
 	var r := _get_visible_world_rect()
 	var spawn_pos := Vector2(r.position.x + r.size.x + 220.0, r.position.y + r.size.y * 0.50)
-
-	if monster_director and monster_director.has_method("spawn_once"):
-		var inst = monster_director.call("spawn_once", "octo_whale", self, spawn_pos)
-		if inst != null:
-			octo_whale_spawned = true
+	var inst := spawn_named_monster("octo_whale", spawn_pos)
+	if inst != null:
+		octo_whale_spawned = true
 
 func stage_has_ground(stage: int = -1) -> bool:
 	var s := stage
@@ -320,26 +339,4 @@ func _on_boss_died() -> void:
 	print("BOSS DOWN")
 	_go_to_stage_clear()
 
-func spawn_void_raptor() -> void:
-	if void_raptor_scene == null:
-		return
 
-	if get_node_or_null("VoidRaptor") != null:
-		return
-
-	var r := _get_visible_world_rect()
-	var x := r.position.x + r.size.x * 0.75
-	var y := ground_spawn_y - 80.0
-
-	var gl := get_node_or_null("GroundLine") as Marker2D
-	if gl != null:
-		y = gl.global_position.y - 80.0
-
-	var spawn_marker := get_node_or_null("RaptorSpawn") as Marker2D
-	if spawn_marker != null:
-		x = spawn_marker.global_position.x
-		y = spawn_marker.global_position.y
-
-	var raptor := void_raptor_scene.instantiate() as Node2D
-	add_child(raptor)
-	raptor.global_position = Vector2(x, y)

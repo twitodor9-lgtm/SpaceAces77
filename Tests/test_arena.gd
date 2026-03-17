@@ -32,6 +32,7 @@ var _game_ui: CanvasLayer = null
 var _controls_panel: PanelContainer = null
 var _enemies_panel: PanelContainer = null
 var _worm_spawner: Node = null
+var _monster_registry: MonsterRegistry = null
 var _score: int = 0
 var _arena_stage_mode: int = -1 # -1 = neutral
 
@@ -39,6 +40,7 @@ func _ready() -> void:
 	_setup_background()
 	_setup_player()
 	_setup_worm_spawner()
+	_setup_monster_registry()
 	_setup_game_ui()
 	_setup_ui()
 	_apply_neutral_arena()
@@ -88,6 +90,19 @@ func _setup_worm_spawner() -> void:
 	_worm_spawner.set("player_path", NodePath("../Player"))
 	_worm_spawner.set("ground_line_path", NodePath("../GroundLine"))
 	_worm_spawner.set_process(false)
+
+func _setup_monster_registry() -> void:
+	_monster_registry = MonsterRegistry.new()
+	_monster_registry.name = "MonsterRegistry"
+	add_child(_monster_registry)
+
+func _spawn_named_monster(id: String, pos: Vector2) -> Node:
+	if _monster_registry == null:
+		return null
+	var inst := _monster_registry.spawn(id, self, pos)
+	if inst != null:
+		inst.add_to_group("test_enemy")
+	return inst
 
 func _setup_game_ui() -> void:
 	if ui_scene == null:
@@ -311,11 +326,11 @@ func _spawn_ground_mine() -> void:
 	_set_status("Ground mine armed. Wakes only below Y=%d" % int(GROUND_MINE_TRIGGER_Y))
 
 func _spawn_void_raptor() -> void:
-	if _spawn_scene(void_raptor_scene, Vector2(900, 520), "test_enemy") != null:
+	if _spawn_named_monster("void_raptor", Vector2(900, 520)) != null:
 		_set_status("Void Raptor spawned")
 
 func _spawn_octo_whale() -> void:
-	if _spawn_scene(octo_whale_scene, Vector2(1020, 360), "test_enemy") != null:
+	if _spawn_named_monster("octo_whale", Vector2(1020, 360)) != null:
 		_set_status("Octo Whale spawned")
 
 func _trigger_space_worm() -> void:
