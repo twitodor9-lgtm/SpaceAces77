@@ -69,6 +69,7 @@ func _setup_background() -> void:
 	_background = background_scene.instantiate() as Node2D
 	add_child(_background)
 	_background.name = "Background"
+	GameplayRuntime.setup_background(self)
 
 func _setup_player() -> void:
 	if player_scene == null:
@@ -90,9 +91,7 @@ func _setup_worm_spawner() -> void:
 	_worm_spawner.set_process(false)
 
 func _setup_monster_director() -> void:
-	_monster_director = MonsterDirector.new()
-	_monster_director.name = "MonsterDirector"
-	add_child(_monster_director)
+	_monster_director = GameplayRuntime.setup_monster_director(self)
 
 func _spawn_named_monster(id: String, pos: Vector2) -> Node:
 	if _monster_director == null:
@@ -112,10 +111,7 @@ func _setup_game_ui() -> void:
 	_game_ui.name = "UIRoot"
 	_game_ui.set("player_path", NodePath("../Player"))
 	_game_ui.set("star_punch_path", NodePath("../Player/Abilities/StarPunch"))
-	if _game_ui.has_method("set_stage"):
-		_game_ui.call("set_stage", 0)
-	if _game_ui.has_method("set_score"):
-		_game_ui.call("set_score", _score)
+	GameplayRuntime.setup_ui(self, 0, _score)
 
 func _setup_ui() -> void:
 	_ui_root = CanvasLayer.new()

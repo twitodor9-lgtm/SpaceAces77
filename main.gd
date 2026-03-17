@@ -60,36 +60,17 @@ func _ready() -> void:
 	print("READY SCORE:", score)
 
 func _setup_ui() -> void:
-	var ui_root := get_node_or_null("UIRoot")
-	if ui_root == null:
-		return
-
-	if ui_root.has_signal("next_stage_pressed"):
-		var sig: Signal = ui_root.get("next_stage_pressed")
-		if not sig.is_connected(_on_next_stage_pressed):
-			sig.connect(_on_next_stage_pressed)
-
-	if ui_root.has_method("set_stage"):
-		ui_root.call("set_stage", stage_index)
-
-	if ui_root.has_method("set_score"):
-		ui_root.call("set_score", score)
+	GameplayRuntime.setup_ui(self, stage_index, score, _on_next_stage_pressed)
 
 func _setup_background() -> void:
-	var bg_node := get_node_or_null("Background")
-	if bg_node != null and bg_node.has_method("apply_stage"):
-		bg_node.call("apply_stage")
+	GameplayRuntime.setup_background(self)
 
 func _setup_spawn_timers() -> void:
 	_connect_timer("EnemySpawnTimer", _on_air_spawn_timer_timeout)
 	_connect_timer("GroundEnemyTimer", _on_ground_spawn_timer_timeout)
 
 func _connect_timer(timer_name: String, callback: Callable) -> void:
-	var timer := get_node_or_null(timer_name) as Timer
-	if timer == null:
-		return
-	if not timer.timeout.is_connected(callback):
-		timer.timeout.connect(callback)
+	GameplayRuntime.connect_timer(self, timer_name, callback)
 
 func _setup_boss() -> void:
 	if boss == null:
@@ -105,14 +86,7 @@ func _setup_boss() -> void:
 			boss_sig.connect(_on_boss_died)
 
 func _setup_monster_director() -> void:
-	var existing_md := get_node_or_null("MonsterDirector")
-	if existing_md != null:
-		monster_director = existing_md
-		return
-
-	monster_director = MonsterDirector.new()
-	monster_director.name = "MonsterDirector"
-	add_child(monster_director)
+	monster_director = GameplayRuntime.setup_monster_director(self)
 
 func _cleanup_preplaced_monsters() -> void:
 	var pre_ow := get_node_or_null("OctoWhale")
@@ -120,37 +94,13 @@ func _cleanup_preplaced_monsters() -> void:
 		pre_ow.queue_free()
 
 func _apply_stage_rules() -> void:
-	_set_timer_enabled(get_node_or_null("EnemySpawnTimer") as Timer,
-		bool(GameBalance.rule("air_spawner_enabled", true)))
-
-	_set_timer_enabled(get_node_or_null("GroundEnemyTimer") as Timer,
-		bool(GameBalance.rule("ground_spawner_enabled", true)))
-
-	_set_node_enabled(get_node_or_null("CloudSpawner"),
-		bool(GameBalance.rule("cloud_spawner_enabled", true)))
-
-	_set_node_enabled(get_node_or_null("WormSpawner"),
-		bool(GameBalance.rule("worm_enabled", false)))
+	GameplayRuntime.apply_stage_rules(self)
 
 func _set_timer_enabled(t: Timer, enabled: bool) -> void:
-	if t == null:
-		return
-	if enabled:
-		if t.is_stopped():
-			t.start()
-	else:
-		t.stop()
+	GameplayRuntime.set_timer_enabled(t, enabled)
 
 func _set_node_enabled(n: Node, enabled: bool) -> void:
-	if n == null:
-		return
-
-	n.set_process(enabled)
-	n.set_physics_process(enabled)
-
-	if n is Area2D:
-		(n as Area2D).monitoring = enabled
-		(n as Area2D).monitorable = enabled
+	GameplayRuntime.set_node_enabled(n, enabled)
 
 func spawn_named_monster(id: String, pos: Vector2) -> Node:
 	if monster_director == null:
@@ -338,5 +288,3 @@ func _toggle_boss() -> void:
 func _on_boss_died() -> void:
 	print("BOSS DOWN")
 	_go_to_stage_clear()
-
-
