@@ -136,6 +136,20 @@ Connect the systems into a real gameplay loop.
 ### Success condition
 The game has a unique identity beyond its individual features.
 
+### Stage structure rule
+Not every stage should always force a crash-to-ground transition.
+Different stages can use different structures:
+- air-only stages
+- air-to-ground transition stages
+- hybrid or conditional stages later on
+
+### Recommended early structure
+- Stage 1: air-only onboarding and strong shmup fundamentals
+- Stage 2 or 3: first major ground transition
+- later stages: more varied structures depending on pacing and design needs
+
+This keeps the ground mode meaningful instead of making it feel mandatory and repetitive in every stage.
+
 ---
 
 ## Phase 7 - Multiplayer-Friendly Architecture
@@ -220,6 +234,32 @@ This becomes especially valuable once the game supports:
 
 ### Design principle
 HUD personalization should be per-player, not a single global setting shared by everyone.
+
+---
+
+## Future Recovery / Extraction Option
+In later development, a grounded player should be able to request extraction back into the air.
+
+### Long-term goal
+A player who crashes or becomes stranded on the ground can call for rescue.
+The rescue may be performed by:
+- another real player in co-op
+- an AI pilot or support craft
+
+### Gameplay value
+This creates:
+- dramatic recovery moments
+- stronger co-op identity
+- a non-binary flow between air and ground states
+- new tactical choices instead of simple failure states
+
+### Design note
+Extraction should be a meaningful gameplay system, not just a menu reset.
+It can later connect to:
+- co-op teamwork
+- rescue risk/reward
+- mission pacing
+- role specialization between players
 
 ---
 
