@@ -60,6 +60,8 @@ var _health: int = 0
 func _ready() -> void:
 	add_to_group("air_enemies")
 	add_to_group("enemies")
+	if show_in_ar_hud:
+		add_to_group("health_bar_target")
 
 	_health = max(1, max_health)
 	_y_offset = randf_range(-y_offset_range, y_offset_range)
@@ -290,6 +292,10 @@ func take_damage(amount: int) -> void:
 	print("TAKE_DAMAGE:", name, " amount=", amount, " final=", final_damage, " health=", _health)
 	if _health <= 0:
 		_dead = true
+		_award_score()
+		queue_free()
+		queue_free()
+d = true
 		_award_score()
 		queue_free()
 		queue_free()

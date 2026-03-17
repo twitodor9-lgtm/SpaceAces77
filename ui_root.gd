@@ -105,12 +105,12 @@ func _remember_threat(node: Node, tag: String) -> void:
 func _update_threat_list(delta: float) -> void:
 	var boss := get_tree().get_first_node_in_group("boss")
 	if boss != null:
-		_remember_threat(boss, "[AR] BOSS")
+		_remember_threat(boss, "BOSS")
 
 	if _low_recent_t <= 0.0:
 		for node in get_tree().get_nodes_in_group("health_bar_target"):
 			if node != null:
-				_remember_threat(node, "[AR] MONSTER")
+				_remember_threat(node, "MONSTER")
 
 	var rows: Array[Dictionary] = []
 	for key in _threat_memory.keys():
@@ -162,6 +162,11 @@ func _get_visible_world_rect() -> Rect2:
 	var p2 := inv * Vector2(0, vp.y)
 	var p3 := inv * Vector2(vp.x, vp.y)
 	var minx: float = minf(minf(p0.x, p1.x), minf(p2.x, p3.x))
+	var maxx: float = maxf(maxf(p0.x, p1.x), maxf(p2.x, p3.x))
+	var miny: float = minf(minf(p0.y, p1.y), minf(p2.y, p3.y))
+	var maxy: float = maxf(maxf(p0.y, p1.y), maxf(p2.y, p3.y))
+	return Rect2(Vector2(minx, miny), Vector2(maxx - minx, maxy - miny))
+nf(p0.x, p1.x), minf(p2.x, p3.x))
 	var maxx: float = maxf(maxf(p0.x, p1.x), maxf(p2.x, p3.x))
 	var miny: float = minf(minf(p0.y, p1.y), minf(p2.y, p3.y))
 	var maxy: float = maxf(maxf(p0.y, p1.y), maxf(p2.y, p3.y))
