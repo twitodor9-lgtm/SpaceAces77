@@ -12,6 +12,7 @@ extends CharacterBody2D
 @export var max_health: int = 35
 @export var player_damage_multiplier: float = 1.0
 @export var score_value: int = 400
+@export var show_in_ar_hud: bool = true
 
 @export_group("Abilities")
 @export var spit_cooldown: float = 2.2

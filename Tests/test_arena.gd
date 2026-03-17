@@ -23,6 +23,7 @@ var _monster_director: MonsterDirector = null
 var _score: int = 0
 var _shell: Node = null
 var _arena_stage_mode: int = -1 # -1 = neutral
+var _status_ttl: float = 0.0
 
 func _ready() -> void:
 	_bind_shell_nodes()

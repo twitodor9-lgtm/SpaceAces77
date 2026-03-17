@@ -22,6 +22,7 @@ var player: Node2D
 var star_punch: Node
 var _threat_memory: Dictionary = {}
 var _low_flash_t: float = 0.0
+var _low_recent_t: float = 0.0
 
 func set_score(value: int) -> void:
 	score_label.text = str(value)

@@ -4,6 +4,7 @@ extends Area2D
 @export var max_health: int = 20
 @export var player_damage_multiplier: float = 1.0
 @export var score_value: int = 150
+@export var show_in_ar_hud: bool = true
 
 @export_group("Shooting")
 @export var bullet_scene: PackedScene
