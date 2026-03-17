@@ -251,6 +251,10 @@ func _lose_life(reason: String) -> void:
 	if lives <= 0:
 		print("PLAYER DEAD")
 
+func take_damage(amount: int = 1) -> void:
+	for i in range(max(amount, 1)):
+		_lose_life("DIRECT_HIT")
+
 
 func _wraparound() -> void:
 	screen_size = get_viewport_rect().size

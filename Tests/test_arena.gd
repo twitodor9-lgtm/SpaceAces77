@@ -4,16 +4,28 @@ const ROBOT_SCALE := Vector2(1.7, 1.7)
 const GROUND_MINE_TRIGGER_Y := 500.0
 const BG_PRESETS := [
 	{
+		"far": "res://PNGStarJets/BAרקעים/A1/1.pngA2.png",
+		"near": "res://PNGStarJets/BAרקעים/A1/1.pngA.png",
+		"far_scale": Vector2(0.9411765, 0.7257683),
+		"near_scale": Vector2(0.9426471, 1.2228739),
+		"near_pos": Vector2(0, 301),
+		"far_pos": Vector2(0, -6.000002),
+	},
+	{
 		"far": "res://PNGStarJets/BAרקעים/A1/bg_far.png",
 		"near": "res://PNGStarJets/BAרקעים/A1/bg_near.png",
+		"far_scale": Vector2(1, 1),
+		"near_scale": Vector2(1, 1),
+		"near_pos": Vector2.ZERO,
+		"far_pos": Vector2.ZERO,
 	},
 	{
 		"far": "res://PNGStarJets/BAרקעים/C1_lunar_1280x720.png",
 		"near": "res://PNGStarJets/BAרקעים/C2_lunar_1280x720.png",
-	},
-	{
-		"far": "res://PNGStarJets/BAרקעים/C3_lunar_1280x720.png",
-		"near": "res://PNGStarJets/BAרקעים/backgrounds/grok-image-d3d925de-0ccf-46ef-8071-1809357136e2.png",
+		"far_scale": Vector2(1, 1),
+		"near_scale": Vector2(1, 1),
+		"near_pos": Vector2.ZERO,
+		"far_pos": Vector2.ZERO,
 	},
 ]
 
