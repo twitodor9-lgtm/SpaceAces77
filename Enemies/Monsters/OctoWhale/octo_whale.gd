@@ -10,6 +10,7 @@ extends Area2D
 @export var max_health: int = 80
 @export var player_damage_multiplier: float = 1.0
 @export var score_value: int = 750
+@export var show_in_ar_hud: bool = true
 
 @export_group("Tentacles")
 @export var tentacle_scene: PackedScene = preload("res://Enemies/Monsters/OctoWhale/Tentacle.tscn")

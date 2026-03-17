@@ -33,6 +33,8 @@ var _dead: bool = false
 
 func _ready() -> void:
 	_health = max(1, max_health)
+	if show_in_ar_hud:
+		add_to_group("health_bar_target")
 	player = get_tree().get_first_node_in_group("Player") as Node2D
 	if player == null:
 		player = get_tree().get_first_node_in_group("player") as Node2D

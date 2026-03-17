@@ -80,12 +80,14 @@ func _update_low_altitude(delta: float) -> void:
 
 	if player.is_hidden_low:
 		_low_flash_t += delta * 7.0
+		_low_recent_t = 0.9
 		low_label.visible = true
 		var a := 0.45 + (sin(_low_flash_t) * 0.25 + 0.25)
 		low_label.modulate = Color(0.5, 1.0, 0.7, a)
 	else:
 		_low_flash_t = 0.0
 		low_label.visible = false
+	_low_recent_t = maxf(_low_recent_t - delta, 0.0)
 
 func _remember_threat(node: Node, tag: String) -> void:
 	if node == null or not is_instance_valid(node) or not node.has_method("get_health_ratio"):

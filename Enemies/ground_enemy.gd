@@ -31,7 +31,8 @@ func _ready() -> void:
 	print_stack()
 
 	add_to_group("ground_enemies")
-	add_to_group("health_bar_target")
+	if show_in_ar_hud:
+		add_to_group("health_bar_target")
 	health = max(1, max_health)
 
 	shoot_timer.wait_time = fire_interval

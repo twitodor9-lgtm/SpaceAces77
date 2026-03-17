@@ -24,7 +24,6 @@ func _ready() -> void:
 	aim_spread_deg *= 0.75
 	super._ready()
 	add_to_group("interceptors")
-	add_to_group("health_bar_target")
 
 func _process(delta: float) -> void:
 	if _boost_cd > 0.0:
