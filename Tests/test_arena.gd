@@ -72,6 +72,11 @@ func _bind_shell_nodes() -> void:
 		GameplayRuntime.setup_background(_shell)
 
 	if _worm_spawner != null:
+		_worm_spawner.set("worm_scene", load("res://Enemies/Monsters/SpaceWorm/space_worm.tscn"))
+		_worm_spawner.set("player_path", NodePath("../Player"))
+		_worm_spawner.set("ground_line_path", NodePath("../GroundLine"))
+		if _worm_spawner.has_method("_ready"):
+			_worm_spawner.call("_ready")
 		_worm_spawner.set_process(false)
 
 func _spawn_named_monster(id: String, pos: Vector2) -> Node:
