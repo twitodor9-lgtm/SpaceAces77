@@ -68,6 +68,24 @@ func _process(delta: float) -> void:
 		_spawn_worm(_player.global_position.x, ground_y)
 		_cd = cooldown
 
+func trigger_now(x: float = NAN) -> void:
+	if worm_scene == null or _ground == null:
+		return
+
+	var spawn_x := x
+	if is_nan(spawn_x):
+		if _player != null:
+			spawn_x = _player.global_position.x
+		else:
+			spawn_x = _ground.global_position.x
+
+	if _count_worms() >= max_worms:
+		return
+
+	_spawn_worm(spawn_x, _ground.global_position.y)
+	_cd = cooldown
+	_reset_dip_state()
+
 func _spawn_worm(x: float, ground_y: float) -> void:
 	print("SPAWN WORM at x=", x, " ground_y=", ground_y)
 	var worm := worm_scene.instantiate()

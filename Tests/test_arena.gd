@@ -319,13 +319,14 @@ func _spawn_octo_whale() -> void:
 		_set_status("Octo Whale spawned")
 
 func _trigger_space_worm() -> void:
-	if _worm_spawner == null or _player == null:
+	if _worm_spawner == null:
 		return
-	var trigger_y := 620.0
-	_player.global_position.y = trigger_y
-	_worm_spawner.set_process(true)
-	_worm_spawner.call("_process", 0.016)
-	_set_status("Triggered Space Worm via WormSpawner")
+	if _worm_spawner.has_method("trigger_now"):
+		var spawn_x := (_player.global_position.x if _player != null else 640.0)
+		_worm_spawner.call("trigger_now", spawn_x)
+		_set_status("Space Worm spawned")
+		return
+	_set_status("Space Worm trigger unavailable")
 
 func _spawn_air_enemy() -> void:
 	if _spawn_scene(air_enemy_scene, Vector2(980, 260), "test_enemy") != null:
