@@ -11,12 +11,10 @@ extends Area2D
 @export var player_damage_multiplier: float = 1.0
 @export var score_value: int = 750
 
-# טנטקלים
 @export_group("Tentacles")
 @export var tentacle_scene: PackedScene = preload("res://Enemies/Monsters/OctoWhale/Tentacle.tscn")
 @export var tentacle_offsets: Array[Vector2] = [Vector2(-60, 20), Vector2(60, 20)]
 
-# התקפה (כולם ביחד)
 @export_group("Attack")
 @export var attack_interval: float = 2.2
 @export var telegraph_time: float = 0.35
@@ -133,6 +131,11 @@ func take_damage(amount: int) -> void:
 	if health <= 0:
 		_die()
 
+func get_health_ratio() -> float:
+	if max_health <= 0:
+		return 0.0
+	return float(health) / float(max_health)
+
 func _get_visible_world_rect() -> Rect2:
 	var vp := get_viewport().get_visible_rect().size
 	var inv := get_viewport().get_canvas_transform().affine_inverse()
@@ -142,6 +145,4 @@ func _get_visible_world_rect() -> Rect2:
 	var maxx := maxf(p0.x, p3.x)
 	var miny := minf(p0.y, p3.y)
 	var maxy := maxf(p0.y, p3.y)
-	return Rect2(Vector2(minx, miny), Vector2(maxx - minx, maxy - miny))
-p3.y)
 	return Rect2(Vector2(minx, miny), Vector2(maxx - minx, maxy - miny))

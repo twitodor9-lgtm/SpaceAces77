@@ -6,7 +6,6 @@ extends Area2D
 @export var player_damage_multiplier: float = 1.0
 @export var score_value: int = 300
 
-# באילו פריימים התולעת “מסוכנת” (0=פריים ראשון)
 @export_group("Attack Window")
 @export var hit_frame_from: int = 2
 @export var hit_frame_to: int = 4
@@ -41,7 +40,6 @@ func start_attack(target_x: float, ground_y: float, telegraph_time: float, leap_
 	var seq := _attack_seq
 	_did_hit = false
 	_can_hit = false
-
 	global_position = Vector2(target_x, ground_y)
 
 	if telegraph_time > 0.0:
@@ -81,9 +79,10 @@ func take_damage(amount: int) -> void:
 		_award_score()
 		queue_free()
 
-func _on_anim_finished() -> void:
-	queue_free()
-ealth) / float(max_health)
+func get_health_ratio() -> float:
+	if max_health <= 0:
+		return 0.0
+	return float(health) / float(max_health)
 
 func _on_anim_finished() -> void:
 	queue_free()

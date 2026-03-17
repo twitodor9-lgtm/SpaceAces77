@@ -14,7 +14,10 @@ func set_score(value: int) -> void:
 @onready var stage_label: Label = $UI/StageLabel
 #@onready var star_punch_bar: ProgressBar = $HUD/StarPunchBar
 @onready var low_label: Label = $UI/LowAltitudeLabel
+@onready var boss_bracket_left: Label = $UI/BossBracketLeft
+@onready var boss_bar_label: Label = $UI/BossBarLabel
 @onready var boss_bar: ProgressBar = $UI/BossBar
+@onready var boss_bracket_right: Label = $UI/BossBracketRight
 @onready var star_punch_bar: ProgressBar = $UI/StarPunchBar
 # Stage clear
 @onready var stage_clear_label: Label = $"STAGE CLEAR"
