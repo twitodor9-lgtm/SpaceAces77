@@ -2,6 +2,14 @@
 extends Node2D
 
 @export var drift_speed: float = 0.0
+@export var far_texture: Texture2D
+@export var near_texture: Texture2D
+@export var far_position: Vector2 = Vector2(0, -6.000002)
+@export var near_position: Vector2 = Vector2(0, 301)
+@export var far_scale: Vector2 = Vector2(0.9411765, 0.7257683)
+@export var near_scale: Vector2 = Vector2(0.9426471, 1.2228739)
+
+# legacy / optional fallback
 @export var background_preset: BackgroundPreset
 @export var preview_preset: BackgroundPreset
 @export var preview_background_id: String = ""
@@ -29,7 +37,12 @@ func _apply() -> void:
 	if not far_sprite or not near_sprite:
 		return
 
-	# בעורך: אפשר לבחור preset ישירות, או לפי stage index
+	# קודם כל: אם הוזנו תמונות ישירות באינספקטור, נשתמש בהן
+	if _has_direct_background():
+		_apply_direct_background()
+		return
+
+	# בעורך: אפשר לבחור fallback דרך preset/stage index
 	if Engine.is_editor_hint():
 		if preview_preset != null:
 			apply_preset_resource(preview_preset)
@@ -45,11 +58,26 @@ func _apply() -> void:
 		_apply_rules(rules)
 		return
 
-	# במשחק: קודם preset מהאינספקטור, אחרת לפי חוקי stage
+	# במשחק: fallback ל-preset / stage rules
 	if background_preset != null:
 		apply_preset_resource(background_preset)
 		return
 	_apply_rules(GameBalance.rules())
+
+func _has_direct_background() -> bool:
+	return far_texture != null or near_texture != null
+
+func _apply_direct_background() -> void:
+	if far_texture != null:
+		far_sprite.texture = far_texture
+		far_sprite.visible = true
+	if near_texture != null:
+		near_sprite.texture = near_texture
+		near_sprite.visible = true
+	far_sprite.position = far_position
+	near_sprite.position = near_position
+	far_sprite.scale = far_scale
+	near_sprite.scale = near_scale
 
 func apply_background_id(background_id: String) -> void:
 	var preset := _get_catalog_preset(background_id)

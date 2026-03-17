@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=6 format=3 uid="uid://c2d47jea46cjr"]
 
 [ext_resource type="Script" uid="uid://b6rn10gsr4cpm" path="res://main.gd" id="1_main"]
 [ext_resource type="PackedScene" path="res://gameplay_shell.tscn" id="2_shell"]
@@ -16,25 +16,18 @@ ground_enemy_scene = ExtResource("4_ground")
 [node name="GroundLine" parent="GameplayShell" index="0"]
 position = Vector2(660.4186, 650.98267)
 
-[node name="Background" parent="GameplayShell" index="7"]
+[node name="Background" parent="GameplayShell" index="9"]
 position = Vector2(-604, 1343)
+far_position = null
+near_position = null
+far_scale = null
+near_scale = null
 background_preset = ExtResource("5_bgpreset")
 
 [node name="CollisionShape2D" parent="GameplayShell/Ground" index="0"]
 position = Vector2(642, 667)
 scale = Vector2(0.9999999, 0.9999999)
 
-[node name="EnemySpawnTimer" parent="GameplayShell" index="2"]
-wait_time = 2.0109999999999997
-autostart = true
-
-[node name="GroundEnemyTimer" parent="GameplayShell" index="3"]
-
-[node name="Player" parent="GameplayShell" index="1"]
-position = Vector2(85, 283)
-
-[node name="ThrustFlame" parent="GameplayShell/Player" index="2"]
-texture = null
-
+[editable path="GameplayShell"]
 [editable path="GameplayShell/Player"]
 [editable path="GameplayShell/Background"]
