@@ -3,7 +3,7 @@ class_name BackgroundCatalog
 
 const PRESETS := {
 	"neutral_arena": _from_resource("res://backgrounds/neutral_arena.tres"),
-	"stage01_clean": _from_resource("res://backgrounds/neutral_arena.tres"),
+	"stage01_clean": _from_resource("res://backgrounds/stage01_clean.tres"),
 	"stage02_worm": _from_resource("res://backgrounds/stage02_worm.tres"),
 	"stage03_low_cover": _from_resource("res://backgrounds/stage03_low_cover.tres"),
 }
