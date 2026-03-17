@@ -1,8 +1,8 @@
 [gd_scene load_steps=18 format=3 uid="uid://cskmba20nk27p"]
 
 [ext_resource type="Script" uid="uid://cu3j33ql65tr6" path="res://Enemies/Monsters/SpaceWorm/space_worm.gd" id="1_758em"]
-[ext_resource type="Texture2D" uid="uid://bhk4ry7ialglr" path="res://PNGStarJets/אוייבים/מפלצות חלל/SpaceWorm1.png" id="2_jjrne"]
-[ext_resource type="Texture2D" uid="uid://cotfgkjy82fs" path="res://PNGStarJets/אוייבים/מפלצות חלל/SpaceWorm2.png" id="3_371xh"]
+[ext_resource type="Texture2D" uid="uid://bhk4ry7ialglr" path="res://PNGStarJets/ENEMYאוייבים/MONSTERSמפלצות חלל/SpaceWorm1.png" id="2_jjrne"]
+[ext_resource type="Texture2D" uid="uid://cotfgkjy82fs" path="res://PNGStarJets/ENEMYאוייבים/MONSTERSמפלצות חלל/SpaceWorm2.png" id="3_371xh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gkynx"]
 atlas = ExtResource("2_jjrne")
