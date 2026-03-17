@@ -21,6 +21,7 @@ const STAGE_CLEAR_SCENE_PATH := "res://Stages/StageClear.tscn"
 @export var ground_spawn_y: float = 520.0
 @export var ground_spawn_tries: int = 12
 @export var boss_score_threshold: int = 300
+@export var boss_scene: PackedScene
 
 # ✅ באילו שלבים יש "קרקע"
 # אם הרשימה ריקה => קרקע תמיד קיימת

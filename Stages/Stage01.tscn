@@ -39,6 +39,7 @@ ground_min_distance = null
 ground_spawn_y = null
 ground_spawn_tries = null
 boss_score_threshold = null
+boss_scene = ExtResource("13_jmgbh")
 
 [node name="GroundMineSpawner2" parent="." instance=ExtResource("15_fbu0m")]
 mine_scene = ExtResource("8_1h2ju")
