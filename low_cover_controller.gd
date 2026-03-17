@@ -4,7 +4,7 @@ var _prev_hidden := false
 @export var GroundLine_path: NodePath
 var _player: Node2D
 var _ground_line: Node2D
-@export var low_altitude_margin: float = 140.0
+@export var default_low_altitude_margin: float = 140.0
 
 func _ready() -> void:
 	_player = get_node_or_null(player_path) as Node2D
@@ -49,7 +49,8 @@ func _get_low_line_y() -> float:
 		_ground_line = get_tree().current_scene.get_node_or_null("GroundLine") as Node2D
 
 	if _ground_line != null:
-		return _ground_line.global_position.y - low_altitude_margin
+		var margin := float(GameBalance.rule("low_altitude_margin", default_low_altitude_margin))
+		return _ground_line.global_position.y - margin
 
 	var r := _get_visible_world_rect()
 	var low_ratio := float(GameBalance.rule("low_line_ratio", 0.18))

@@ -22,6 +22,7 @@ const STAGES := [
 		"worm_enabled": true,
 		"low_cover_enabled": true,
 		"low_line_ratio": 0.18,
+		"low_altitude_margin": 140.0,
 	},
 	{
 		"name": "S2 - Worm",
@@ -31,6 +32,7 @@ const STAGES := [
 		"telegraph_time": 0.6,
 		"low_cover_enabled": true,
 		"low_line_ratio": 0.18,
+		"low_altitude_margin": 140.0,
 	},
 	{
 		"name": "S3 - Low Cover",
@@ -38,6 +40,7 @@ const STAGES := [
 		"low_cover_enabled": true,
 		"low_cover_accuracy_mul": 0.2, # אויבים כמעט לא פוגעים כשאתה נמוך
 		"low_line_ratio": 0.18,
+		"low_altitude_margin": 140.0,
 	},
 	{
 		"name": "S4 - Risk/Reward",
@@ -48,6 +51,7 @@ const STAGES := [
 		"low_cover_enabled": true,
 		"low_cover_accuracy_mul": 0.35,
 		"low_line_ratio": 0.20,
+		"low_altitude_margin": 140.0,
 	},
 ]
 
