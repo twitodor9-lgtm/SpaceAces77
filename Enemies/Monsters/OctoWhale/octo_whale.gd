@@ -34,6 +34,7 @@ var _pivot_fixed := false
 
 func _ready() -> void:
 	health = max(1, max_health)
+	add_to_group("health_bar_target")
 	_fix_pivot()
 	_base_y = global_position.y
 	set_process(true)
@@ -141,4 +142,6 @@ func _get_visible_world_rect() -> Rect2:
 	var maxx := maxf(p0.x, p3.x)
 	var miny := minf(p0.y, p3.y)
 	var maxy := maxf(p0.y, p3.y)
+	return Rect2(Vector2(minx, miny), Vector2(maxx - minx, maxy - miny))
+p3.y)
 	return Rect2(Vector2(minx, miny), Vector2(maxx - minx, maxy - miny))

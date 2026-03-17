@@ -81,19 +81,21 @@ func _update_low_altitude() -> void:
 	low_label.visible = player.is_hidden_low
 
 func _update_boss_bar() -> void:
-	var boss_node: Node = get_tree().get_first_node_in_group("boss")
-	if boss_node == null:
+	var tracked: Node = get_tree().get_first_node_in_group("boss")
+	if tracked == null:
+		tracked = get_tree().get_first_node_in_group("health_bar_target")
+	if tracked == null:
 		boss_bar.visible = false
 		return
 
-	var boss_item := boss_node as CanvasItem
-	if boss_item == null or not boss_item.visible:
+	var tracked_item := tracked as CanvasItem
+	if tracked_item == null or not tracked_item.visible:
 		boss_bar.visible = false
 		return
 
-	if boss_node.has_method("get_health_ratio"):
+	if tracked.has_method("get_health_ratio"):
 		boss_bar.visible = true
-		boss_bar.value = boss_node.get_health_ratio() * 100.0
+		boss_bar.value = tracked.get_health_ratio() * 100.0
 	else:
 		boss_bar.visible = false
 

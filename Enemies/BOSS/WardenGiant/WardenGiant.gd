@@ -184,6 +184,11 @@ func _update_hp_label() -> void:
 	_hp_label.text = "HP: %d / %d" % [hp, max_hp]
 	_hp_label.visible = show_debug_hp_label
 
+func get_health_ratio() -> float:
+	if max_hp <= 0:
+		return 0.0
+	return float(hp) / float(max_hp)
+
 func _find_first_animated_sprite(root: Node) -> AnimatedSprite2D:
 	for child in root.get_children():
 		if child is AnimatedSprite2D:

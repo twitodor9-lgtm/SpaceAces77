@@ -160,5 +160,10 @@ func _award_score() -> void:
 	if scene != null and scene.has_method("add_score"):
 		scene.call("add_score", score_value)
 
+func get_health_ratio() -> float:
+	if max_health <= 0:
+		return 0.0
+	return float(_health) / float(max_health)
+
 func debug_force_anim(name: String) -> void:
 	play_one(name)
