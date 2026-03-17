@@ -1,6 +1,8 @@
 extends Area2D
 
-@export var _health: int = 10
+@export_group("Combat")
+@export var max_health: int = 10
+@export var player_damage_multiplier: float = 1.0
 @export var score_value: int = 100
 
 # =========================
@@ -52,11 +54,13 @@ var confused: bool = false
 @export var life_time: float = 12.0
 
 var _dead: bool = false
+var _health: int = 0
 
 func _ready() -> void:
 	add_to_group("air_enemies")
 	add_to_group("enemies")
 
+	_health = max(1, max_health)
 	_y_offset = randf_range(-y_offset_range, y_offset_range)
 	_speed = base_speed
 	_ammo = clip_size
@@ -280,8 +284,9 @@ func _award_score() -> void:
 func take_damage(amount: int) -> void:
 	if _dead:
 		return
-	_health -= amount
-	print("TAKE_DAMAGE:", name, " amount=", amount, " health=", _health)
+	var final_damage := maxi(1, int(round(float(amount) * player_damage_multiplier)))
+	_health -= final_damage
+	print("TAKE_DAMAGE:", name, " amount=", amount, " final=", final_damage, " health=", _health)
 	if _health <= 0:
 		_dead = true
 		_award_score()
