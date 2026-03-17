@@ -27,7 +27,7 @@ const STAGE_CLEAR_SCENE_PATH := "res://Stages/StageClear.tscn"
 # אם הרשימה ריקה => קרקע תמיד קיימת
 @export var stages_with_ground: PackedInt32Array = PackedInt32Array([1])
 
-@onready var boss: Node = get_node_or_null("Boss")
+var boss: Node = null
 @onready var score_label: Label = get_node_or_null("UI/ScoreLabel") as Label
 
 var boss_spawned: bool = false
