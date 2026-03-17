@@ -402,6 +402,21 @@ func _set_time_scale(scale_value: float) -> void:
 func _set_status(text: String) -> void:
 	if _status_label != null:
 		_status_label.text = text
+		_status_label.visible = true
+		_status_label.modulate = Color(0.42, 1.0, 0.66, 0.95)
+		_status_ttl = 2.2
+
+func _update_status_fade(delta: float) -> void:
+	if _status_label == null or not _status_label.visible:
+		return
+	_status_ttl = maxf(_status_ttl - delta, 0.0)
+	if _status_ttl <= 0.0:
+		_status_label.visible = false
+		return
+	var alpha := 1.0
+	if _status_ttl < 0.8:
+		alpha = _status_ttl / 0.8
+	_status_label.modulate = Color(0.42, 1.0, 0.66, 0.95 * alpha)
 
 func add_score(points: int) -> void:
 	_score += points
