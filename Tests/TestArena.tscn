@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://Tests/test_arena.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://cuwhsh21cekkm" path="res://player.tscn" id="2_player"]
 [ext_resource type="PackedScene" uid="uid://dqwq2ahsyspxl" path="res://background.tscn" id="3_background"]
+[ext_resource type="PackedScene" uid="uid://5e1msa2d0gmv" path="res://ui.tscn" id="3_ui"]
 [ext_resource type="PackedScene" uid="uid://c8fqd22b4vbwl" path="res://Enemies/BOSS/WardenGiant/warden_giant.tscn" id="4_robot"]
 [ext_resource type="PackedScene" uid="uid://bpywkm46wsv14" path="res://Enemies/ground_mine/ground_mine.tscn" id="5_mine"]
 [ext_resource type="PackedScene" path="res://Enemies/Monsters/VoidRaptor/void_raptor.tscn" id="6_raptor"]
@@ -10,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://c2f22vcq3xhro" path="res://Enemies/interceptor.tscn" id="8_interceptor"]
 [ext_resource type="PackedScene" uid="uid://dr8ge6b2ksbkh" path="res://Enemies/Ground_enemy.tscn" id="9_turret"]
 [ext_resource type="PackedScene" path="res://Enemies/Monsters/OctoWhale/octo_whale.tscn" id="10_octo"]
-[ext_resource type="PackedScene" path="res://Enemies/Monsters/SpaceWorm/space_worm.tscn" id="11_worm"]
+[ext_resource type="PackedScene" uid="uid://cskmba20nk27p" path="res://Enemies/Monsters/SpaceWorm/space_worm.tscn" id="11_worm"]
 
 [sub_resource type="RectangleShape2D" id="1_ground_shape"]
 size = Vector2(1280, 140)
@@ -19,6 +20,7 @@ size = Vector2(1280, 140)
 script = ExtResource("1_script")
 player_scene = ExtResource("2_player")
 background_scene = ExtResource("3_background")
+ui_scene = ExtResource("3_ui")
 robot_scene = ExtResource("4_robot")
 ground_mine_scene = ExtResource("5_mine")
 void_raptor_scene = ExtResource("6_raptor")
