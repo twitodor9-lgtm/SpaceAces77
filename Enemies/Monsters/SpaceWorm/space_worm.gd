@@ -1,26 +1,29 @@
 extends Area2D
 
+@export_group("Combat")
 @export var damage: int = 1
-@export var health: int = 30
+@export var max_health: int = 30
+@export var player_damage_multiplier: float = 1.0
 @export var score_value: int = 300
 
-var _dead: bool = false
-
 # באילו פריימים התולעת “מסוכנת” (0=פריים ראשון)
+@export_group("Attack Window")
 @export var hit_frame_from: int = 2
 @export var hit_frame_to: int = 4
 
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 
+var _dead: bool = false
+var health: int = 0
 var _did_hit: bool = false
 var _can_hit: bool = false
 var _attack_seq: int = 0
 
 func _ready() -> void:
+	health = max(1, max_health)
 	add_to_group("worms")
 	monitoring = true
 	monitorable = true
-
 	_did_hit = false
 	_can_hit = false
 
@@ -35,8 +38,6 @@ func _ready() -> void:
 func start_attack(target_x: float, ground_y: float, telegraph_time: float, leap_height: float) -> void:
 	_attack_seq += 1
 	var seq := _attack_seq
-
-	# איפוס מצב לכל הופעה חדשה
 	_did_hit = false
 	_can_hit = false
 
@@ -57,7 +58,6 @@ func start_attack(target_x: float, ground_y: float, telegraph_time: float, leap_
 	anim.play("default")
 
 func _physics_process(_delta: float) -> void:
-	# ✅ פגיעה יציבה בלי סיגנלים: סריקת חפיפה ידנית בזמן “חלון פגיעה”
 	if _can_hit and not _did_hit:
 		for a in get_overlapping_areas():
 			var target: Node = a
@@ -69,7 +69,6 @@ func _physics_process(_delta: float) -> void:
 				break
 
 func _on_frame_changed() -> void:
-	# חלון פגיעה לפי פריימים
 	_can_hit = (anim.frame >= hit_frame_from and anim.frame <= hit_frame_to)
 
 func _award_score() -> void:
@@ -80,7 +79,8 @@ func _award_score() -> void:
 func take_damage(amount: int) -> void:
 	if _dead:
 		return
-	health -= amount
+	var final_damage := maxi(1, int(round(float(amount) * player_damage_multiplier)))
+	health -= final_damage
 	if health <= 0:
 		_dead = true
 		_award_score()

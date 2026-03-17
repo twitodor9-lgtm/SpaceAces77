@@ -1,7 +1,11 @@
 extends Area2D
 
-@export var health: int = 20
+@export_group("Combat")
+@export var max_health: int = 20
+@export var player_damage_multiplier: float = 1.0
 @export var score_value: int = 150
+
+@export_group("Shooting")
 @export var bullet_scene: PackedScene
 @export var bullet_speed: float = 200.0
 @export var fire_interval: float = 0.6
@@ -12,6 +16,7 @@ var _can_shoot: bool = true
 var confused: bool = false
 var confusion_time := 1.7
 var _dead: bool = false
+var health: int = 0
 
 # ---------------------------------------------------
 # הפניות נכונות לפי מבנה הסצנה שלך
@@ -21,12 +26,12 @@ var _dead: bool = false
 @onready var muzzle: Marker2D = $TurretRoot/TurretSprite/Muzzle
 @onready var shoot_timer: Timer = $ShootTimer
 
-
 func _ready() -> void:
 	print("GroundEnemy spawned!  pos=", global_position)
 	print_stack()
 
 	add_to_group("ground_enemies")
+	health = max(1, max_health)
 
 	shoot_timer.wait_time = fire_interval
 	shoot_timer.timeout.connect(_try_shoot)
@@ -38,16 +43,14 @@ func _ready() -> void:
 	print("turret_sprite: ", turret_sprite)
 	print("muzzle:        ", muzzle)
 
-
 func _process(delta: float) -> void:
 	_rotate_turret(delta)
-
 
 # ---------------------------------------------------
 # סיבוב חלק + הגבלת זווית
 # ---------------------------------------------------
 func _rotate_turret(delta: float) -> void:
-	if confused:   # כשהאויב מבולבל הוא לא מסתובב
+	if confused:
 		return
 
 	var player := get_tree().get_first_node_in_group("player") as Node2D
@@ -58,19 +61,15 @@ func _rotate_turret(delta: float) -> void:
 	if dist > trigger_distance:
 		return
 
-	# זווית המטרה
 	var target_angle = (player.global_position - turret_root.global_position).angle()
 	var current_angle = turret_root.rotation
-
 	var new_angle = lerp_angle(current_angle, target_angle, delta * turn_speed)
 
-	# הגבלת סיבוב
 	var min_angle = deg_to_rad(-150)
 	var max_angle = deg_to_rad(+130)
 	new_angle = clamp(new_angle, min_angle, max_angle)
 
 	turret_root.rotation = new_angle
-
 
 # ---------------------------------------------------
 # ירי
@@ -78,7 +77,6 @@ func _rotate_turret(delta: float) -> void:
 func _try_shoot() -> void:
 	if confused:
 		return
-
 	if not _can_shoot:
 		return
 
@@ -88,7 +86,7 @@ func _try_shoot() -> void:
 
 	_shoot_bullet()
 	if player.is_hidden_low:
-		return # או להוריד דיוק במקום לבטל ירי
+		return
 
 func _shoot_bullet() -> void:
 	if bullet_scene == null:
@@ -97,8 +95,6 @@ func _shoot_bullet() -> void:
 		return
 
 	var inst = bullet_scene.instantiate()
-
-	# 🚨 פיוז: אם בטעות שמו GroundEnemy ככדור – לעצור לפני פיצוץ
 	if inst.is_in_group("ground_enemies") or inst.has_method("take_damage"):
 		push_error("GroundEnemy: bullet_scene points to an ENEMY scene, not a BULLET. Fix Inspector (bullet_scene).")
 		if inst is Node:
@@ -106,9 +102,7 @@ func _shoot_bullet() -> void:
 		shoot_timer.stop()
 		return
 
-	# ממשיכים כרגיל – זה כדור
 	var bullet: Node = bullet_scene.instantiate()
-
 	get_tree().current_scene.add_child(bullet)
 
 	if bullet is Node2D:
@@ -118,7 +112,8 @@ func _shoot_bullet() -> void:
 	var dir := turret_root.global_transform.x.normalized()
 	if bullet.has_method("setup"):
 		bullet.setup(dir, bullet_speed)
-		
+
+# ---------------------------------------------------
 # פגיעה / מוות
 # ---------------------------------------------------
 func _award_score() -> void:
@@ -129,13 +124,12 @@ func _award_score() -> void:
 func take_damage(amount: int = 1) -> void:
 	if _dead:
 		return
-	health -= amount
+	var final_damage := maxi(1, int(round(float(amount) * player_damage_multiplier)))
+	health -= final_damage
 	if health <= 0:
 		_dead = true
 		_award_score()
 		queue_free()
-
-
 
 # ---------------------------------------------------
 # תגובה ל־LOOP של השחקן (בלבול)
@@ -146,9 +140,6 @@ func on_player_loop() -> void:
 
 	confused = true
 	_can_shoot = false
-
-	# בעתיד אפשר להוסיף אפקט ויזואלי כמו "סחרחורת"
 	await get_tree().create_timer(confusion_time).timeout
-
 	confused = false
 	_can_shoot = true
