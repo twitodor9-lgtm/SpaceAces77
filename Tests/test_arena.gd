@@ -8,6 +8,8 @@ const GROUND_MINE_TRIGGER_Y := 500.0
 @export var robot_scene: PackedScene
 @export var ground_mine_scene: PackedScene
 @export var void_raptor_scene: PackedScene
+@export var octo_whale_scene: PackedScene
+@export var space_worm_scene: PackedScene
 @export var air_enemy_scene: PackedScene
 @export var interceptor_scene: PackedScene
 @export var turret_scene: PackedScene
@@ -17,6 +19,7 @@ var _status_label: Label = null
 var _pending_ground_mines: Array[Node2D] = []
 var _background: Node2D = null
 var _ui_root: CanvasLayer = null
+var _controls_panel: PanelContainer = null
 
 func _ready() -> void:
 	_setup_background()
@@ -40,6 +43,8 @@ func _input(event: InputEvent) -> void:
 				_clear_test_enemies()
 			KEY_R:
 				_reset_player()
+			KEY_H:
+				_toggle_controls_help()
 
 func _setup_background() -> void:
 	if background_scene == null:
@@ -63,7 +68,7 @@ func _setup_ui() -> void:
 
 	var panel := PanelContainer.new()
 	panel.position = Vector2(16, 16)
-	panel.size = Vector2(300, 520)
+	panel.size = Vector2(320, 560)
 	_ui_root.add_child(panel)
 
 	var root := VBoxContainer.new()
@@ -72,41 +77,78 @@ func _setup_ui() -> void:
 	panel.add_child(root)
 
 	root.add_child(_make_title("TEST ARENA"))
-	root.add_child(_make_section_label("Bosses"))
-	root.add_child(_make_button("Spawn Robot", _spawn_robot))
-
-	root.add_child(_make_section_label("Monsters"))
-	root.add_child(_make_button("Spawn Void Raptor", _spawn_void_raptor))
-
-	root.add_child(_make_section_label("Ground Enemies"))
-	root.add_child(_make_button("Spawn Ground Mine", _spawn_ground_mine))
-	root.add_child(_make_button("Spawn Turret", _spawn_turret))
-
-	root.add_child(_make_section_label("Air Enemies"))
-	root.add_child(_make_button("Spawn Air Enemy", _spawn_air_enemy))
-	root.add_child(_make_button("Spawn Interceptor", _spawn_interceptor))
-
-	root.add_child(_make_section_label("Background"))
-	root.add_child(_make_button("Background 1", func(): _apply_background_preview(0)))
-	root.add_child(_make_button("Background 2", func(): _apply_background_preview(1)))
-	root.add_child(_make_button("Background 3", func(): _apply_background_preview(2)))
-
-	root.add_child(_make_section_label("Tools"))
-	root.add_child(_make_button("Clear Enemies", _clear_test_enemies))
-	root.add_child(_make_button("Reset Player", _reset_player))
-	root.add_child(_make_button("Normal Speed", func(): _set_time_scale(1.0)))
-	root.add_child(_make_button("Half Speed", func(): _set_time_scale(0.5)))
-	root.add_child(_make_button("Quarter Speed", func(): _set_time_scale(0.25)))
+	root.add_child(_make_button("Controls Help", _toggle_controls_help))
+	root.add_child(_make_collapsible_section("Enemies", [
+		_make_collapsible_section("Bosses", [
+			_make_button("Spawn Robot", _spawn_robot),
+		]),
+		_make_collapsible_section("Monsters", [
+			_make_button("Spawn Void Raptor", _spawn_void_raptor),
+			_make_button("Spawn Octo Whale", _spawn_octo_whale),
+			_make_button("Spawn Space Worm", _spawn_space_worm),
+		]),
+		_make_collapsible_section("Ground Enemies", [
+			_make_button("Spawn Ground Mine", _spawn_ground_mine),
+			_make_button("Spawn Turret", _spawn_turret),
+		]),
+		_make_collapsible_section("Air Enemies", [
+			_make_button("Spawn Air Enemy", _spawn_air_enemy),
+			_make_button("Spawn Interceptor", _spawn_interceptor),
+		]),
+	]))
+	root.add_child(_make_collapsible_section("Backgrounds", [
+		_make_button("Background 1", func(): _apply_background_preview(0)),
+		_make_button("Background 2", func(): _apply_background_preview(1)),
+		_make_button("Background 3", func(): _apply_background_preview(2)),
+	]))
+	root.add_child(_make_collapsible_section("Tools", [
+		_make_button("Clear Enemies", _clear_test_enemies),
+		_make_button("Reset Player", _reset_player),
+		_make_button("Normal Speed", func(): _set_time_scale(1.0)),
+		_make_button("Half Speed", func(): _set_time_scale(0.5)),
+		_make_button("Quarter Speed", func(): _set_time_scale(0.25)),
+	]))
 
 	_status_label = Label.new()
 	_status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_status_label.custom_minimum_size = Vector2(260, 72)
+	_status_label.custom_minimum_size = Vector2(280, 72)
 	root.add_child(_status_label)
+
+	_setup_controls_panel()
+
+func _setup_controls_panel() -> void:
+	_controls_panel = PanelContainer.new()
+	_controls_panel.position = Vector2(350, 16)
+	_controls_panel.size = Vector2(360, 260)
+	_controls_panel.visible = false
+	_ui_root.add_child(_controls_panel)
+
+	var box := VBoxContainer.new()
+	_controls_panel.add_child(box)
+
+	box.add_child(_make_title("PLAYER CONTROLS"))
+	box.add_child(_make_help_label("Move: Arrow keys left/right"))
+	box.add_child(_make_help_label("Shoot: Space"))
+	box.add_child(_make_help_label("Bomb: V"))
+	box.add_child(_make_help_label("Loop: C"))
+	box.add_child(_make_help_label("Star Punch: X"))
+	box.add_child(_make_help_label("Dolphin Wave: D"))
+	box.add_child(_make_help_label("Way Jump: W"))
+	box.add_child(_make_help_label("Turbo: T"))
+	box.add_child(_make_help_label("Deflector Shield: F"))
+	box.add_child(_make_help_label("Arena: 1/2/3, C clear, R reset, H help"))
+	box.add_child(_make_button("Close Help", _toggle_controls_help))
 
 func _make_title(text: String) -> Label:
 	var l := Label.new()
 	l.text = text
 	l.add_theme_font_size_override("font_size", 24)
+	return l
+
+func _make_help_label(text: String) -> Label:
+	var l := Label.new()
+	l.text = text
+	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	return l
 
 func _make_section_label(text: String) -> Label:
@@ -122,8 +164,37 @@ func _make_button(text: String, action: Callable) -> Button:
 	b.pressed.connect(action)
 	return b
 
+func _make_collapsible_section(title: String, controls: Array[Control]) -> VBoxContainer:
+	var wrapper := VBoxContainer.new()
+	var toggle := Button.new()
+	toggle.text = title + " ▼"
+	toggle.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	toggle.custom_minimum_size = Vector2(260, 32)
+	wrapper.add_child(toggle)
+
+	var body := VBoxContainer.new()
+	body.visible = false
+	body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	body.add_theme_constant_override("separation", 4)
+	wrapper.add_child(body)
+
+	for c in controls:
+		body.add_child(c)
+
+	toggle.pressed.connect(func():
+		body.visible = not body.visible
+		toggle.text = title + (" ▲" if body.visible else " ▼")
+	)
+
+	return wrapper
+
 func _show_help() -> void:
-	_set_status("Keyboard: 1 Robot | 2 Mine | 3 Raptor | C Clear | R Reset")
+	_set_status("Keyboard: 1 Robot | 2 Mine | 3 Raptor | C Clear | R Reset | H Help")
+
+func _toggle_controls_help() -> void:
+	if _controls_panel == null:
+		return
+	_controls_panel.visible = not _controls_panel.visible
 
 func _spawn_robot() -> void:
 	var robot := _spawn_scene(robot_scene, Vector2(930, 340), "test_enemy") as Node2D
@@ -142,28 +213,37 @@ func _spawn_ground_mine() -> void:
 	_set_status("Ground mine armed. Wakes only below Y=%d" % int(GROUND_MINE_TRIGGER_Y))
 
 func _spawn_void_raptor() -> void:
-	var raptor := _spawn_scene(void_raptor_scene, Vector2(900, 520), "test_enemy") as Node2D
-	if raptor == null:
-		return
-	_set_status("Void Raptor spawned")
+	if _spawn_scene(void_raptor_scene, Vector2(900, 520), "test_enemy") != null:
+		_set_status("Void Raptor spawned")
+
+func _spawn_octo_whale() -> void:
+	if _spawn_scene(octo_whale_scene, Vector2(1000, 360), "test_enemy") != null:
+		_set_status("Octo Whale spawned")
+
+func _spawn_space_worm() -> void:
+	if _spawn_scene(space_worm_scene, Vector2(980, 540), "test_enemy") != null:
+		_set_status("Space Worm spawned")
 
 func _spawn_air_enemy() -> void:
-	_spawn_scene(air_enemy_scene, Vector2(980, 260), "test_enemy")
-	_set_status("Air enemy spawned")
+	if _spawn_scene(air_enemy_scene, Vector2(980, 260), "test_enemy") != null:
+		_set_status("Air enemy spawned")
 
 func _spawn_interceptor() -> void:
-	_spawn_scene(interceptor_scene, Vector2(980, 220), "test_enemy")
-	_set_status("Interceptor spawned")
+	if _spawn_scene(interceptor_scene, Vector2(980, 220), "test_enemy") != null:
+		_set_status("Interceptor spawned")
 
 func _spawn_turret() -> void:
-	_spawn_scene(turret_scene, Vector2(960, 610), "test_enemy")
-	_set_status("Turret spawned")
+	var turret := _spawn_scene(turret_scene, Vector2(960, 610), "test_enemy") as Node2D
+	if turret != null:
+		_set_status("Turret spawned")
 
 func _spawn_scene(scene: PackedScene, pos: Vector2, group_name: StringName) -> Node:
 	if scene == null:
+		_set_status("Scene is not assigned yet")
 		return null
 	var inst := scene.instantiate()
 	if inst == null:
+		_set_status("Failed to instantiate scene")
 		return null
 	add_child(inst)
 	if inst is Node2D:
@@ -201,10 +281,8 @@ func _reset_player() -> void:
 func _apply_background_preview(index: int) -> void:
 	if _background == null:
 		return
-	if _background.has_method("set"):
-		_background.set("preview_stage_index", index)
-	if _background.has_method("_apply"):
-		_background.call("_apply")
+	_background.set("preview_stage_index", index)
+	_background.call("_apply")
 	_set_status("Background %d loaded" % (index + 1))
 
 func _set_time_scale(scale_value: float) -> void:
