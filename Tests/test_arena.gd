@@ -2,14 +2,7 @@ extends Node2D
 
 const ROBOT_SCALE := Vector2(1.7, 1.7)
 const GROUND_MINE_TRIGGER_Y := 500.0
-const NEUTRAL_BG := {
-	"far": "res://PNGStarJets/BAרקעים/A1/1.pngA2.png",
-	"near": "res://PNGStarJets/BAרקעים/A1/1.pngA.png",
-	"far_scale": Vector2(0.9411765, 0.7257683),
-	"near_scale": Vector2(0.9426471, 1.2228739),
-	"near_pos": Vector2(0, 301),
-	"far_pos": Vector2(0, -6.000002),
-}
+const NEUTRAL_BACKGROUND_ID := "neutral_arena"
 
 @export var robot_scene: PackedScene
 @export var ground_mine_scene: PackedScene
@@ -246,7 +239,7 @@ func _apply_neutral_arena() -> void:
 	_arena_stage_mode = -1
 	if _worm_spawner != null:
 		_worm_spawner.set_process(false)
-	_apply_background_preset(NEUTRAL_BG)
+	_apply_background_id(NEUTRAL_BACKGROUND_ID)
 	if _game_ui != null and _game_ui.has_method("set_stage"):
 		_game_ui.call("set_stage", 0)
 	_set_status("Neutral arena loaded")
@@ -264,21 +257,11 @@ func _apply_stage_mode(stage_idx: int) -> void:
 		_game_ui.call("set_stage", stage_idx + 1)
 	_set_status("Stage %d rules loaded" % (stage_idx + 1))
 
-func _apply_background_preset(preset: Dictionary) -> void:
+func _apply_background_id(background_id: String) -> void:
 	if _background == null:
 		return
-	var far := _background.get_node_or_null("ParallaxBackground/FarLayer/FarSprite") as Sprite2D
-	var near := _background.get_node_or_null("ParallaxBackground/NearLayer/NearSprite") as Sprite2D
-	if far != null:
-		far.visible = true
-		far.texture = load(String(preset["far"]))
-		far.scale = preset["far_scale"]
-		far.position = preset["far_pos"]
-	if near != null:
-		near.visible = true
-		near.texture = load(String(preset["near"]))
-		near.scale = preset["near_scale"]
-		near.position = preset["near_pos"]
+	if _background.has_method("apply_background_id"):
+		_background.call("apply_background_id", background_id)
 
 func _spawn_robot() -> void:
 	var robot := _spawn_scene(robot_scene, Vector2(930, 340), "test_enemy") as Node2D

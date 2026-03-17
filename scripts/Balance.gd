@@ -19,6 +19,7 @@ const DIFF := {
 const STAGES := [
 	{
 		"name": "S1 - Clean",
+		"background_id": "stage01_clean",
 		"worm_enabled": true,
 		"low_cover_enabled": true,
 		"low_line_ratio": 0.18,
@@ -26,6 +27,7 @@ const STAGES := [
 	},
 	{
 		"name": "S2 - Worm",
+		"background_id": "stage02_worm",
 		"worm_enabled": true,
 		"worm_dip_chance": 0.35,
 		"worm_cooldown": 2.5,
@@ -36,6 +38,7 @@ const STAGES := [
 	},
 	{
 		"name": "S3 - Low Cover",
+		"background_id": "stage03_low_cover",
 		"worm_enabled": true,
 		"low_cover_enabled": true,
 		"low_cover_accuracy_mul": 0.2, # אויבים כמעט לא פוגעים כשאתה נמוך
@@ -44,6 +47,7 @@ const STAGES := [
 	},
 	{
 		"name": "S4 - Risk/Reward",
+		"background_id": "stage03_low_cover",
 		"worm_enabled": true,
 		"worm_dip_chance": 0.25,
 		"worm_cooldown": 3.0,
