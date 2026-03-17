@@ -166,8 +166,3 @@ func _get_visible_world_rect() -> Rect2:
 	var miny: float = minf(minf(p0.y, p1.y), minf(p2.y, p3.y))
 	var maxy: float = maxf(maxf(p0.y, p1.y), maxf(p2.y, p3.y))
 	return Rect2(Vector2(minx, miny), Vector2(maxx - minx, maxy - miny))
-nf(p0.x, p1.x), minf(p2.x, p3.x))
-	var maxx: float = maxf(maxf(p0.x, p1.x), maxf(p2.x, p3.x))
-	var miny: float = minf(minf(p0.y, p1.y), minf(p2.y, p3.y))
-	var maxy: float = maxf(maxf(p0.y, p1.y), maxf(p2.y, p3.y))
-	return Rect2(Vector2(minx, miny), Vector2(maxx - minx, maxy - miny))

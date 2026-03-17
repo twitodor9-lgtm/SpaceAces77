@@ -294,8 +294,3 @@ func take_damage(amount: int) -> void:
 		_dead = true
 		_award_score()
 		queue_free()
-		queue_free()
-d = true
-		_award_score()
-		queue_free()
-		queue_free()
