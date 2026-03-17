@@ -99,7 +99,7 @@ func _ready() -> void:
 	loop_label = Label.new()
 	loop_label.text = "🔁 LOOP!"
 	loop_label.add_theme_font_size_override("font_size", 36)
-	loop_label.add_theme_color_override("font_color", Color.ORANGE_RED)
+	loop_label.add_theme_color_override("font_color", Color(0.42, 1.0, 0.66, 1.0))
 	loop_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	loop_label.visible = false
 	canvas_layer.add_child(loop_label)
@@ -608,3 +608,4 @@ class DeflectorShieldFX extends Node2D:
 			var ang := (float(i) / 6.0) * TAU + _t * 2.6
 			var v := Vector2.RIGHT.rotated(ang)
 			draw_line(v * (r * 0.75), v * (r * 1.05), Color(0.8, 0.95, 1.0, 0.22 * fade), 2.0)
+.0)

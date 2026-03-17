@@ -75,6 +75,7 @@ cooldown = 6.0
 
 [node name="WayJump" type="Node2D" parent="Abilities"]
 script = ExtResource("8_b26j0")
+label_text = "WAY JUMP!"
 hop_step_distance = 1000.0
 
 [node name="Turbo" type="Node2D" parent="Abilities"]
