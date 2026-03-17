@@ -21,7 +21,6 @@ var _attack_seq: int = 0
 func _ready() -> void:
 	health = max(1, max_health)
 	add_to_group("worms")
-	add_to_group("health_bar_target")
 	monitoring = true
 	monitorable = true
 	_did_hit = false

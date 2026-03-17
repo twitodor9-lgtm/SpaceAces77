@@ -104,9 +104,10 @@ func _update_threat_list(delta: float) -> void:
 	if boss != null:
 		_remember_threat(boss, "[AR] BOSS")
 
-	for node in get_tree().get_nodes_in_group("health_bar_target"):
-		if node != null:
-			_remember_threat(node, "[AR] MONSTER")
+	if _low_recent_t <= 0.0:
+		for node in get_tree().get_nodes_in_group("health_bar_target"):
+			if node != null:
+				_remember_threat(node, "[AR] MONSTER")
 
 	var rows: Array[Dictionary] = []
 	for key in _threat_memory.keys():

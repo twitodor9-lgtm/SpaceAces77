@@ -80,10 +80,11 @@ text = "Lives: 3"
 custom_minimum_size = Vector2(20, 20)
 offset_left = 20.0
 offset_top = 20.0
-offset_right = 141.0
+offset_right = 220.0
 offset_bottom = 65.0
-theme_override_font_sizes/font_size = 32
-text = "Score: 0"
+label_settings = SubResource("LabelSettings_ar_green")
+modulate = Color(0.42, 1, 0.66, 0.82)
+text = "SCORE: 0"
 
 [node name="StarPunchBar" type="ProgressBar" parent="UI"]
 visible = false
