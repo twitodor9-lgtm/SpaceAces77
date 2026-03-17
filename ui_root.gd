@@ -100,12 +100,16 @@ func _update_boss_bar() -> void:
 	if tracked.has_method("get_health_ratio"):
 		boss_bar.visible = true
 		boss_bar_label.visible = true
+		boss_bracket_left.visible = true
+		boss_bracket_right.visible = true
 		boss_bar.value = tracked.get_health_ratio() * 100.0
 		var display_name := String(tracked.name).replace("_", " ").to_upper()
 		boss_bar_label.text = "%s // %s" % [tag, display_name]
 	else:
 		boss_bar.visible = false
 		boss_bar_label.visible = false
+		boss_bracket_left.visible = false
+		boss_bracket_right.visible = false
 
 func _get_visible_world_rect() -> Rect2:
 	var vp := get_viewport().get_visible_rect().size

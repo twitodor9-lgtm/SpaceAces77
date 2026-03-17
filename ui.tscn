@@ -112,14 +112,47 @@ horizontal_alignment = 1
 theme_override_font_sizes/font_size = 28
 text = "LOW ALTITUDE!"
 
+[node name="BossBracketLeft" type="Label" parent="UI"]
+visible = false
+offset_left = 876.0
+offset_top = 16.0
+offset_right = 916.0
+offset_bottom = 48.0
+label_settings = SubResource("LabelSettings_ar_green")
+text = "["
+
+[node name="BossBarLabel" type="Label" parent="UI"]
+visible = false
+offset_left = 912.0
+offset_top = 14.0
+offset_right = 1084.0
+offset_bottom = 40.0
+label_settings = SubResource("LabelSettings_ar_green")
+text = "[AR] TARGET"
+horizontal_alignment = 2
+
 [node name="BossBar" type="ProgressBar" parent="UI"]
 visible = false
 offset_left = 1088.0
 offset_top = 20.0
 offset_right = 1260.0
 offset_bottom = 44.0
+theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_bar_fill")
+theme_override_colors/font_color = Color(0.35, 1, 0.6, 1)
+theme_override_font_sizes/font_size = 16
+show_percentage = false
 step = 0.1
 value = 100.0
+
+[node name="BossBracketRight" type="Label" parent="UI"]
+visible = false
+offset_left = 1262.0
+offset_top = 16.0
+offset_right = 1294.0
+offset_bottom = 48.0
+label_settings = SubResource("LabelSettings_ar_green")
+text = "]"
 
 [node name="StageClearLabel" type="Label" parent="UI"]
 visible = false
