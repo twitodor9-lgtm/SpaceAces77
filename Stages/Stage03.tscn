@@ -1,11 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://06m7n28i2pjs"]
+[gd_scene load_steps=15 format=3 uid="uid://06m7n28i2pjs"]
 
 [ext_resource type="Script" uid="uid://b6rn10gsr4cpm" path="res://main.gd" id="1_1j08s"]
 [ext_resource type="PackedScene" uid="uid://m7y6uehi3bkq" path="res://cloud.tscn" id="2_yqasv"]
 [ext_resource type="PackedScene" uid="uid://c2f22vcq3xhro" path="res://Enemies/interceptor.tscn" id="3_6cn4g"]
 [ext_resource type="PackedScene" uid="uid://83y4asyg0dj0" path="res://Enemies/enemy.tscn" id="4_hyrto"]
 [ext_resource type="PackedScene" uid="uid://cuwhsh21cekkm" path="res://player.tscn" id="5_kpn54"]
-[ext_resource type="PackedScene" path="res://Enemies/Monsters/VoidRaptor/void_raptor.tscn" id="6_fwx53"]
 [ext_resource type="PackedScene" uid="uid://dr8ge6b2ksbkh" path="res://Enemies/Ground_enemy.tscn" id="7_exvjb"]
 [ext_resource type="Script" uid="uid://dowpp5jo8qy7f" path="res://cloud_spawner.gd" id="8_vf4ql"]
 [ext_resource type="Script" uid="uid://nigexlpnf55" path="res://Enemies/Monsters/SpaceWorm/worm_spawner.gd" id="9_f1fy0"]
@@ -24,7 +23,6 @@ cloud_scene = ExtResource("2_yqasv")
 interceptor_scene = ExtResource("3_6cn4g")
 air_enemy_scene = ExtResource("4_hyrto")
 player_scene = ExtResource("5_kpn54")
-void_raptor_scene = ExtResource("6_fwx53")
 ground_enemy_scene = ExtResource("7_exvjb")
 
 [node name="GroundLine" type="Marker2D" parent="."]

@@ -16,8 +16,6 @@ const NEUTRAL_BG := {
 @export var ui_scene: PackedScene
 @export var robot_scene: PackedScene
 @export var ground_mine_scene: PackedScene
-@export var void_raptor_scene: PackedScene
-@export var octo_whale_scene: PackedScene
 @export var space_worm_scene: PackedScene
 @export var air_enemy_scene: PackedScene
 @export var interceptor_scene: PackedScene
@@ -32,7 +30,7 @@ var _game_ui: CanvasLayer = null
 var _controls_panel: PanelContainer = null
 var _enemies_panel: PanelContainer = null
 var _worm_spawner: Node = null
-var _monster_registry: MonsterRegistry = null
+var _monster_director: MonsterDirector = null
 var _score: int = 0
 var _arena_stage_mode: int = -1 # -1 = neutral
 
@@ -40,7 +38,7 @@ func _ready() -> void:
 	_setup_background()
 	_setup_player()
 	_setup_worm_spawner()
-	_setup_monster_registry()
+	_setup_monster_director()
 	_setup_game_ui()
 	_setup_ui()
 	_apply_neutral_arena()
@@ -91,15 +89,15 @@ func _setup_worm_spawner() -> void:
 	_worm_spawner.set("ground_line_path", NodePath("../GroundLine"))
 	_worm_spawner.set_process(false)
 
-func _setup_monster_registry() -> void:
-	_monster_registry = MonsterRegistry.new()
-	_monster_registry.name = "MonsterRegistry"
-	add_child(_monster_registry)
+func _setup_monster_director() -> void:
+	_monster_director = MonsterDirector.new()
+	_monster_director.name = "MonsterDirector"
+	add_child(_monster_director)
 
 func _spawn_named_monster(id: String, pos: Vector2) -> Node:
-	if _monster_registry == null:
+	if _monster_director == null:
 		return null
-	var inst := _monster_registry.spawn(id, self, pos)
+	var inst := _monster_director.spawn_once(id, self, pos)
 	if inst != null:
 		inst.add_to_group("test_enemy")
 	return inst
