@@ -291,13 +291,3 @@ func _toggle_boss() -> void:
 func _on_boss_died() -> void:
 	print("BOSS DOWN")
 	_go_to_stage_clear()
-	boss.set_physics_process(should_show)
-	_set_spawning_enabled(not should_show)
-
-	if should_show:
-		var r := _get_visible_world_rect()
-		boss.global_position = Vector2(r.position.x + r.size.x + 220.0, r.position.y + r.size.y * 0.30)
-
-func _on_boss_died() -> void:
-	print("BOSS DOWN")
-	_go_to_stage_clear()
