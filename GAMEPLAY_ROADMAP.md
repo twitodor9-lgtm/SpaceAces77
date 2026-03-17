@@ -216,6 +216,28 @@ This helps the player understand what matters without cluttering the screen.
 
 ---
 
+## AR HUD Rule for Future Enemies
+Any future enemy, monster, boss, or rideable creature that might appear in the tactical HUD should follow one shared rule.
+
+### Minimum inspector fields
+- `show_in_ar_hud`
+- `ar_threat_type`
+- `ar_threat_text`
+
+### If it should show health in the HUD
+It should also provide:
+- `get_health_ratio()`
+
+### Practical design rule
+- minor fodder enemies do **not** need AR HUD entries by default
+- important enemies, elite threats, bosses, monsters, and rideable creatures **should** support AR HUD metadata
+- this should become part of the standard template for future enemy creation
+
+### Long-term architecture goal
+Move these AR HUD fields into a shared base script or common target interface, so future enemies inherit HUD compatibility automatically instead of adding it manually each time.
+
+---
+
 ## Recommended MVP Slice for the Whole Vision
 If the game had to prove itself with one slice, it should include:
 - one strong air-combat stage
