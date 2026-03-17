@@ -89,7 +89,7 @@ offset_top = 52.0
 offset_right = 210.0
 offset_bottom = 92.0
 grow_horizontal = 2
-text = "[AR WARNING] LOW ALTITUDE"
+text = "LOW ALTITUDE"
 label_settings = SubResource("LabelSettings_ar_green")
 horizontal_alignment = 1
 
@@ -165,6 +165,10 @@ offset_right = 180.0
 offset_bottom = 172.0
 grow_horizontal = 2
 label_settings = SubResource("LabelSettings_ar_green")
+text = "ABILITY"
+horizontal_alignment = 1
+al_alignment = 1
+een")
 text = "ABILITY"
 horizontal_alignment = 1
 al_alignment = 1

@@ -82,7 +82,7 @@ func _update_star_punch_bar() -> void:
 		star_punch_bar.visible = false
 		return
 
-	if not ("cooldown" in star_punch and "cooldown_left" in star_punch):
+	if not ("cooldown" in star_punch):
 		star_punch_bar.visible = false
 		return
 

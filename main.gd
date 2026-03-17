@@ -283,6 +283,7 @@ func _toggle_boss() -> void:
 		return
 
 	var should_show: bool = not boss.visible
+	print("_toggle_boss: should_show=", should_show, " current_visible=", boss.visible)
 	boss.visible = should_show
 	boss.set_process(should_show)
 	boss.set_physics_process(should_show)

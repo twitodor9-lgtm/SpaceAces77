@@ -17,6 +17,12 @@ static func setup_ui(host: Node, stage_index: int, score: int, next_stage_callba
 	if ui_root == null:
 		return null
 
+	if ui_root.has_method("set"):
+		ui_root.set("player_path", NodePath("../Player"))
+		ui_root.set("star_punch_path", NodePath("../Player/Abilities/StarPunch"))
+	if ui_root.has_method("_bind_runtime_refs"):
+		ui_root.call("_bind_runtime_refs")
+
 	if next_stage_callback.is_valid() and ui_root.has_signal("next_stage_pressed"):
 		var sig: Signal = ui_root.get("next_stage_pressed")
 		if not sig.is_connected(next_stage_callback):
