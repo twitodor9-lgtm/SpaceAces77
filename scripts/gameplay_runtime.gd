@@ -43,6 +43,20 @@ static func setup_monster_director(host: Node) -> MonsterDirector:
 	host.add_child(md)
 	return md
 
+static func setup_worm_spawner(host: Node, worm_scene: PackedScene, player_path: NodePath, ground_line_path: NodePath) -> Node:
+	var existing := host.get_node_or_null("WormSpawner")
+	if existing == null:
+		existing = Node2D.new()
+		existing.name = "WormSpawner"
+		var script := load("res://Enemies/Monsters/SpaceWorm/worm_spawner.gd")
+		existing.set_script(script)
+		host.add_child(existing)
+
+	existing.set("worm_scene", worm_scene)
+	existing.set("player_path", player_path)
+	existing.set("ground_line_path", ground_line_path)
+	return existing
+
 static func set_timer_enabled(timer: Timer, enabled: bool) -> void:
 	if timer == null:
 		return

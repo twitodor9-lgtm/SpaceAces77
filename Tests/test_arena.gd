@@ -80,14 +80,12 @@ func _setup_player() -> void:
 	_player.global_position = Vector2(180, 340)
 
 func _setup_worm_spawner() -> void:
-	_worm_spawner = Node2D.new()
-	_worm_spawner.name = "WormSpawner"
-	var script := load("res://Enemies/Monsters/SpaceWorm/worm_spawner.gd")
-	_worm_spawner.set_script(script)
-	add_child(_worm_spawner)
-	_worm_spawner.set("worm_scene", space_worm_scene)
-	_worm_spawner.set("player_path", NodePath("../Player"))
-	_worm_spawner.set("ground_line_path", NodePath("../GroundLine"))
+	_worm_spawner = GameplayRuntime.setup_worm_spawner(
+		self,
+		space_worm_scene,
+		NodePath("../Player"),
+		NodePath("../GroundLine")
+	)
 	_worm_spawner.set_process(false)
 
 func _setup_monster_director() -> void:
