@@ -193,9 +193,10 @@ func add_score(points: int) -> void:
 	if ui_root != null and ui_root.has_method("set_score"):
 		ui_root.call("set_score", score)
 
-	print("SCORE UPDATED:", score)
+	print("SCORE UPDATED:", score, " threshold=", boss_score_threshold, " boss_spawned=", boss_spawned, " boss=", boss)
 
 	if (not boss_spawned) and score >= boss_score_threshold:
+		print("BOSS THRESHOLD REACHED -> toggling boss")
 		boss_spawned = true
 		_toggle_boss()
 

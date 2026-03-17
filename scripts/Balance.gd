@@ -26,7 +26,7 @@ const STAGES := [
 		"telegraph_time": 0.85,
 		"low_cover_enabled": true,
 		"low_line_ratio": 0.18,
-		"low_altitude_margin": 140.0,
+		"low_altitude_margin": 180.0,
 		"max_ground_enemies": 1,
 		"max_air_enemies": 3,
 		"boss_score_threshold": 420,

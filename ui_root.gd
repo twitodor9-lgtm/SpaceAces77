@@ -86,12 +86,11 @@ func _update_star_punch_bar() -> void:
 		star_punch_bar.visible = false
 		return
 
-	star_punch_bar.visible = true
 	var cd: float = float(star_punch.cooldown)
 	var left: float = 0.0
 	if "cooldown_left" in star_punch:
 		left = float(star_punch.cooldown_left)
-	star_punch_bar.visible = true
+	star_punch_bar.visible = left > 0.01
 	star_punch_bar.value = (1.0 if cd <= 0.0 else 1.0 - clamp(left / cd, 0.0, 1.0))
 
 func _update_low_altitude(delta: float) -> void:
