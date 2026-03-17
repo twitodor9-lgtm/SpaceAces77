@@ -82,22 +82,30 @@ func _update_low_altitude() -> void:
 
 func _update_boss_bar() -> void:
 	var tracked: Node = get_tree().get_first_node_in_group("boss")
+	var tag := "[AR] BOSS"
 	if tracked == null:
 		tracked = get_tree().get_first_node_in_group("health_bar_target")
+		tag = "[AR] MONSTER"
 	if tracked == null:
 		boss_bar.visible = false
+		boss_bar_label.visible = false
 		return
 
 	var tracked_item := tracked as CanvasItem
 	if tracked_item == null or not tracked_item.visible:
 		boss_bar.visible = false
+		boss_bar_label.visible = false
 		return
 
 	if tracked.has_method("get_health_ratio"):
 		boss_bar.visible = true
+		boss_bar_label.visible = true
 		boss_bar.value = tracked.get_health_ratio() * 100.0
+		var display_name := String(tracked.name).replace("_", " ").to_upper()
+		boss_bar_label.text = "%s // %s" % [tag, display_name]
 	else:
 		boss_bar.visible = false
+		boss_bar_label.visible = false
 
 func _get_visible_world_rect() -> Rect2:
 	var vp := get_viewport().get_visible_rect().size
