@@ -70,6 +70,7 @@ position = Vector2(493, 67)
 [node name="DolphinWaveAbility" type="Node2D" parent="Abilities"]
 script = ExtResource("6_2hs0m")
 dolphin_runner_scene = ExtResource("7_n7ghd")
+label_text = "DOLPHIN WAVE!"
 cooldown = 6.0
 
 [node name="WayJump" type="Node2D" parent="Abilities"]

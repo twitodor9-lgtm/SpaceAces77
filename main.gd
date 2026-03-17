@@ -97,6 +97,11 @@ func _cleanup_preplaced_monsters() -> void:
 
 func _apply_stage_rules() -> void:
 	GameplayRuntime.apply_stage_rules(self)
+	max_air_enemies = int(GameBalance.rule("max_air_enemies", max_air_enemies))
+	max_ground_enemies_on_screen = int(GameBalance.rule("max_ground_enemies", max_ground_enemies_on_screen))
+	boss_score_threshold = int(GameBalance.rule("boss_score_threshold", boss_score_threshold))
+	interceptor_chance = float(GameBalance.rule("interceptor_chance", interceptor_chance))
+	interceptor_start_stage = int(GameBalance.rule("interceptor_start_stage", interceptor_start_stage))
 
 func _set_timer_enabled(t: Timer, enabled: bool) -> void:
 	GameplayRuntime.set_timer_enabled(t, enabled)

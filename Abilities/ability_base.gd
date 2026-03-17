@@ -7,6 +7,10 @@ class_name AbilityBase
 var _next_ready_ms: int = 0
 @onready var _player: Node = get_parent().get_parent()
 
+var cooldown_left: float:
+	get:
+		return maxf(float(_next_ready_ms - Time.get_ticks_msec()) / 1000.0, 0.0)
+
 func can_use() -> bool:
 	var now := Time.get_ticks_msec()
 	if now < _next_ready_ms:

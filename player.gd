@@ -448,6 +448,7 @@ func apply_turbo(mult: float, duration: float) -> void:
 func show_ability_text(text: String) -> void:
 	if not is_instance_valid(_ability_label):
 		return
+	_ability_label.add_theme_color_override("font_color", Color(0.42, 1.0, 0.66, 1.0))
 	_ability_label.text = text
 	_ability_label.visible = true
 	_ability_label_timer = ability_label_duration

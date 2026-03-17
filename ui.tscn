@@ -65,6 +65,7 @@ label_settings = SubResource("LabelSettings_ar_green")
 
 [node name="StarPunchBar" type="ProgressBar" parent="UI"]
 visible = false
+modulate = Color(0.42, 1, 0.66, 0.88)
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -73,6 +74,7 @@ offset_top = 18.0
 offset_right = 140.0
 offset_bottom = 42.0
 grow_horizontal = 2
+show_percentage = false
 max_value = 1.0
 value = 1.0
 

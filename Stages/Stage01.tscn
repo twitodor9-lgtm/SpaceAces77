@@ -77,6 +77,7 @@ script = ExtResource("14_rqgc6")
 [node name="LowCoverController" type="Node2D" parent="."]
 script = ExtResource("15_yt0ns")
 player_path = NodePath("../Player")
+GroundLine_path = NodePath("../GroundLine")
 
 [node name="UIRoot" parent="." instance=ExtResource("16_51yj6")]
 
