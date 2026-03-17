@@ -67,6 +67,8 @@ func _bind_shell_nodes() -> void:
 	if _game_ui != null:
 		_game_ui.set("player_path", NodePath("../Player"))
 		_game_ui.set("star_punch_path", NodePath("../Player/Abilities/StarPunch"))
+		if _game_ui.has_method("_bind_runtime_refs"):
+			_game_ui.call("_bind_runtime_refs")
 		GameplayRuntime.setup_ui(_shell, 0, _score)
 
 	if _background != null:

@@ -23,9 +23,12 @@ func set_score(value: int) -> void:
 var player: Node2D
 var star_punch: Node
 
-func _ready() -> void:
+func _bind_runtime_refs() -> void:
 	player = get_node_or_null(player_path) as Node2D
 	star_punch = get_node_or_null(star_punch_path)
+
+func _ready() -> void:
+	_bind_runtime_refs()
 
 	# ברירת מחדל: מסך סיום מוסתר
 	stage_clear_label.visible = false
