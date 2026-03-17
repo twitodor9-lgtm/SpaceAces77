@@ -140,15 +140,17 @@ clip_text = true
 uppercase = true
 
 [node name="StageLabel" type="Label" parent="UI"]
+visible = false
+modulate = Color(0.42, 1, 0.66, 0.92)
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -110.0
+offset_left = -160.0
 offset_top = 96.0
-offset_right = 110.0
+offset_right = 160.0
 offset_bottom = 128.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 26
+label_settings = SubResource("LabelSettings_ar_green")
 horizontal_alignment = 1
 
 [node name="AbilityLabel" type="Label" parent="UI" groups=["ability_label"]]

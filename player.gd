@@ -89,9 +89,9 @@ func _ready() -> void:
 	add_child(canvas_layer)
 
 	hidden_label = Label.new()
-	hidden_label.text = "🌥️ HIDDEN 🌥️"
+	hidden_label.text = "HIDDEN"
 	hidden_label.add_theme_font_size_override("font_size", 32)
-	hidden_label.add_theme_color_override("font_color", Color.YELLOW)
+	hidden_label.add_theme_color_override("font_color", Color(0.42, 1.0, 0.66, 1.0))
 	hidden_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	hidden_label.visible = false
 	canvas_layer.add_child(hidden_label)
