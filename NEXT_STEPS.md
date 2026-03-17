@@ -85,6 +85,24 @@ Examples:
 
 ---
 
+## Track E - AR HUD enemy checklist
+### 12. Make AR HUD support part of the enemy template
+For any future enemy, monster, boss, or rideable creature that should appear in the HUD, verify:
+- `show_in_ar_hud`
+- `ar_threat_type`
+- `ar_threat_text`
+- `get_health_ratio()` if it should show health
+
+### 13. Default policy for new content
+- normal fodder enemies: off by default
+- bosses / major monsters / rideable creatures: on by default
+- special turrets or elite threats: case by case in inspector
+
+### 14. Long-term cleanup goal
+Move AR HUD fields into a shared base script or common target layer, so future enemies inherit HUD compatibility automatically.
+
+---
+
 ## Recommended order for the next few work sessions
 ### Session 1
 - health bar label / target name polish
