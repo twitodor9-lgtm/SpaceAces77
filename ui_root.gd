@@ -5,7 +5,6 @@ signal next_stage_pressed
 # --- Paths (לקבוע ב-Inspector של UIRoot) ---
 @export var player_path: NodePath
 @export var star_punch_path: NodePath
-@export var low_zone_ratio: float = 0.45
 @onready var score_label: Label = $UI/ScoreLabel
 
 func set_score(value: int) -> void:
@@ -23,12 +22,10 @@ func set_score(value: int) -> void:
 
 var player: Node2D
 var star_punch: Node
-var ground_line: Node2D
 
 func _ready() -> void:
 	player = get_node_or_null(player_path) as Node2D
 	star_punch = get_node_or_null(star_punch_path)
-	ground_line = _find_ground_line()
 
 	# ברירת מחדל: מסך סיום מוסתר
 	stage_clear_label.visible = false
@@ -78,26 +75,7 @@ func _update_low_altitude() -> void:
 		low_label.visible = false
 		return
 
-	var low_line_y := _get_low_altitude_line_y()
-	low_label.visible = player.global_position.y >= low_line_y
-
-
-func _get_low_altitude_line_y() -> float:
-	if ground_line == null or not is_instance_valid(ground_line):
-		ground_line = _find_ground_line()
-
-	if ground_line != null:
-		return ground_line.global_position.y - 140.0
-
-	var r := _get_visible_world_rect()
-	return r.position.y + r.size.y * (1.0 - low_zone_ratio)
-
-
-func _find_ground_line() -> Node2D:
-	var current_scene := get_tree().current_scene
-	if current_scene == null:
-		return null
-	return current_scene.get_node_or_null("GroundLine") as Node2D
+	low_label.visible = player.is_hidden_low
 
 func _update_boss_bar() -> void:
 	var boss_node: Node = get_tree().get_first_node_in_group("boss")

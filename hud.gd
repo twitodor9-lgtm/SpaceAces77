@@ -2,17 +2,12 @@ extends CanvasLayer
 @onready var stage_label: Label = $StageLabel
 @export var player_path: NodePath
 @export var star_punch_path: NodePath
-@export var low_zone_ratio := 0.45
 
 @onready var player := get_node(player_path) as Node2D
 @onready var star_punch := get_node(star_punch_path)
 @onready var bar := $StarPunchBar as ProgressBar
 @onready var low_label := $LowAltitudeLabel as Label
 @onready var boss_bar: ProgressBar = $BossBar
-var ground_line: Node2D
-
-func _ready() -> void:
-	ground_line = _find_ground_line()
 
 func _process(_delta: float) -> void:
 	_update_star_punch_bar()
@@ -36,24 +31,7 @@ func _update_low_altitude() -> void:
 	if player == null:
 		low_label.visible = false
 		return
-	var low_line_y := _get_low_altitude_line_y()
-	low_label.visible = player.global_position.y >= low_line_y
-
-func _get_low_altitude_line_y() -> float:
-	if ground_line == null or not is_instance_valid(ground_line):
-		ground_line = _find_ground_line()
-
-	if ground_line != null:
-		return ground_line.global_position.y - 140.0
-
-	var r := _get_visible_world_rect()
-	return r.position.y + r.size.y * (1.0 - low_zone_ratio)
-
-func _find_ground_line() -> Node2D:
-	var current_scene := get_tree().current_scene
-	if current_scene == null:
-		return null
-	return current_scene.get_node_or_null("GroundLine") as Node2D
+	low_label.visible = player.is_hidden_low
 
 func _get_visible_world_rect() -> Rect2:
 	var vp := get_viewport().get_visible_rect().size
