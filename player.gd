@@ -20,6 +20,7 @@ var is_hidden_low: bool = false
 var lives: int = 3
 var _wrap_x_until_ms: int = 0
 var _lives_label: Label = null
+var _ui_layer: CanvasLayer = null
 
 # =========================
 # Flight
@@ -119,27 +120,57 @@ func _ready() -> void:
 	# ---- Ensure shield input action exists ----
 	_ensure_deflector_shield_action()
 
-	# ---- Resolve ability label ----
-	_ability_label = null
-	if ability_label_path != NodePath("") and has_node(ability_label_path):
-		_ability_label = get_node_or_null(ability_label_path) as Label
-	if _ability_label == null:
-		_ability_label = get_node_or_null("/root/Main/UI/AbilityLabel") as Label
-	if _ability_label == null:
-		_ability_label = get_tree().get_first_node_in_group("ability_label") as Label
-
-	if is_instance_valid(_ability_label):
-		_ability_label.visible = false
-		_ability_label.text = ""
+	# ---- Resolve HUD references ----
+	_resolve_ui_references()
 
 	# ---- Lives init ----
 	lives = max_lives
-	_lives_label = get_node_or_null("/root/Main/UI2/LivesLabel") as Label
 	_update_lives_label()
 
 	# ---- Make sure we receive bullets ----
 	if not area_entered.is_connected(_on_area_entered):
 		area_entered.connect(_on_area_entered)
+
+
+func _resolve_ui_references() -> void:
+	_ui_layer = _find_ui_layer()
+
+	_ability_label = null
+	if ability_label_path != NodePath(""):
+		_ability_label = get_node_or_null(ability_label_path) as Label
+	if _ability_label == null and is_instance_valid(_ui_layer):
+		_ability_label = _ui_layer.get_node_or_null("UI/AbilityLabel") as Label
+	if _ability_label == null:
+		_ability_label = get_tree().get_first_node_in_group("ability_label") as Label
+
+	_lives_label = null
+	if is_instance_valid(_ui_layer):
+		_lives_label = _ui_layer.get_node_or_null("UI2/LivesLabel") as Label
+	if _lives_label == null:
+		_lives_label = get_tree().get_first_node_in_group("lives_label") as Label
+
+	if is_instance_valid(_ability_label):
+		_ability_label.visible = false
+		_ability_label.text = ""
+
+	if is_instance_valid(_lives_label):
+		_lives_label.visible = show_lives_label
+
+
+func _find_ui_layer() -> CanvasLayer:
+	var current_scene := get_tree().current_scene
+	if current_scene == null:
+		return null
+
+	var direct := current_scene.get_node_or_null("UIRoot") as CanvasLayer
+	if direct != null:
+		return direct
+
+	for child in current_scene.get_children():
+		if child is CanvasLayer and child.name == "UIRoot":
+			return child as CanvasLayer
+
+	return null
 
 
 func _ensure_deflector_shield_action() -> void:
@@ -234,9 +265,12 @@ func _bounce(normal: Vector2) -> void:
 
 
 func _update_lives_label() -> void:
-	if not show_lives_label:
-		return
 	if not is_instance_valid(_lives_label):
+		_resolve_ui_references()
+	if not is_instance_valid(_lives_label):
+		return
+	_lives_label.visible = show_lives_label
+	if not show_lives_label:
 		return
 	_lives_label.text = "Lives: %d" % lives
 
