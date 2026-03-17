@@ -11,12 +11,8 @@ const NEUTRAL_BG := {
 	"far_pos": Vector2(0, -6.000002),
 }
 
-@export var player_scene: PackedScene
-@export var background_scene: PackedScene
-@export var ui_scene: PackedScene
 @export var robot_scene: PackedScene
 @export var ground_mine_scene: PackedScene
-@export var space_worm_scene: PackedScene
 @export var air_enemy_scene: PackedScene
 @export var interceptor_scene: PackedScene
 @export var turret_scene: PackedScene
@@ -32,14 +28,11 @@ var _enemies_panel: PanelContainer = null
 var _worm_spawner: Node = null
 var _monster_director: MonsterDirector = null
 var _score: int = 0
+var _shell: Node = null
 var _arena_stage_mode: int = -1 # -1 = neutral
 
 func _ready() -> void:
-	_setup_background()
-	_setup_player()
-	_setup_worm_spawner()
-	_setup_monster_director()
-	_setup_game_ui()
+	_bind_shell_nodes()
 	_setup_ui()
 	_apply_neutral_arena()
 	_show_help()
@@ -63,53 +56,39 @@ func _input(event: InputEvent) -> void:
 			KEY_H:
 				_toggle_controls_help()
 
-func _setup_background() -> void:
-	if background_scene == null:
+func _bind_shell_nodes() -> void:
+	_shell = get_node_or_null("GameplayShell")
+	if _shell == null:
 		return
-	_background = background_scene.instantiate() as Node2D
-	add_child(_background)
-	_background.name = "Background"
-	GameplayRuntime.setup_background(self)
 
-func _setup_player() -> void:
-	if player_scene == null:
-		return
-	_player = player_scene.instantiate() as Node2D
-	_player.name = "Player"
-	add_child(_player)
-	_player.global_position = Vector2(180, 340)
+	_player = _shell.get_node_or_null("Player") as Node2D
+	_background = _shell.get_node_or_null("Background") as Node2D
+	_worm_spawner = _shell.get_node_or_null("WormSpawner")
+	_monster_director = _shell.get_node_or_null("MonsterDirector") as MonsterDirector
+	_game_ui = _shell.get_node_or_null("UIRoot") as CanvasLayer
 
-func _setup_worm_spawner() -> void:
-	_worm_spawner = GameplayRuntime.setup_worm_spawner(
-		self,
-		space_worm_scene,
-		NodePath("../Player"),
-		NodePath("../GroundLine")
-	)
-	_worm_spawner.set_process(false)
+	if _player != null:
+		_player.global_position = Vector2(180, 340)
 
-func _setup_monster_director() -> void:
-	_monster_director = GameplayRuntime.setup_monster_director(self)
+	if _game_ui != null:
+		_game_ui.set("player_path", NodePath("../Player"))
+		_game_ui.set("star_punch_path", NodePath("../Player/Abilities/StarPunch"))
+		GameplayRuntime.setup_ui(_shell, 0, _score)
+
+	if _background != null:
+		GameplayRuntime.setup_background(_shell)
+
+	if _worm_spawner != null:
+		_worm_spawner.set_process(false)
 
 func _spawn_named_monster(id: String, pos: Vector2) -> Node:
 	if _monster_director == null:
 		return null
-	var inst := _monster_director.spawn_once(id, self, pos)
+	var parent := _shell if _shell != null else self
+	var inst := _monster_director.spawn_once(id, parent, pos)
 	if inst != null:
 		inst.add_to_group("test_enemy")
 	return inst
-
-func _setup_game_ui() -> void:
-	if ui_scene == null:
-		return
-	_game_ui = ui_scene.instantiate() as CanvasLayer
-	if _game_ui == null:
-		return
-	add_child(_game_ui)
-	_game_ui.name = "UIRoot"
-	_game_ui.set("player_path", NodePath("../Player"))
-	_game_ui.set("star_punch_path", NodePath("../Player/Abilities/StarPunch"))
-	GameplayRuntime.setup_ui(self, 0, _score)
 
 func _setup_ui() -> void:
 	_ui_root = CanvasLayer.new()
@@ -378,9 +357,38 @@ func _clear_test_enemies() -> void:
 	_set_status("Cleared test enemies")
 
 func _reset_player() -> void:
+	if _shell == null:
+		return
 	if is_instance_valid(_player):
 		_player.queue_free()
-	_setup_player()
+
+	var player_scene := load("res://player.tscn") as PackedScene
+	if player_scene == null:
+		_set_status("Player scene missing")
+		return
+
+	var new_player := player_scene.instantiate() as Node2D
+	if new_player == null:
+		_set_status("Failed to reset player")
+		return
+
+	_shell.add_child(new_player)
+		
+	new_player.name = "Player"
+	new_player.global_position = Vector2(180, 340)
+	_player = new_player
+
+	var thrust := _player.get_node_or_null("ThrustFlame") as Sprite2D
+	if thrust != null:
+		thrust.texture = null
+
+	if _game_ui != null:
+		_game_ui.set("player_path", NodePath("../Player"))
+		_game_ui.set("star_punch_path", NodePath("../Player/Abilities/StarPunch"))
+
+	if _worm_spawner != null:
+		_worm_spawner.set("player_path", NodePath("../Player"))
+
 	_set_status("Player reset")
 
 func _set_time_scale(scale_value: float) -> void:

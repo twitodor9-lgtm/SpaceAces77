@@ -1,36 +1,19 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://Tests/test_arena.gd" id="1_script"]
-[ext_resource type="PackedScene" uid="uid://cuwhsh21cekkm" path="res://player.tscn" id="2_player"]
-[ext_resource type="PackedScene" uid="uid://dqwq2ahsyspxl" path="res://background.tscn" id="3_background"]
-[ext_resource type="PackedScene" uid="uid://5e1msa2d0gmv" path="res://ui.tscn" id="3_ui"]
+[ext_resource type="PackedScene" path="res://gameplay_shell.tscn" id="2_shell"]
 [ext_resource type="PackedScene" uid="uid://c8fqd22b4vbwl" path="res://Enemies/BOSS/WardenGiant/warden_giant.tscn" id="4_robot"]
 [ext_resource type="PackedScene" uid="uid://bpywkm46wsv14" path="res://Enemies/ground_mine/ground_mine.tscn" id="5_mine"]
 [ext_resource type="PackedScene" uid="uid://83y4asyg0dj0" path="res://Enemies/enemy.tscn" id="7_air_enemy"]
 [ext_resource type="PackedScene" uid="uid://c2f22vcq3xhro" path="res://Enemies/interceptor.tscn" id="8_interceptor"]
 [ext_resource type="PackedScene" uid="uid://dr8ge6b2ksbkh" path="res://Enemies/Ground_enemy.tscn" id="9_turret"]
-[ext_resource type="PackedScene" uid="uid://cskmba20nk27p" path="res://Enemies/Monsters/SpaceWorm/space_worm.tscn" id="11_worm"]
-
-[sub_resource type="RectangleShape2D" id="1_ground_shape"]
-size = Vector2(1280, 140)
 
 [node name="TestArena" type="Node2D" groups=["ground"]]
 script = ExtResource("1_script")
-player_scene = ExtResource("2_player")
-background_scene = ExtResource("3_background")
-ui_scene = ExtResource("3_ui")
 robot_scene = ExtResource("4_robot")
 ground_mine_scene = ExtResource("5_mine")
-space_worm_scene = ExtResource("11_worm")
 air_enemy_scene = ExtResource("7_air_enemy")
 interceptor_scene = ExtResource("8_interceptor")
 turret_scene = ExtResource("9_turret")
 
-[node name="GroundLine" type="Marker2D" parent="."]
-position = Vector2(640, 640)
-
-[node name="Ground" type="StaticBody2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
-position = Vector2(640, 710)
-shape = SubResource("1_ground_shape")
+[node name="GameplayShell" parent="." instance=ExtResource("2_shell")]

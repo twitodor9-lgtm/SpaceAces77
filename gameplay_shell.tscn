@@ -1,0 +1,57 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="PackedScene" uid="uid://cuwhsh21cekkm" path="res://player.tscn" id="1_player"]
+[ext_resource type="PackedScene" uid="uid://5e1msa2d0gmv" path="res://ui.tscn" id="2_ui"]
+[ext_resource type="PackedScene" uid="uid://dqwq2ahsyspxl" path="res://background.tscn" id="3_bg"]
+[ext_resource type="Script" uid="uid://nigexlpnf55" path="res://Enemies/Monsters/SpaceWorm/worm_spawner.gd" id="4_worm"]
+[ext_resource type="PackedScene" uid="uid://clvj5sw14wtct" path="res://Enemies/Monsters/MonsterDirector.tscn" id="5_md"]
+[ext_resource type="Script" uid="uid://1lxs7w0hps4x" path="res://low_cover_controller.gd" id="6_low"]
+[ext_resource type="Script" uid="uid://dowpp5jo8qy7f" path="res://cloud_spawner.gd" id="7_cloud"]
+[ext_resource type="PackedScene" uid="uid://m7y6uehi3bkq" path="res://cloud.tscn" id="8_cloud_scene"]
+
+[sub_resource type="RectangleShape2D" id="1_ground_shape"]
+size = Vector2(1280, 140)
+
+[node name="GameplayShell" type="Node2D" groups=["ground"]]
+
+[node name="GroundLine" type="Marker2D" parent="."]
+position = Vector2(640, 640)
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+position = Vector2(85, 283)
+
+[node name="ThrustFlame" parent="Player" index="2"]
+texture = null
+
+[node name="EnemySpawnTimer" type="Timer" parent="."]
+wait_time = 2.0109999999999997
+autostart = true
+
+[node name="GroundEnemyTimer" type="Timer" parent="."]
+
+[node name="CloudSpawner" type="Node2D" parent="."]
+script = ExtResource("7_cloud")
+cloud_scene = ExtResource("8_cloud_scene")
+
+[node name="WormSpawner" type="Node2D" parent="."]
+script = ExtResource("4_worm")
+
+[node name="MonsterDirector" parent="." instance=ExtResource("5_md")]
+
+[node name="LowCoverController" type="Node2D" parent="."]
+script = ExtResource("6_low")
+player_path = NodePath("../Player")
+
+[node name="UIRoot" parent="." instance=ExtResource("2_ui")]
+
+[node name="Background" parent="." instance=ExtResource("3_bg")]
+position = Vector2(-618, 1246)
+
+[node name="Ground" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
+position = Vector2(640, 710)
+shape = SubResource("1_ground_shape")
+
+[editable path="Player"]
+[editable path="Background"]
