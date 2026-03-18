@@ -272,6 +272,7 @@ func _input(event: InputEvent) -> void:
 		_toggle_boss()
 
 func _toggle_boss() -> void:
+	var newly_spawned := false
 	if boss == null:
 		if boss_scene == null:
 			print("_toggle_boss: boss_scene is null")
@@ -285,9 +286,10 @@ func _toggle_boss() -> void:
 			var boss_sig: Signal = boss.get("boss_died")
 			if not boss_sig.is_connected(_on_boss_died):
 				boss_sig.connect(_on_boss_died)
+		newly_spawned = true
 
-	var should_show: bool = not boss.visible
-	print("_toggle_boss: should_show=", should_show, " current_visible=", boss.visible)
+	var should_show: bool = true if newly_spawned else not boss.visible
+	print("_toggle_boss: should_show=", should_show, " current_visible=", boss.visible, " newly_spawned=", newly_spawned)
 	boss.visible = should_show
 	boss.set_process(should_show)
 	boss.set_physics_process(should_show)
