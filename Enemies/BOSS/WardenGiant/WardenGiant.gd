@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 signal lock_started(target: Node)
 signal lock_ended(target: Node)
+signal boss_died
 @export var self_missile_hit_fx_scale: float = 1.8
 @export var max_hp: int = 300
 @export var move_speed: float = 120.0
@@ -451,6 +452,7 @@ func _die() -> void:
 	busy = true
 	vulnerable = false
 	_play_by_candidates(_anim_candidates_for_state(State.OVERHEAT), true)
+	boss_died.emit()
 	_award_score()
 	queue_free()
 
