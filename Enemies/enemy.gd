@@ -207,7 +207,7 @@ func _try_shoot(player: Node2D) -> void:
 		_log_shot_event("blocked_hidden", {"ammo": _ammo, "cooldown_left": snapped(_fire_cd, 0.01)})
 		return
 
-	var low_cover_active := ("is_hidden_low" in player and player.is_hidden_low)
+	var low_cover_active: bool = ("is_hidden_low" in player and player.is_hidden_low)
 	var accuracy_mul := 1.0
 	if low_cover_active:
 		accuracy_mul = float(GameBalance.rule("low_cover_accuracy_mul", 1.0))
