@@ -46,8 +46,8 @@ func _draw() -> void:
 		var wave := sin(_phase * wave_speed + float(index) * 0.7) * wave_amplitude
 		var drift := fmod(_phase * drift_speed + float(index) * 18.0, puff_spacing)
 		var center := Vector2(x + drift, base_y + wave)
-		draw_ellipse(center, Vector2(puff_width, puff_height), fog_color)
-		draw_ellipse(center + Vector2(38.0, -8.0), Vector2(puff_width * 0.7, puff_height * 0.78), edge_fog_color)
+		_draw_soft_ellipse(center, Vector2(puff_width, puff_height), fog_color)
+		_draw_soft_ellipse(center + Vector2(38.0, -8.0), Vector2(puff_width * 0.7, puff_height * 0.78), edge_fog_color)
 		x += puff_spacing
 		index += 1
 
@@ -56,3 +56,11 @@ func _get_ground_y() -> float:
 	if marker != null:
 		return to_local(marker.global_position).y
 	return get_viewport_rect().size.y - 96.0
+
+func _draw_soft_ellipse(center: Vector2, radii: Vector2, color: Color) -> void:
+	var points := PackedVector2Array()
+	var steps := 24
+	for i in range(steps):
+		var t := TAU * float(i) / float(steps)
+		points.append(center + Vector2(cos(t) * radii.x, sin(t) * radii.y))
+	draw_colored_polygon(points, color)
