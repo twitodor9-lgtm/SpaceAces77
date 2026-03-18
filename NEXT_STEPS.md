@@ -138,3 +138,22 @@ The first real milestone should be:
 - one boss encounter
 
 If this milestone works, the larger game direction is validated.
+
+## Track F - FX pipeline and polish discipline
+### 15. Define the reusable FX pipeline
+Document and follow three tiers:
+- shared runtime FX
+- editable component FX
+- special set-piece FX
+
+### 16. Promote repeated effects into reusable assets
+If an effect is reused across multiple enemies or players, move it toward:
+- shared script utility
+- reusable FX scene
+- per-enemy/per-player presets
+
+### 17. Keep gameplay and FX ownership separate
+- gameplay triggers the effect
+- FX components own appearance, color, scale, and animation
+- prefer editor-tunable nodes for assets that will need art iteration
+

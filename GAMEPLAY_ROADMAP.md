@@ -291,6 +291,32 @@ It can later connect to:
 This helps the player understand what matters without cluttering the screen.
 
 ---
+## FX Management Rule
+Visual effects should be managed in a predictable layered way so polish does not turn into scattered one-off hacks.
+
+### Three FX tiers
+- **Shared runtime FX**
+  - lightweight reusable effects triggered from code
+  - examples: simple hit / death explosions
+
+- **Editable component FX**
+  - node-based effects that should be tunable in the 2D editor
+  - examples: player engine flame, enemy engine trails, charge glows
+
+- **Special set-piece FX**
+  - unique effects for bosses, stage events, and hero abilities
+  - examples: boss death burst, worm emerge burst, stage-clear celebration
+
+### Ownership rule
+- gameplay scripts should mostly **trigger** FX, not fully own their visual implementation
+- effects that need frequent art/design iteration should live in reusable scenes or components
+- any effect reused more than twice should be promoted out of one-off script code into a shared FX asset, component, or preset
+
+### Multiplayer-friendly rule
+FX should stay presentation-side and avoid carrying gameplay authority.
+That keeps future co-op and player-specific presentation easier to support.
+
+---
 
 ## AR HUD Rule for Future Enemies
 Any future enemy, monster, boss, or rideable creature that might appear in the tactical HUD should follow one shared rule.
