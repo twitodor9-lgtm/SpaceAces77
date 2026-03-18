@@ -282,6 +282,8 @@ func _toggle_boss() -> void:
 			print("_toggle_boss: failed to instantiate boss_scene")
 			return
 		add_child(boss)
+		if boss is Node2D:
+			(boss as Node2D).scale = Vector2(1.7, 1.7)
 		if boss.has_signal("boss_died"):
 			var boss_sig: Signal = boss.get("boss_died")
 			if not boss_sig.is_connected(_on_boss_died):
