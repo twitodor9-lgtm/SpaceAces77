@@ -220,7 +220,7 @@ func _update_threat_list(delta: float) -> void:
 		if i < rows.size():
 			var row: Dictionary = rows[i]
 			lbl.visible = true
-			lbl.text = String(row.get("text", ""))
+			lbl.text = str(row.get("text", ""))
 			var alpha := float(row.get("alpha", 1.0)) * (0.72 - i * 0.12)
 			lbl.modulate = Color(0.4, 1.0, 0.64, alpha)
 		else:

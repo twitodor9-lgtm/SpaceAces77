@@ -375,7 +375,7 @@ func _log_shot_event(event_name: String, extra: Dictionary = {}) -> void:
 		return
 	var parts: Array[String] = ["[AIR-AI]", name, event_name]
 	for key in extra.keys():
-		parts.append("%s=%s" % [String(key), String(extra[key])])
+		parts.append("%s=%s" % [str(key), str(extra[key])])
 	print(" ".join(parts))
 
 
