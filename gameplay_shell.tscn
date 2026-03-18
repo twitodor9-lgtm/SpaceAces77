@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cuwhsh21cekkm" path="res://player.tscn" id="1_player"]
 [ext_resource type="PackedScene" uid="uid://5e1msa2d0gmv" path="res://ui.tscn" id="2_ui"]
 [ext_resource type="PackedScene" uid="uid://dqwq2ahsyspxl" path="res://background.tscn" id="3_bg"]
+[ext_resource type="Script" path="res://ground_fog.gd" id="3_fog"]
 [ext_resource type="Script" uid="uid://nigexlpnf55" path="res://Enemies/Monsters/SpaceWorm/worm_spawner.gd" id="4_worm"]
 [ext_resource type="PackedScene" uid="uid://clvj5sw14wtct" path="res://Enemies/Monsters/MonsterDirector.tscn" id="5_md"]
 [ext_resource type="Script" uid="uid://1lxs7w0hps4x" path="res://low_cover_controller.gd" id="6_low"]
@@ -47,6 +48,10 @@ GroundLine_path = NodePath("../GroundLine")
 
 [node name="Background" parent="." instance=ExtResource("3_bg")]
 position = Vector2(-618, 1246)
+
+[node name="GroundFog" type="Node2D" parent="."]
+script = ExtResource("3_fog")
+ground_line_path = NodePath("../GroundLine")
 
 [node name="Ground" type="StaticBody2D" parent="."]
 
