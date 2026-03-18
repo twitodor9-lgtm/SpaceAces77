@@ -1,7 +1,16 @@
 @tool
 extends Node2D
 
-@export var enabled: bool = true
+@export var enabled: bool = true:
+	set(value):
+		enabled = value
+		visible = value
+		if not value:
+			set_process(false)
+		else:
+			set_process(true)
+		queue_redraw()
+
 @export var ground_line_path: NodePath = NodePath("../GroundLine")
 @export var fog_color: Color = Color(0.82, 0.92, 0.9, 0.14)
 @export var edge_fog_color: Color = Color(0.92, 0.98, 0.96, 0.08)
@@ -18,7 +27,8 @@ extends Node2D
 var _phase: float = 0.0
 
 func _ready() -> void:
-	set_process(true)
+	visible = enabled
+	set_process(enabled)
 	queue_redraw()
 
 func _process(delta: float) -> void:
