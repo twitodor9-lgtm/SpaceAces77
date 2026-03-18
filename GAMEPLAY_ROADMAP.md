@@ -148,6 +148,10 @@ Different stages can use different structures:
 - Stage 2 or 3: first major ground transition
 - later stages: more varied structures depending on pacing and design needs
 
+### Boss encounter layout rule
+Future stages should use a dedicated boss spawn point (for example `BossSpawn`) instead of relying on hardcoded spawn coordinates.
+This keeps boss encounters easier to tune visually in the editor and more consistent across stages.
+
 ### Future onboarding goal for Stage 1
 Stage 1 should later include lightweight in-game hints that teach the player to use core abilities naturally.
 These hints should feel like tactical prompts, not heavy tutorials.

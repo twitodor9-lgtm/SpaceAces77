@@ -297,8 +297,12 @@ func _toggle_boss() -> void:
 		var ui_root := GameplayRuntime.find_node(self, "UIRoot")
 		if ui_root != null and ui_root.has_method("set_stage"):
 			ui_root.call("set_stage", stage_index)
-		var r := _get_visible_world_rect()
-		boss.global_position = Vector2(r.position.x + r.size.x + 220.0, r.position.y + r.size.y * 0.30)
+		var boss_spawn := GameplayRuntime.find_node(self, "BossSpawn") as Marker2D
+		if boss_spawn != null:
+			boss.global_position = boss_spawn.global_position
+		else:
+			var r := _get_visible_world_rect()
+			boss.global_position = Vector2(r.position.x + r.size.x + 220.0, r.position.y + r.size.y * 0.30)
 
 func _on_boss_died() -> void:
 	print("BOSS DOWN")
