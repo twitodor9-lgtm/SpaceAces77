@@ -22,6 +22,9 @@ position = Vector2(635.4747, 539.51587)
 position = Vector2(-604, 1343)
 background_preset = ExtResource("5_bgpreset")
 
+[node name="BossSpawn" type="Marker2D" parent="."]
+position = Vector2(1088, 228)
+
 [node name="CollisionShape2D" parent="GameplayShell/Ground" index="0"]
 position = Vector2(640, 749)
 scale = Vector2(0.9999999, 0.9999999)
