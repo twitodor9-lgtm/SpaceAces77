@@ -3,9 +3,10 @@ class_name AbilityBase
 
 @export var label_text: String = ""
 @export var cooldown: float = 0.0
+@export var owner_player_path: NodePath = NodePath("../..")
 
 var _next_ready_ms: int = 0
-@onready var _player: Node = get_parent().get_parent()
+@onready var _player: Node = get_node_or_null(owner_player_path)
 
 var cooldown_left: float:
 	get:

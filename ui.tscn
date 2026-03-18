@@ -63,20 +63,42 @@ offset_bottom = 65.0
 text = "SCORE: 0"
 label_settings = SubResource("LabelSettings_ar_green")
 
-[node name="StarPunchBar" type="ProgressBar" parent="UI"]
+[node name="AbilitiesList" type="VBoxContainer" parent="UI"]
+offset_left = 18.0
+offset_top = 58.0
+offset_right = 360.0
+offset_bottom = 220.0
+theme_override_constants/separation = 6
+
+[node name="AbilityRow1" type="Label" parent="UI/AbilitiesList"]
 visible = false
-modulate = Color(0.42, 1, 0.66, 0.88)
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -140.0
-offset_top = 18.0
-offset_right = 140.0
-offset_bottom = 42.0
-grow_horizontal = 2
-show_percentage = false
-max_value = 1.0
-value = 1.0
+layout_mode = 2
+text = "ABILITY // READY"
+label_settings = SubResource("LabelSettings_ar_green")
+
+[node name="AbilityRow2" type="Label" parent="UI/AbilitiesList"]
+visible = false
+layout_mode = 2
+text = "ABILITY // READY"
+label_settings = SubResource("LabelSettings_ar_green")
+
+[node name="AbilityRow3" type="Label" parent="UI/AbilitiesList"]
+visible = false
+layout_mode = 2
+text = "ABILITY // READY"
+label_settings = SubResource("LabelSettings_ar_green")
+
+[node name="AbilityRow4" type="Label" parent="UI/AbilitiesList"]
+visible = false
+layout_mode = 2
+text = "ABILITY // READY"
+label_settings = SubResource("LabelSettings_ar_green")
+
+[node name="AbilityRow5" type="Label" parent="UI/AbilitiesList"]
+visible = false
+layout_mode = 2
+text = "ABILITY // READY"
+label_settings = SubResource("LabelSettings_ar_green")
 
 [node name="LowAltitudeLabel" type="Label" parent="UI"]
 visible = false
@@ -84,10 +106,10 @@ modulate = Color(0.5, 1, 0.7, 0.9)
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -210.0
-offset_top = 52.0
-offset_right = 210.0
-offset_bottom = 92.0
+offset_left = -220.0
+offset_top = 316.0
+offset_right = 200.0
+offset_bottom = 356.0
 grow_horizontal = 2
 text = "LOW ALTITUDE"
 label_settings = SubResource("LabelSettings_ar_green")
@@ -164,6 +186,6 @@ offset_top = 138.0
 offset_right = 180.0
 offset_bottom = 172.0
 grow_horizontal = 2
-label_settings = SubResource("LabelSettings_ar_green")
 text = "ABILITY"
+label_settings = SubResource("LabelSettings_ar_green")
 horizontal_alignment = 1

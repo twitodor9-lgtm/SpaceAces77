@@ -5,8 +5,10 @@ extends Area2D
 # =========================
 @export var ability_label_path: NodePath
 @export var ability_label_duration: float = 0.8
+@export var ability_manager_path: NodePath = NodePath("Abilities")
 var _ability_label_timer: float = 0.0
 var _ability_label: Label = null
+var _ability_manager: Node = null
 var is_hidden_low: bool = false
 
 # =========================
@@ -121,6 +123,7 @@ func _ready() -> void:
 	_ensure_deflector_shield_action()
 
 	# ---- Resolve HUD references ----
+	_ability_manager = get_node_or_null(ability_manager_path)
 	_resolve_ui_references()
 
 	# ---- Lives init ----
@@ -167,6 +170,12 @@ func _find_ui_layer() -> CanvasLayer:
 	if direct != null:
 		return direct
 
+	var shell := current_scene.get_node_or_null("GameplayShell")
+	if shell != null:
+		var shell_ui := shell.get_node_or_null("UIRoot") as CanvasLayer
+		if shell_ui != null:
+			return shell_ui
+
 	for child in current_scene.get_children():
 		if child is CanvasLayer and child.name == "UIRoot":
 			return child as CanvasLayer
@@ -190,29 +199,8 @@ func _process(delta: float) -> void:
 		hidden_label.position = Vector2(screen_size.x / 2 - 90, 50)
 
 	# ---- Abilities ----
-	if Input.is_action_just_pressed(ACTION_DEFLECTOR_SHIELD):
-		var s := get_node_or_null("Abilities/Deflector Shield")
-		if s == null and has_node("Abilities"):
-			s = $Abilities.get_node_or_null("Deflector Shield")
-		if s and s.has_method("try_use"):
-			s.try_use()
-
-	if Input.is_action_just_pressed("ability_way_jump"):
-		var a := (get_node_or_null(way_jump_path) if way_jump_path != NodePath("") else null)
-		if a and a.has_method("try_use"):
-			a.try_use()
-
-	if Input.is_action_just_pressed("ability_turbo"):
-		var t := (get_node_or_null(turbo_path) if turbo_path != NodePath("") else null)
-		if t and t.has_method("try_use"):
-			t.try_use()
-
-	# STAR PUNCH / Dolphin wave (if exist)
-	if Input.is_action_just_pressed("star_punch") and has_node("Abilities/StarPunch"):
-		$Abilities/StarPunch.try_use()
-
-	if Input.is_action_just_pressed("dolphin_wave") and has_node("Abilities/DolphinWaveAbility"):
-		$Abilities/DolphinWaveAbility.try_use()
+	if _ability_manager == null:
+		_ability_manager = get_node_or_null(ability_manager_path)
 
 	# ---- rotation controls (disabled during loop) ----
 	if not is_doing_loop:
@@ -446,12 +434,19 @@ func apply_turbo(mult: float, duration: float) -> void:
 
 
 func show_ability_text(text: String) -> void:
-	if not is_instance_valid(_ability_label):
-		return
-	_ability_label.add_theme_color_override("font_color", Color(0.42, 1.0, 0.66, 1.0))
-	_ability_label.text = text
-	_ability_label.visible = true
-	_ability_label_timer = ability_label_duration
+	if is_instance_valid(_ability_label):
+		_ability_label.add_theme_color_override("font_color", Color(0.42, 1.0, 0.66, 1.0))
+		_ability_label.text = text
+		_ability_label.visible = true
+		_ability_label_timer = ability_label_duration
+
+	if is_instance_valid(_ui_layer) and _ui_layer.has_method("show_ability_text"):
+		_ui_layer.call("show_ability_text", text)
+
+func get_ability_manager() -> Node:
+	if _ability_manager == null:
+		_ability_manager = get_node_or_null(ability_manager_path)
+	return _ability_manager
 
 
 # ============================================================

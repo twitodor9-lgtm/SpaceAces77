@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://b4h7j6h2m2me5" path="res://Abilities/way_jump.gd" id="8_b26j0"]
 [ext_resource type="Script" uid="uid://fxk8yahxrwd1" path="res://Abilities/turbo.gd" id="9_n7ghd"]
 [ext_resource type="Script" uid="uid://b14k3rkbpeypu" path="res://deflector_shield.gd" id="10_n7ghd"]
+[ext_resource type="Script" path="res://Abilities/ability_manager.gd" id="11_ability_manager"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_4flbx"]
 animations = [{
@@ -52,6 +53,7 @@ scale = Vector2(0.16595235, 0.45951027)
 texture = ExtResource("3_nvl01")
 
 [node name="Abilities" type="Node" parent="."]
+script = ExtResource("11_ability_manager")
 
 [node name="StarPunch" type="Node2D" parent="Abilities"]
 script = ExtResource("4_hqtel")

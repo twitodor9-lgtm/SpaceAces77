@@ -14,12 +14,19 @@ signal next_stage_pressed
 	$UI/ThreatList/Threat2,
 	$UI/ThreatList/Threat3,
 ]
-@onready var star_punch_bar: ProgressBar = $UI/StarPunchBar
+@onready var abilities_list: VBoxContainer = $UI/AbilitiesList
+@onready var ability_rows: Array[Label] = [
+	$UI/AbilitiesList/AbilityRow1,
+	$UI/AbilitiesList/AbilityRow2,
+	$UI/AbilitiesList/AbilityRow3,
+	$UI/AbilitiesList/AbilityRow4,
+	$UI/AbilitiesList/AbilityRow5,
+]
 @onready var stage_clear_label: Label = $"STAGE CLEAR"
 @onready var next_button: Button = $NEXT
 
 var player: Node2D
-var star_punch: Node
+var ability_manager: Node
 var _threat_memory: Dictionary = {}
 var _low_flash_t: float = 0.0
 var _low_recent_t: float = 0.0
@@ -30,7 +37,13 @@ func set_score(value: int) -> void:
 
 func _bind_runtime_refs() -> void:
 	player = get_node_or_null(player_path) as Node2D
-	star_punch = get_node_or_null(star_punch_path)
+	ability_manager = null
+	if player != null and player.has_method("get_ability_manager"):
+		ability_manager = player.call("get_ability_manager")
+	if ability_manager == null and star_punch_path != NodePath(""):
+		var legacy_star_punch := get_node_or_null(star_punch_path)
+		if legacy_star_punch != null:
+			ability_manager = legacy_star_punch.get_parent()
 
 func _ready() -> void:
 	_bind_runtime_refs()
@@ -40,7 +53,7 @@ func _ready() -> void:
 	print("stage_clear_label=", stage_clear_label, " next_button=", next_button)
 
 func _process(delta: float) -> void:
-	_update_star_punch_bar()
+	_update_abilities_hud()
 	_update_low_altitude(delta)
 	_update_stage_label(delta)
 	_update_threat_list(delta)
@@ -58,6 +71,13 @@ func hide_stage_clear() -> void:
 func _on_next_pressed() -> void:
 	hide_stage_clear()
 	emit_signal("next_stage_pressed")
+
+func show_ability_text(text: String) -> void:
+	if text.strip_edges() == "":
+		return
+	if has_node("UI/AbilityLabel"):
+		$UI/AbilityLabel.text = text
+		$UI/AbilityLabel.visible = true
 
 func set_stage(n: int) -> void:
 	stage_label.text = "STAGE %d" % n
@@ -77,21 +97,27 @@ func _update_stage_label(delta: float) -> void:
 		alpha = _stage_label_t / 0.8
 	stage_label.modulate = Color(0.42, 1.0, 0.66, 0.92 * alpha)
 
-func _update_star_punch_bar() -> void:
-	if star_punch == null:
-		star_punch_bar.visible = false
-		return
+func _update_abilities_hud() -> void:
+	if ability_manager == null and player != null and player.has_method("get_ability_manager"):
+		ability_manager = player.call("get_ability_manager")
 
-	if not ("cooldown" in star_punch):
-		star_punch_bar.visible = false
-		return
+	var snapshots: Array[Dictionary] = []
+	if ability_manager != null and ability_manager.has_method("get_ability_snapshots"):
+		snapshots = ability_manager.call("get_ability_snapshots")
 
-	var cd: float = float(star_punch.cooldown)
-	var left: float = 0.0
-	if "cooldown_left" in star_punch:
-		left = float(star_punch.cooldown_left)
-	star_punch_bar.visible = left > 0.01
-	star_punch_bar.value = (1.0 if cd <= 0.0 else 1.0 - clamp(left / cd, 0.0, 1.0))
+	for i in range(ability_rows.size()):
+		var lbl := ability_rows[i]
+		if i >= snapshots.size():
+			lbl.visible = false
+			continue
+
+		var snap: Dictionary = snapshots[i]
+		var ready := bool(snap.get("ready", true))
+		var cooldown_left := float(snap.get("cooldown_left", 0.0))
+		var text := String(snap.get("label", snap.get("name", "ABILITY")))
+		lbl.visible = true
+		lbl.text = "%s // %s" % [text.to_upper(), ("READY" if ready else "CD %.1fs" % cooldown_left)]
+		lbl.modulate = Color(0.42, 1.0, 0.66, 0.92 if ready else 0.52)
 
 func _update_low_altitude(delta: float) -> void:
 	if player == null:
