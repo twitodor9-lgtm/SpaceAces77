@@ -4,6 +4,7 @@ extends "res://Enemies/enemy.gd"
 @export var speed_multiplier: float = 1.35
 @export var tighter_turn_multiplier: float = 1.25
 @export var close_engage_distance: float = 220.0
+@export var close_disengage_distance: float = 110.0
 
 @export_group("Boost Pass")
 @export var boost_speed: float = 340.0
@@ -19,7 +20,11 @@ func _ready() -> void:
 	max_speed *= speed_multiplier
 	turn_rate *= tighter_turn_multiplier
 	engage_turn_rate *= tighter_turn_multiplier
+	disengage_turn_rate *= tighter_turn_multiplier
 	engage_distance = close_engage_distance
+	disengage_distance = close_disengage_distance
+	strafe_interval_min *= 0.8
+	strafe_interval_max *= 0.8
 	fire_interval *= 0.8
 	aim_spread_deg *= 0.75
 	super._ready()
