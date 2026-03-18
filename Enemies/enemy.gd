@@ -60,7 +60,7 @@ var confused: bool = false
 # =========================
 # Lifetime
 # =========================
-@export var life_time: float = 12.0
+@export var auto_despawn_time: float = 0.0
 
 var _dead: bool = false
 var _health: int = 0
@@ -90,10 +90,11 @@ func _ready() -> void:
 
 	rotation = PI  # נכנס מימין שמאלה
 
-	get_tree().create_timer(life_time).timeout.connect(func():
-		if is_instance_valid(self):
-			queue_free()
-	)
+	if auto_despawn_time > 0.0:
+		get_tree().create_timer(auto_despawn_time).timeout.connect(func():
+			if is_instance_valid(self):
+				queue_free()
+		)
 
 
 func _process(delta: float) -> void:
