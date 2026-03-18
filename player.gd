@@ -23,6 +23,7 @@ var lives: int = 3
 var _wrap_x_until_ms: int = 0
 var _lives_label: Label = null
 var _ui_layer: CanvasLayer = null
+var _engine_fx: Node2D = null
 
 # =========================
 # Flight
@@ -113,6 +114,7 @@ func _ready() -> void:
 	# ---- visual scale ----
 	base_scale = Vector2(abs(base_scale.x), abs(base_scale.y))
 	scale = base_scale
+	_engine_fx = get_node_or_null("EngineFX") as Node2D
 
 	if has_node("AnimatedSprite2D"):
 		$AnimatedSprite2D.play("FLY")
@@ -216,6 +218,7 @@ func _process(delta: float) -> void:
 	var turbo_speed := forward_speed * _turbo_mult
 	var velocity := Vector2(turbo_speed, 0.0).rotated(rotation)
 	position += velocity * delta
+	_update_engine_fx_state()
 
 	_wraparound()
 
@@ -443,6 +446,12 @@ func show_ability_text(text: String) -> void:
 		_ability_label.text = text
 		_ability_label.visible = true
 		_ability_label_timer = ability_label_duration
+
+func _update_engine_fx_state() -> void:
+	if _engine_fx == null:
+		_engine_fx = get_node_or_null("EngineFX") as Node2D
+	if _engine_fx != null and _engine_fx.has_method("set_thrust_state"):
+		_engine_fx.call("set_thrust_state", true, _turbo_mult > 1.01)
 
 func get_ability_manager() -> Node:
 	if _ability_manager == null:
