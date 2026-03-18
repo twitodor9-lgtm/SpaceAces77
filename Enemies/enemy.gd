@@ -45,6 +45,7 @@ var _entering: bool = true
 @export var clip_size: int = 8
 @export var reload_time: float = 2.5
 @export var aim_spread_deg: float = 6.0
+@export var debug_shot_telemetry: bool = true
 
 var _ammo: int = 0
 var _reloading: bool = false
@@ -191,6 +192,7 @@ func _try_shoot(player: Node2D) -> void:
 		return
 
 	if _ammo <= 0:
+		_log_shot_event("reload_start", {"ammo": _ammo, "clip": clip_size, "reload": reload_time})
 		_start_reload()
 		return
 
@@ -198,17 +200,19 @@ func _try_shoot(player: Node2D) -> void:
 		return
 
 	if player == null:
+		_log_shot_event("skip_no_player")
 		return
 
 	if player.has_method("is_hidden") and player.is_hidden():
+		_log_shot_event("blocked_hidden", {"ammo": _ammo, "cooldown_left": snapped(_fire_cd, 0.01)})
 		return
 
+	var low_cover_active := ("is_hidden_low" in player and player.is_hidden_low)
 	var accuracy_mul := 1.0
-	var scene := get_tree().current_scene
-	if scene != null and scene.has_node("/root/GameBalance"):
+	if low_cover_active:
 		accuracy_mul = float(GameBalance.rule("low_cover_accuracy_mul", 1.0))
-	if "is_hidden_low" in player and player.is_hidden_low:
 		if accuracy_mul <= 0.0:
+			_log_shot_event("blocked_low_cover", {"accuracy_mul": accuracy_mul})
 			return
 
 	var player_velocity := Vector2.ZERO
@@ -218,15 +222,34 @@ func _try_shoot(player: Node2D) -> void:
 	var angle_to_player := (aim_target - global_position).angle()
 	var diff: float = absf(wrapf(angle_to_player - rotation, -PI, PI))
 	var allowed_angle := deg_to_rad(30.0)
-	if "is_hidden_low" in player and player.is_hidden_low:
+	if low_cover_active:
 		allowed_angle *= clampf(accuracy_mul, 0.15, 1.0)
 
 	if diff > allowed_angle:
+		_log_shot_event("blocked_angle", {
+			"low_cover": low_cover_active,
+			"accuracy_mul": snapped(accuracy_mul, 0.01),
+			"angle_diff_deg": snapped(rad_to_deg(diff), 0.1),
+			"allowed_angle_deg": snapped(rad_to_deg(allowed_angle), 0.1),
+			"distance": snapped(global_position.distance_to(player.global_position), 0.1),
+		})
 		return
 
-	_fire_cd = fire_interval * randf_range(0.92, 1.12)
-	_shoot(player, accuracy_mul)
+	var shot_cd := fire_interval * randf_range(0.92, 1.12)
+	_fire_cd = shot_cd
+	var final_spread := _shoot(player, accuracy_mul)
 	_ammo -= 1
+	_log_shot_event("fired", {
+		"low_cover": low_cover_active,
+		"accuracy_mul": snapped(accuracy_mul, 0.01),
+		"angle_diff_deg": snapped(rad_to_deg(diff), 0.1),
+		"allowed_angle_deg": snapped(rad_to_deg(allowed_angle), 0.1),
+		"spread_deg": snapped(final_spread, 0.1),
+		"bullet_speed": bullet_speed,
+		"fire_cd": snapped(shot_cd, 0.01),
+		"ammo_left": _ammo,
+		"distance": snapped(global_position.distance_to(player.global_position), 0.1),
+	})
 
 func _looks_like_enemy_instance(inst: Node) -> bool:
 	# פיוז: אם מישהו שם Enemy במקום Bullet ב-bullet_scene — לעצור כאן.
@@ -248,17 +271,17 @@ func _looks_like_enemy_instance(inst: Node) -> bool:
 	return false
 
 
-func _shoot(player: Node2D = null, accuracy_mul: float = 1.0) -> void:
+func _shoot(player: Node2D = null, accuracy_mul: float = 1.0) -> float:
 	if not has_node("Muzzle"):
-		return
+		return 0.0
 
 	if bullet_scene == null:
-		return
+		return 0.0
 
 	var inst := bullet_scene.instantiate()
 	if inst == null or not (inst is Node):
 		push_error("Enemy: bullet_scene did not instantiate a Node.")
-		return
+		return 0.0
 
 	var bullet_node := inst as Node
 
@@ -269,7 +292,7 @@ func _shoot(player: Node2D = null, accuracy_mul: float = 1.0) -> void:
 		_fire_cd = 999.0
 		_reloading = true
 		bullet_node.queue_free()
-		return
+		return 0.0
 
 	# נכניס לעולם
 	get_tree().current_scene.add_child(bullet_node)
@@ -303,6 +326,8 @@ func _shoot(player: Node2D = null, accuracy_mul: float = 1.0) -> void:
 	elif bullet_node is Node2D:
 		# fallback: רק סיבוב, בלי מהירות
 		(bullet_node as Node2D).rotation = dir.angle()
+
+	return spread
 
 
 func _start_reload() -> void:
@@ -344,6 +369,14 @@ func _pick_new_strafe() -> void:
 	_strafe_dir = -1.0 if randf() < 0.5 else 1.0
 	_strafe_timer = randf_range(strafe_interval_min, strafe_interval_max)
 	_y_offset = randf_range(-y_offset_range, y_offset_range)
+
+func _log_shot_event(event_name: String, extra: Dictionary = {}) -> void:
+	if not debug_shot_telemetry:
+		return
+	var parts: Array[String] = ["[AIR-AI]", name, event_name]
+	for key in extra.keys():
+		parts.append("%s=%s" % [String(key), String(extra[key])])
+	print(" ".join(parts))
 
 
 func _award_score() -> void:
