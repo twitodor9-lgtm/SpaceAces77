@@ -1,10 +1,14 @@
 extends Area2D
 
+const SimpleExplosionFX = preload("res://scripts/simple_explosion_fx.gd")
+
 @export_group("Combat")
 @export var damage: int = 1
 @export var max_health: int = 30
 @export var player_damage_multiplier: float = 1.0
 @export var score_value: int = 300
+@export var hit_fx_scale: float = 1.0
+@export var death_fx_scale: float = 2.1
 
 @export_group("Attack Window")
 @export var hit_frame_from: int = 2
@@ -68,13 +72,25 @@ func _award_score() -> void:
 	if scene != null and scene.has_method("add_score"):
 		scene.call("add_score", score_value)
 
+func _spawn_hit_fx() -> void:
+	var scene := get_tree().current_scene
+	if scene != null:
+		SimpleExplosionFX.spawn_hit(scene, global_position, hit_fx_scale)
+
+func _spawn_death_fx() -> void:
+	var scene := get_tree().current_scene
+	if scene != null:
+		SimpleExplosionFX.spawn_death(scene, global_position, death_fx_scale)
+
 func take_damage(amount: int) -> void:
 	if _dead:
 		return
 	var final_damage := maxi(1, int(round(float(amount) * player_damage_multiplier)))
 	health -= final_damage
+	_spawn_hit_fx()
 	if health <= 0:
 		_dead = true
+		_spawn_death_fx()
 		_award_score()
 		queue_free()
 

@@ -1,5 +1,7 @@
 extends Area2D
 
+const SimpleExplosionFX = preload("res://scripts/simple_explosion_fx.gd")
+
 @export_group("Movement")
 @export var drift_speed: float = 40.0
 @export var bob_amp: float = 10.0
@@ -10,6 +12,8 @@ extends Area2D
 @export var max_health: int = 80
 @export var player_damage_multiplier: float = 1.0
 @export var score_value: int = 750
+@export var hit_fx_scale: float = 1.3
+@export var death_fx_scale: float = 2.8
 
 @export_group("AR HUD")
 @export var show_in_ar_hud: bool = true
@@ -119,10 +123,21 @@ func _process(delta: float) -> void:
 		global_position.x = r.position.x + r.size.x + 200.0
 		_base_y = clamp(global_position.y, r.position.y + 60.0, r.position.y + r.size.y - 60.0)
 
+func _spawn_hit_fx() -> void:
+	var scene := get_tree().current_scene
+	if scene != null:
+		SimpleExplosionFX.spawn_hit(scene, global_position, hit_fx_scale)
+
+func _spawn_death_fx() -> void:
+	var scene := get_tree().current_scene
+	if scene != null:
+		SimpleExplosionFX.spawn_death(scene, global_position, death_fx_scale)
+
 func _die() -> void:
 	if _dead:
 		return
 	_dead = true
+	_spawn_death_fx()
 	var scene := get_tree().current_scene
 	if scene != null and scene.has_method("add_score"):
 		scene.call("add_score", score_value)
@@ -133,6 +148,7 @@ func take_damage(amount: int) -> void:
 		return
 	var final_damage := maxi(1, int(round(float(amount) * player_damage_multiplier)))
 	health -= final_damage
+	_spawn_hit_fx()
 	if health <= 0:
 		_die()
 

@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+const SimpleExplosionFX = preload("res://scripts/simple_explosion_fx.gd")
+
 @export_group("Movement")
 @export var speed: float = 90.0
 @export var chase_speed: float = 140.0
@@ -12,6 +14,8 @@ extends CharacterBody2D
 @export var max_health: int = 35
 @export var player_damage_multiplier: float = 1.0
 @export var score_value: int = 400
+@export var hit_fx_scale: float = 1.0
+@export var death_fx_scale: float = 2.0
 
 @export_group("AR HUD")
 @export var show_in_ar_hud: bool = true
@@ -152,13 +156,25 @@ func fire_projectile() -> void:
 	if p.has_method("set_dir"):
 		p.call("set_dir", facing)
 
+func _spawn_hit_fx() -> void:
+	var scene := get_tree().current_scene
+	if scene != null:
+		SimpleExplosionFX.spawn_hit(scene, global_position, hit_fx_scale)
+
+func _spawn_death_fx() -> void:
+	var scene := get_tree().current_scene
+	if scene != null:
+		SimpleExplosionFX.spawn_death(scene, global_position, death_fx_scale)
+
 func take_damage(amount: int) -> void:
 	if _dead:
 		return
 	var final_damage := maxi(1, int(round(float(amount) * player_damage_multiplier)))
 	_health -= final_damage
+	_spawn_hit_fx()
 	if _health <= 0:
 		_dead = true
+		_spawn_death_fx()
 		_award_score()
 		queue_free()
 
