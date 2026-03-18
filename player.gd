@@ -434,14 +434,15 @@ func apply_turbo(mult: float, duration: float) -> void:
 
 
 func show_ability_text(text: String) -> void:
+	if is_instance_valid(_ui_layer) and _ui_layer.has_method("show_ability_text"):
+		_ui_layer.call("show_ability_text", text)
+		return
+
 	if is_instance_valid(_ability_label):
 		_ability_label.add_theme_color_override("font_color", Color(0.42, 1.0, 0.66, 1.0))
 		_ability_label.text = text
 		_ability_label.visible = true
 		_ability_label_timer = ability_label_duration
-
-	if is_instance_valid(_ui_layer) and _ui_layer.has_method("show_ability_text"):
-		_ui_layer.call("show_ability_text", text)
 
 func get_ability_manager() -> Node:
 	if _ability_manager == null:

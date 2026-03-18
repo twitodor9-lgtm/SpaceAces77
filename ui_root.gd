@@ -4,6 +4,9 @@ signal next_stage_pressed
 
 @export var player_path: NodePath
 @export var star_punch_path: NodePath
+@export var ability_notice_hold: float = 0.85
+@export var ability_notice_fade_in: float = 0.14
+@export var ability_notice_fade_out: float = 0.26
 
 @onready var score_label: Label = $UI/ScoreLabel
 @onready var hud: Control = $HUD
@@ -14,13 +17,11 @@ signal next_stage_pressed
 	$UI/ThreatList/Threat2,
 	$UI/ThreatList/Threat3,
 ]
-@onready var abilities_list: VBoxContainer = $UI/AbilitiesList
-@onready var ability_rows: Array[Label] = [
-	$UI/AbilitiesList/AbilityRow1,
-	$UI/AbilitiesList/AbilityRow2,
-	$UI/AbilitiesList/AbilityRow3,
-	$UI/AbilitiesList/AbilityRow4,
-	$UI/AbilitiesList/AbilityRow5,
+@onready var ability_feed: VBoxContainer = $UI/AbilityFeed
+@onready var ability_notice_labels: Array[Label] = [
+	$UI/AbilityFeed/AbilityNotice1,
+	$UI/AbilityFeed/AbilityNotice2,
+	$UI/AbilityFeed/AbilityNotice3,
 ]
 @onready var stage_clear_label: Label = $"STAGE CLEAR"
 @onready var next_button: Button = $NEXT
@@ -31,6 +32,9 @@ var _threat_memory: Dictionary = {}
 var _low_flash_t: float = 0.0
 var _low_recent_t: float = 0.0
 var _stage_label_t: float = 0.0
+var _ability_notice_queue: Array[String] = []
+var _ability_notice_history: Array[String] = []
+var _ability_notice_busy: bool = false
 
 func set_score(value: int) -> void:
 	score_label.text = str(value)
@@ -50,10 +54,12 @@ func _ready() -> void:
 	stage_clear_label.visible = false
 	next_button.visible = false
 	next_button.pressed.connect(_on_next_pressed)
+	for lbl in ability_notice_labels:
+		lbl.visible = false
+		lbl.modulate = Color(0.42, 1.0, 0.66, 0.0)
 	print("stage_clear_label=", stage_clear_label, " next_button=", next_button)
 
 func _process(delta: float) -> void:
-	_update_abilities_hud()
 	_update_low_altitude(delta)
 	_update_stage_label(delta)
 	_update_threat_list(delta)
@@ -73,11 +79,49 @@ func _on_next_pressed() -> void:
 	emit_signal("next_stage_pressed")
 
 func show_ability_text(text: String) -> void:
-	if text.strip_edges() == "":
+	var trimmed := text.strip_edges()
+	if trimmed == "":
 		return
-	if has_node("UI/AbilityLabel"):
-		$UI/AbilityLabel.text = text
-		$UI/AbilityLabel.visible = true
+	if _ability_notice_queue.size() > 0 and _ability_notice_queue[_ability_notice_queue.size() - 1] == trimmed:
+		return
+	if _ability_notice_history.size() > 0 and _ability_notice_history[0] == trimmed and _ability_notice_busy:
+		return
+	_ability_notice_queue.append(trimmed)
+	if not _ability_notice_busy:
+		_play_next_ability_notice()
+
+func _play_next_ability_notice() -> void:
+	if _ability_notice_queue.is_empty():
+		_ability_notice_busy = false
+		return
+
+	_ability_notice_busy = true
+	var msg := _ability_notice_queue.pop_front()
+	_ability_notice_history.push_front(msg)
+	while _ability_notice_history.size() > ability_notice_labels.size():
+		_ability_notice_history.pop_back()
+
+	for i in range(ability_notice_labels.size()):
+		var lbl := ability_notice_labels[i]
+		if i < _ability_notice_history.size():
+			lbl.text = String(_ability_notice_history[i]).to_upper()
+			lbl.visible = true
+			var alpha := 1.0 - float(i) * 0.28
+			lbl.modulate = Color(0.42, 1.0, 0.66, clampf(alpha, 0.22, 1.0))
+		else:
+			lbl.visible = false
+			lbl.modulate = Color(0.42, 1.0, 0.66, 0.0)
+
+	var primary := ability_notice_labels[0]
+	primary.visible = true
+	primary.modulate = Color(0.42, 1.0, 0.66, 0.0)
+	var tw := create_tween()
+	tw.tween_property(primary, "modulate:a", 1.0, ability_notice_fade_in)
+	tw.tween_interval(ability_notice_hold)
+	tw.tween_property(primary, "modulate:a", 0.36, ability_notice_fade_out)
+	await tw.finished
+
+	_play_next_ability_notice()
 
 func set_stage(n: int) -> void:
 	stage_label.text = "STAGE %d" % n
@@ -96,28 +140,6 @@ func _update_stage_label(delta: float) -> void:
 	if _stage_label_t < 0.8:
 		alpha = _stage_label_t / 0.8
 	stage_label.modulate = Color(0.42, 1.0, 0.66, 0.92 * alpha)
-
-func _update_abilities_hud() -> void:
-	if ability_manager == null and player != null and player.has_method("get_ability_manager"):
-		ability_manager = player.call("get_ability_manager")
-
-	var snapshots: Array[Dictionary] = []
-	if ability_manager != null and ability_manager.has_method("get_ability_snapshots"):
-		snapshots = ability_manager.call("get_ability_snapshots")
-
-	for i in range(ability_rows.size()):
-		var lbl := ability_rows[i]
-		if i >= snapshots.size():
-			lbl.visible = false
-			continue
-
-		var snap: Dictionary = snapshots[i]
-		var ready := bool(snap.get("ready", true))
-		var cooldown_left := float(snap.get("cooldown_left", 0.0))
-		var text := String(snap.get("label", snap.get("name", "ABILITY")))
-		lbl.visible = true
-		lbl.text = "%s // %s" % [text.to_upper(), ("READY" if ready else "CD %.1fs" % cooldown_left)]
-		lbl.modulate = Color(0.42, 1.0, 0.66, 0.92 if ready else 0.52)
 
 func _update_low_altitude(delta: float) -> void:
 	if player == null:
