@@ -3,6 +3,7 @@ extends Node2D
 const ROBOT_SCALE := Vector2(1.7, 1.7)
 const GROUND_MINE_TRIGGER_Y := 500.0
 const NEUTRAL_BACKGROUND_ID := "neutral_arena"
+const NEUTRAL_LOW_COVER_STAGE_INDEX := 2 # borrow Stage 3 low-cover accuracy for telemetry tuning
 
 @export var robot_scene: PackedScene
 @export var ground_mine_scene: PackedScene
@@ -253,7 +254,7 @@ func _toggle_enemies_panel() -> void:
 
 func _apply_neutral_arena() -> void:
 	_arena_stage_mode = -1
-	GameBalance.stage_index = 0
+	GameBalance.stage_index = NEUTRAL_LOW_COVER_STAGE_INDEX
 	if _background != null and _background.has_method("_apply"):
 		_background.call("_apply")
 	_apply_background_id(NEUTRAL_BACKGROUND_ID)
@@ -264,7 +265,7 @@ func _apply_neutral_arena() -> void:
 		_worm_spawner.set("dip_chance_override", 1.0)
 	if _game_ui != null and _game_ui.has_method("set_stage"):
 		_game_ui.call("set_stage", 0)
-	_set_status("Neutral arena loaded (worm + low cover active)")
+	_set_status("Neutral arena loaded (worm + low cover active, accuracy mul=%.2f)" % float(GameBalance.rule("low_cover_accuracy_mul", 1.0)))
 
 func _apply_stage_mode(stage_idx: int) -> void:
 	_arena_stage_mode = stage_idx
