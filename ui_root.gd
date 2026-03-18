@@ -96,7 +96,7 @@ func _play_next_ability_notice() -> void:
 		return
 
 	_ability_notice_busy = true
-	var msg := _ability_notice_queue.pop_front()
+	var msg: String = String(_ability_notice_queue.pop_front())
 	_ability_notice_history.push_front(msg)
 	while _ability_notice_history.size() > ability_notice_labels.size():
 		_ability_notice_history.pop_back()
