@@ -150,6 +150,7 @@ func _update_low_altitude(delta: float) -> void:
 		_low_flash_t += delta * 7.0
 		_low_recent_t = 0.9
 		low_label.visible = true
+		low_label.text = "LOW COVER ACTIVE"
 		var a := 0.45 + (sin(_low_flash_t) * 0.25 + 0.25)
 		low_label.modulate = Color(0.5, 1.0, 0.7, a)
 	else:

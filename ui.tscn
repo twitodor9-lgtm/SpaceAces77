@@ -110,7 +110,7 @@ offset_top = 316.0
 offset_right = 200.0
 offset_bottom = 356.0
 grow_horizontal = 2
-text = "LOW ALTITUDE"
+text = "LOW COVER"
 label_settings = SubResource("LabelSettings_ar_green")
 horizontal_alignment = 1
 
