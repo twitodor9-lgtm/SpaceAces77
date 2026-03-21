@@ -1,6 +1,6 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=8 format=3 uid="uid://bga5ulxh6k65u"]
 
-[ext_resource type="Script" path="res://Tests/test_arena.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://cae8o27w1kuij" path="res://Tests/test_arena.gd" id="1_script"]
 [ext_resource type="PackedScene" path="res://gameplay_shell.tscn" id="2_shell"]
 [ext_resource type="PackedScene" uid="uid://c8fqd22b4vbwl" path="res://Enemies/BOSS/WardenGiant/warden_giant.tscn" id="4_robot"]
 [ext_resource type="PackedScene" uid="uid://bpywkm46wsv14" path="res://Enemies/ground_mine/ground_mine.tscn" id="5_mine"]
@@ -17,3 +17,7 @@ interceptor_scene = ExtResource("8_interceptor")
 turret_scene = ExtResource("9_turret")
 
 [node name="GameplayShell" parent="." instance=ExtResource("2_shell")]
+
+[editable path="GameplayShell"]
+[editable path="GameplayShell/Player"]
+[editable path="GameplayShell/Background"]
