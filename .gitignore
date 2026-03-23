@@ -1,7 +1,11 @@
-# Godot 4 cache (אל מעלים לגיט)
+# Godot 4 cache
 .godot/
 
-# Export/build outputs (לא מעלים)
+# Import files (נוצרים אוטומטית)
+*.import
+.import/
+
+# Export/build outputs
 export/
 build/
 dist/
@@ -9,8 +13,6 @@ dist/
 *.exe
 *.apk
 *.aab
-
-# אם אתה לא רוצה להעלות ZIPים בכלל:
 *.zip
 
 # IDE / OS junk
@@ -19,7 +21,3 @@ dist/
 Thumbs.db
 .DS_Store
 !assets.zip
-git rm -r --cached .godot
-git add .gitignore
-git commit -m "Ignore Godot cache"
-git push
