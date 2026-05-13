@@ -76,3 +76,16 @@ Prefer small, reversible changes.
 
 Prepare work.
 Do not merge without explicit user approval.
+
+## Agent Behavior Rules
+
+All agents must also follow:
+
+docs/workflows/OPENCLAW_AGENT_RULES.md
+
+Key behavior:
+- state assumptions
+- make minimal changes
+- edit surgically
+- define success before acting
+- verify before reporting completion
